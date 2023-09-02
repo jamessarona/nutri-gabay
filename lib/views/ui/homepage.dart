@@ -7,9 +7,51 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  late Size screenSize;
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    screenSize = MediaQuery.of(context).size;
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: screenSize.width,
+                height: screenSize.height * 0.13,
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(16, 45, 0, 0),
+                        height: 50,
+                        width: 150,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/logo-name.png"),
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                    ]),
+              ),
+              Container(
+                width: 50,
+                height: 50,
+                color: Colors.red,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nutri_gabay/views/ui/loginscreen.dart';
 import 'package:provider/provider.dart';
 import 'controllers/mainscreen_provider.dart';
 import 'views/ui/mainscreen.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'NutriGabay',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: MainScreen(),
+      home: LoginScreen(),
     );
   }
 }
