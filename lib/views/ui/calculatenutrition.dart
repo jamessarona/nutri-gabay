@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:nutri_gabay/views/ui/mainscreen.dart';
+import '../shared/app_style.dart';
 import '../shared/button_widget.dart';
 import '../shared/text_field_widget.dart';
 
-class ResetScreen extends StatefulWidget {
-  const ResetScreen({super.key});
+class CalculateNutritionScreen extends StatefulWidget {
+  const CalculateNutritionScreen({super.key});
 
   @override
-  State<ResetScreen> createState() => ResetScreenState();
+  State<CalculateNutritionScreen> createState() =>
+      _CalculateNutritionScreenState();
 }
 
-class ResetScreenState extends State<ResetScreen> {
+class _CalculateNutritionScreenState extends State<CalculateNutritionScreen> {
   late Size screenSize;
   @override
   Widget build(BuildContext context) {
@@ -42,15 +45,39 @@ class ResetScreenState extends State<ResetScreen> {
                 height: 20,
               ),
               UserCredentialTextField(
+                  screenSize: screenSize, label: "Height", isObscure: false),
+              const SizedBox(height: 15),
+              UserCredentialTextField(
+                  screenSize: screenSize, label: "Weight", isObscure: false),
+              const SizedBox(height: 15),
+              UserCredentialTextField(
+                  screenSize: screenSize, label: "Age", isObscure: false),
+              const SizedBox(height: 15),
+              UserCredentialTextField(
+                  screenSize: screenSize, label: "Sex", isObscure: false),
+              const SizedBox(height: 15),
+              UserCredentialTextField(
                   screenSize: screenSize,
-                  label: "Please enter an Email...",
+                  label: "Activity Level",
+                  isObscure: false),
+              const SizedBox(height: 15),
+              UserCredentialTextField(
+                  screenSize: screenSize,
+                  label: "Underlying Disease",
                   isObscure: false),
               const SizedBox(height: 30),
               SizedBox(
                 height: 50,
                 width: screenSize.width * 0.6,
                 child: UserCredentialPrimaryButton(
-                    onPress: () {}, label: "Send Reset Link"),
+                    onPress: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (ctx) => MainScreen(),
+                        ),
+                      );
+                    },
+                    label: "Calculate"),
               ),
             ],
           ),

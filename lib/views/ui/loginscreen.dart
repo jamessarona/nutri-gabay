@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/button_widget.dart';
 import 'package:nutri_gabay/views/shared/text_field_widget.dart';
+import 'package:nutri_gabay/views/ui/calculatenutrition.dart';
 import 'package:nutri_gabay/views/ui/mainscreen.dart';
 import 'package:nutri_gabay/views/ui/resetscreen.dart';
 import 'package:nutri_gabay/views/ui/signupscreen.dart';
@@ -62,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPress: () {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
-                          builder: (ctx) => MainScreen(),
+                          builder: (ctx) => const CalculateNutritionScreen(),
                         ),
                       );
                     },
