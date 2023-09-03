@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "376018937615",
+    "project_id": "nutri-gabay",
+    "storage_bucket": "nutri-gabay.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376018937615:android:13724a0a70e82cf5d6c07a",
+        "android_client_info": {
+          "package_name": "com.example.nutri_gabay"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376018937615-52m4nf9e9q367n9agel162fmt6fn0tg3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlyTeYDsLVefyEl0-KDGqBBjzYWZlYJ2A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376018937615-52m4nf9e9q367n9agel162fmt6fn0tg3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

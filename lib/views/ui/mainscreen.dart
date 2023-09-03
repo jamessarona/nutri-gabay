@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:nutri_gabay/views/ui/homepage.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/mainscreen_provider.dart';
+import 'package:nutri_gabay/services/baseauth.dart';
 import '../shared/bottom_nav.dart';
 
 // ignore: must_be_immutable
 class MainScreen extends StatelessWidget {
-  MainScreen({super.key});
+  final BaseAuth auth;
+  final VoidCallback onSignOut;
+  MainScreen({super.key, required this.auth, required this.onSignOut});
 
   List<Widget> pageList = const [
     HomePage(),

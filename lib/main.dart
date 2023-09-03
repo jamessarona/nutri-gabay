@@ -1,10 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:nutri_gabay/views/ui/loginscreen.dart';
+import 'package:nutri_gabay/rootpage.dart';
+import 'package:nutri_gabay/services/baseauth.dart';
 import 'package:provider/provider.dart';
 import 'controllers/mainscreen_provider.dart';
-import 'views/ui/mainscreen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(
@@ -25,7 +29,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'NutriGabay',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: LoginScreen(),
+      home: Root(
+        auth: FireBaseAuth(),
+      ),
     );
   }
 }
