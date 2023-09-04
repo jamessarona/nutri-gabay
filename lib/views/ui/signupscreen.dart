@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nutri_gabay/models/user_controller.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 
 import '../shared/app_style.dart';
@@ -44,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<void> createUser(String userUID) async {
     final docUser = FirebaseFirestore.instance.collection('users').doc();
 
-    final user = User(
+    Users user = Users(
       id: docUser.id,
       name: _name.text,
       email: _email.text,
