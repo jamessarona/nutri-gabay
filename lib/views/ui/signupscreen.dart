@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nutri_gabay/services/baseauth.dart';
 
 import '../shared/app_style.dart';
 import '../shared/button_widget.dart';
@@ -20,12 +23,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  bool isEmailExist = false;
+
   String regEx =
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
 
   Future<bool> register() async {
-    _formKey.currentState!.validate();
-    return true;
+    isEmailExist = await hasExistingAccount();
+    if (_formKey.currentState!.validate()) {
+      String userUID = await FireBaseAuth()
+          .registerWithEmailPasswordAdmin(_email.text, _password.text);
+      if (userUID != '') {
+        createUser(userUID);
+      }
+      return userUID != '';
+    }
+    return false;
+  }
+
+  Future<void> createUser(String userUID) async {
+    final docUser = FirebaseFirestore.instance.collection('users').doc();
+
+    final user = User(
+      id: docUser.id,
+      name: _name.text,
+      email: _email.text,
+    );
+
+    final json = user.toJson();
+    await docUser.set(json);
+  }
+
+  Future<bool> hasExistingAccount() async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    bool result = true;
+    await firebaseAuth
+        .fetchSignInMethodsForEmail(_email.text)
+        .then((signInMethods) => result = signInMethods.isNotEmpty);
+
+    return result;
   }
 
   @override
@@ -85,8 +121,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return 'Please enter your email';
                         } else if (!RegExp(regEx).hasMatch(value!)) {
                           return 'Invalid email format';
+                        } else if (isEmailExist) {
+                          return 'Email is already in used';
                         }
-
                         return null;
                       },
                     ),
@@ -182,4 +219,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
           )),
     );
   }
+}
+
+class User {
+  String id;
+  final String name;
+  final String email;
+
+  User({
+    this.id = '',
+    required this.name,
+    required this.email,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'email': email,
+      };
 }

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:nutri_gabay/rootpage.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,7 @@ Future<void> main() async {
         create: (context) => MainScreenNotifier(),
       )
     ],
-    child: const MyApp(),
+    child: Phoenix(child: const MyApp()),
   ));
 }
 

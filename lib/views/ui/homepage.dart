@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import '../shared/button_widget.dart';
 
@@ -55,8 +56,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 width: screenSize.width * 0.6,
                 child: UserCredentialSecondaryButton(
                     onPress: () {
-                      FireBaseAuth().signOut();
-                      setState(() {});
+                      FireBaseAuth()
+                          .signOut()
+                          .then((value) async => Phoenix.rebirth(context));
                     },
                     label: "SignOut"),
               ),
