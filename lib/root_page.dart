@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:nutri_gabay/landing_page.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
-import 'package:nutri_gabay/views/ui/loginscreen.dart';
-import 'package:nutri_gabay/views/ui/mainscreen.dart';
+import 'package:nutri_gabay/views/ui/login_screen.dart';
 
 class Root extends StatefulWidget {
   final BaseAuth auth;
@@ -53,7 +53,7 @@ class _RootState extends State<Root> {
           onSignIn: _signedIn,
         );
       case AuthSatus.signedIn:
-        return MainScreen(
+        return MainLandingPage(
           auth: widget.auth,
           onSignOut: _signedOut,
         );

@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:nutri_gabay/rootpage.dart';
+import 'package:nutri_gabay/root_page.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import 'package:provider/provider.dart';
 import 'controllers/mainscreen_provider.dart';
