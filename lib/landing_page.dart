@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import 'package:nutri_gabay/views/shared/loading_screen.dart';
-import 'package:nutri_gabay/views/ui/setup_nutritional_profile_screen.dart';
+import 'package:nutri_gabay/views/ui/assessment_nutritional_profile_screen.dart';
 import 'package:nutri_gabay/views/ui/main_screen.dart';
 
 class MainLandingPage extends StatefulWidget {
@@ -43,8 +43,9 @@ class _MainLandingPageState extends State<MainLandingPage> {
     return userEvaluated == 0
         ? const LoadingScreen()
         : userEvaluated == 1
-            ? SetupNutritionalProfileScreen(
-                auth: widget.auth, onSignOut: widget.onSignOut)
+            ? AssessmentNutritionalProfileScreen(
+                auth: widget.auth,
+              )
             : MainScreen(auth: widget.auth, onSignOut: widget.onSignOut);
   }
 }

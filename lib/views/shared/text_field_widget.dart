@@ -113,3 +113,68 @@ class UserCredentialSelectionTextField extends StatelessWidget {
     );
   }
 }
+
+class AssessmentTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final bool isObscure;
+  final TextInputType keyboardType;
+  final String range;
+  final FormFieldValidator<String>? validation;
+  final FormFieldValidator<String>? onChanged;
+  const AssessmentTextField(
+      {super.key,
+      required this.controller,
+      required this.label,
+      required this.isObscure,
+      required this.keyboardType,
+      required this.range,
+      this.validation,
+      this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      width: 100,
+      height: 30,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.6),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: const Offset(-1, 5),
+          ),
+        ],
+      ),
+      child: TextFormField(
+        controller: controller,
+        keyboardType: keyboardType,
+        validator: validation,
+        inputFormatters: keyboardType == TextInputType.number
+            ? <TextInputFormatter>[
+                FilteringTextInputFormatter.allow(RegExp(range)),
+              ]
+            : null,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(color: customColor),
+          ),
+          errorStyle: appstyle(0, Colors.red, FontWeight.normal),
+          filled: true,
+          hintText: label,
+          fillColor: Colors.white70,
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 0, horizontal: 10.0),
+        ),
+        obscureText: isObscure,
+        onChanged: onChanged,
+      ),
+    );
+  }
+}

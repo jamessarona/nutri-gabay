@@ -20,4 +20,7 @@ TextStyle appstyleWithHt(double size, Color color, FontWeight fw, double ht) {
 
 const MaterialColor customColor = MaterialColor(0xff8bc24a, <int, Color>{
   10: Color(0xfffdc30a), //custom Orange
+  20: Color(0xfffee185),
+  30: Color(0xffc5e1a4),
+  40: Color(0xffed9376),
 });

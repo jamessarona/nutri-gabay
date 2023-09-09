@@ -60,7 +60,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           .signOut()
                           .then((value) async => Phoenix.rebirth(context));
                     },
-                    label: "SignOut"),
+                    label: "SignOut",
+                    labelSize: 16),
               ),
             ],
           ),

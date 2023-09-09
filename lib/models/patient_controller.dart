@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 Patient patientFromJson(String str) => Patient.fromJson(json.decode(str));
 
 String patientToJson(Patient data) => json.encode(data.toJson());
@@ -26,8 +28,30 @@ class Patient {
 
   Map<String, dynamic> toJson() => {
         "uid": uid,
-        "fistname": firstname,
+        "firstname": firstname,
         "lastname": lastname,
         "email": email,
       };
+
+  factory Patient.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
+    return Patient(
+      uid: data?["uid"],
+      firstname: data?["firstname"],
+      lastname: data?["lastname"],
+      email: data?["email"],
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      "uid": uid,
+      "firstname": firstname,
+      "lastname": lastname,
+      "email": email,
+    };
+  }
 }

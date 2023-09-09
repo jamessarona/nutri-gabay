@@ -14,7 +14,10 @@ class PatientNutrition {
   final int age;
   final String sex;
   final double bmi;
+  final int category;
   final String status;
+  final double points;
+  final String result;
 
   PatientNutrition({
     required this.id,
@@ -24,7 +27,10 @@ class PatientNutrition {
     required this.age,
     required this.sex,
     required this.bmi,
+    required this.category,
     required this.status,
+    required this.points,
+    required this.result,
   });
 
   factory PatientNutrition.fromJson(Map<String, dynamic> json) =>
@@ -36,7 +42,10 @@ class PatientNutrition {
         age: json["age"],
         sex: json["sex"],
         bmi: json["bmi"],
+        category: json["category"],
         status: json["status"],
+        points: json["points"],
+        result: json["result"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -48,5 +57,7 @@ class PatientNutrition {
         "sex": sex,
         "bmi": bmi,
         "status": status,
+        "points": points,
+        "result": result,
       };
 }

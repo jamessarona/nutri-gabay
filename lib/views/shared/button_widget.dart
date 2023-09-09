@@ -4,8 +4,12 @@ import 'app_style.dart';
 class UserCredentialPrimaryButton extends StatelessWidget {
   final void Function() onPress;
   final String label;
+  final double labelSize;
   const UserCredentialPrimaryButton(
-      {super.key, required this.onPress, required this.label});
+      {super.key,
+      required this.onPress,
+      required this.label,
+      required this.labelSize});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +24,7 @@ class UserCredentialPrimaryButton extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: appstyle(16, Colors.white, FontWeight.bold),
+        style: appstyle(labelSize, Colors.white, FontWeight.bold),
       ),
     );
   }
@@ -29,8 +33,12 @@ class UserCredentialPrimaryButton extends StatelessWidget {
 class UserCredentialSecondaryButton extends StatelessWidget {
   final void Function() onPress;
   final String label;
+  final double labelSize;
   const UserCredentialSecondaryButton(
-      {super.key, required this.onPress, required this.label});
+      {super.key,
+      required this.onPress,
+      required this.label,
+      required this.labelSize});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +53,7 @@ class UserCredentialSecondaryButton extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: appstyle(16, Colors.white, FontWeight.bold),
+        style: appstyle(labelSize, Colors.white, FontWeight.bold),
       ),
     );
   }

@@ -128,10 +128,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 50,
                           width: screenSize.width * 0.6,
                           child: UserCredentialPrimaryButton(
-                              onPress: () {
-                                validation();
-                              },
-                              label: "Login"),
+                            onPress: () {
+                              validation();
+                            },
+                            label: "Login",
+                            labelSize: 16,
+                          ),
                         ),
                         const SizedBox(
                           height: 30,
@@ -178,6 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               );
                             },
                             label: "Forgot Password?",
+                            labelSize: 16,
                           ),
                         ),
                       ],

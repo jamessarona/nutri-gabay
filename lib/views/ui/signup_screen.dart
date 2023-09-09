@@ -193,30 +193,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           height: 50,
                           width: screenSize.width * 0.6,
                           child: UserCredentialPrimaryButton(
-                              onPress: () async {
-                                isEmailExist = false;
-                                bool isSuccessful = await register();
-                                if (isSuccessful) {
-                                  _firstname.clear();
-                                  _lastname.clear();
-                                  _email.clear();
-                                  _password.clear();
-                                  _confirmPassword.clear();
-                                  setState(() {});
-                                  final snackBar = SnackBar(
-                                    content: const Text(
-                                        'Your account has been created.'),
-                                    action: SnackBarAction(
-                                      label: 'Close',
-                                      onPressed: () {},
-                                    ),
-                                  );
-                                  // ignore: use_build_context_synchronously
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(snackBar);
-                                }
-                              },
-                              label: "Create Account"),
+                            onPress: () async {
+                              isEmailExist = false;
+                              bool isSuccessful = await register();
+                              if (isSuccessful) {
+                                _firstname.clear();
+                                _lastname.clear();
+                                _email.clear();
+                                _password.clear();
+                                _confirmPassword.clear();
+                                setState(() {});
+                                final snackBar = SnackBar(
+                                  content: const Text(
+                                      'Your account has been created.'),
+                                  action: SnackBarAction(
+                                    label: 'Close',
+                                    onPressed: () {},
+                                  ),
+                                );
+                                // ignore: use_build_context_synchronously
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+                            },
+                            label: "Create Account",
+                            labelSize: 16,
+                          ),
                         ),
                         const SizedBox(
                           height: 30,

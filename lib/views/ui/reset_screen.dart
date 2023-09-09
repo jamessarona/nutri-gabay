@@ -56,7 +56,10 @@ class ResetScreenState extends State<ResetScreen> {
                         height: 50,
                         width: screenSize.width * 0.6,
                         child: UserCredentialPrimaryButton(
-                            onPress: () {}, label: "Send Reset Link"),
+                          onPress: () {},
+                          label: "Send Reset Link",
+                          labelSize: 16,
+                        ),
                       ),
                     ],
                   ),
