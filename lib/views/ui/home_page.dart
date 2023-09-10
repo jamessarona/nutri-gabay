@@ -18,50 +18,62 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+        appBar: AppBar(
+          toolbarHeight: 50,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: GestureDetector(
+            onTap: () {},
+            child: const Icon(
+              Icons.menu,
+              color: Colors.black,
+              size: 25,
+            ),
+          ),
+          actions: [
+            Container(
+              margin: const EdgeInsets.only(right: 15),
+              padding: const EdgeInsets.fromLTRB(16, 45, 0, 0),
+              height: 40,
+              width: 150,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/logo-name.png"),
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+            ),
+          ],
+        ),
+        body: SizedBox(
+          height: double.infinity,
+          width: screenSize.width,
+          child: ListView(
             children: [
-              Container(
-                width: screenSize.width,
-                height: screenSize.height * 0.13,
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.fromLTRB(16, 45, 0, 0),
-                        height: 50,
-                        width: 150,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/logo-name.png"),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                    ]),
-              ),
-              Container(
-                width: 50,
-                height: 50,
-                color: Colors.red,
-              ),
-              SizedBox(
-                height: 50,
-                width: screenSize.width * 0.6,
-                child: UserCredentialSecondaryButton(
-                    onPress: () {
-                      FireBaseAuth()
-                          .signOut()
-                          .then((value) async => Phoenix.rebirth(context));
-                    },
-                    label: "SignOut",
-                    labelSize: 16),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      color: Colors.red,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      width: screenSize.width * 0.6,
+                      child: UserCredentialSecondaryButton(
+                          onPress: () {
+                            FireBaseAuth().signOut().then(
+                                (value) async => Phoenix.rebirth(context));
+                          },
+                          label: "SignOut",
+                          labelSize: 16),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

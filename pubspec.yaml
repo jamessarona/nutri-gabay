@@ -41,6 +41,7 @@ dependencies:
   ionicons: ^0.2.2
   community_material_icon: ^5.9.55
   flutter_phoenix: ^1.1.1
+  flutter_octicons: ^0.41.0
 
   #firebase
   firebase_core: ^2.15.1

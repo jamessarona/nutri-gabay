@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_octicons/flutter_octicons.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/mainscreen_provider.dart';
@@ -34,41 +35,36 @@ class BottomNav extends StatelessWidget {
                 onTap: () {
                   mainScreenNotifier.pageIndex = 0;
                 },
-                icon: mainScreenNotifier.pageIndex == 0
-                    ? Ionicons.people
-                    : Ionicons.people_outline,
+                selectedIndex: mainScreenNotifier.pageIndex == 0,
+                icon: OctIcons.home_24,
               ),
               BottomNavWidget(
                 onTap: () {
                   mainScreenNotifier.pageIndex = 1;
                 },
-                icon: mainScreenNotifier.pageIndex == 1
-                    ? Ionicons.search
-                    : Ionicons.search_outline,
+                selectedIndex: mainScreenNotifier.pageIndex == 1,
+                icon: OctIcons.search_24,
               ),
               BottomNavWidget(
                 onTap: () {
                   mainScreenNotifier.pageIndex = 2;
                 },
-                icon: mainScreenNotifier.pageIndex == 2
-                    ? Ionicons.home
-                    : Ionicons.home_outline,
+                selectedIndex: mainScreenNotifier.pageIndex == 2,
+                assetIcon: 'doctor.png',
               ),
               BottomNavWidget(
                 onTap: () {
                   mainScreenNotifier.pageIndex = 3;
                 },
-                icon: mainScreenNotifier.pageIndex == 3
-                    ? Ionicons.notifications
-                    : Ionicons.notifications_outline,
+                selectedIndex: mainScreenNotifier.pageIndex == 3,
+                assetIcon: 'healthy.png',
               ),
               BottomNavWidget(
                 onTap: () {
                   mainScreenNotifier.pageIndex = 4;
                 },
-                icon: mainScreenNotifier.pageIndex == 4
-                    ? Ionicons.calculator
-                    : Ionicons.calculator_outline,
+                selectedIndex: mainScreenNotifier.pageIndex == 4,
+                icon: Ionicons.calculator_outline,
               ),
             ],
           ),

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 PatientNutrition patientNutritionFromJson(String str) =>
     PatientNutrition.fromJson(json.decode(str));
 
@@ -56,8 +58,45 @@ class PatientNutrition {
         "age": age,
         "sex": sex,
         "bmi": bmi,
+        "category": category,
         "status": status,
         "points": points,
         "result": result,
       };
+
+  factory PatientNutrition.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
+    return PatientNutrition(
+      id: data?["id"],
+      uid: data?["uid"],
+      height: data?["height"],
+      weight: data?["weight"],
+      age: data?["age"],
+      sex: data?["sex"],
+      bmi: data?["bmi"],
+      category: data?["category"],
+      status: data?["status"],
+      points: data?["points"],
+      result: data?["result"],
+    );
+  }
+
+  Map<String, dynamic> toFirestore() {
+    return {
+      "id": id,
+      "uid": uid,
+      "height": height,
+      "weight": weight,
+      "age": age,
+      "sex": sex,
+      "bmi": bmi,
+      "category": category,
+      "status": status,
+      "points": points,
+      "result": result,
+    };
+  }
 }

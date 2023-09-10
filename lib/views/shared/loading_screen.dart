@@ -45,6 +45,7 @@ class CircularContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       height: height,
       width: weight,
       decoration: BoxDecoration(
@@ -57,6 +58,8 @@ class CircularContainer extends StatelessWidget {
           Text(
             title,
             style: appstyle(fontSize, Colors.white, FontWeight.bold),
+            textAlign: TextAlign.center,
+            maxLines: 2,
           ),
         ],
       ),

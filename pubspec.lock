@@ -198,6 +198,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  flutter_octicons:
+    dependency: "direct main"
+    description:
+      name: flutter_octicons
+      sha256: "6a5613b36787bc9be8b80b17666dbe4b8dee2a7e270a0282e3cb545effc1fb92"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.41.0"
   flutter_phoenix:
     dependency: "direct main"
     description:

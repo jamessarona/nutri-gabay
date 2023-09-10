@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:nutri_gabay/models/patient_nutrition_controller.dart';
 import 'package:nutri_gabay/root_page.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
@@ -28,6 +29,31 @@ class _AssessmentResultScreenState extends State<AssessmentResultScreen> {
     "",
   ];
 
+  // ignore: prefer_typing_uninitialized_variables
+  var patientNutrition;
+  bool hasData = false;
+
+  void getAssessmentResultbyId() async {
+    final ref = FirebaseFirestore.instance
+        .collection("patient_nutritional_profile")
+        .doc(widget.assessmentId)
+        .withConverter(
+          fromFirestore: PatientNutrition.fromFirestore,
+          toFirestore: (PatientNutrition patientNutrition, _) =>
+              patientNutrition.toFirestore(),
+        );
+    final docSnap = await ref.get();
+    patientNutrition = docSnap.data();
+    hasData = patientNutrition != null;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getAssessmentResultbyId();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -37,116 +63,119 @@ class _AssessmentResultScreenState extends State<AssessmentResultScreen> {
         body: SizedBox(
           height: screenSize.height,
           width: screenSize.width,
-          child: ListView(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 40),
-                  Text(
-                    'Here is the results',
-                    style: appstyle(35, Colors.black, FontWeight.w800),
-                  ),
-                  const SizedBox(height: 100),
-                  SizedBox(
-                    height: 130,
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          child: !hasData
+              ? const Center(child: CircularProgressIndicator())
+              : ListView(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        BmiContainer(
-                          width: screenSize.width * 0.22,
-                          title: "Underweight",
-                          detail: "Below 18.5",
-                          icon: "doctor",
+                        const SizedBox(height: 40),
+                        Text(
+                          'Here is the results',
+                          style: appstyle(35, Colors.black, FontWeight.w800),
                         ),
-                        BmiContainer(
-                          width: screenSize.width * 0.22,
-                          title: "Normal",
-                          detail: "18.5 - 24.9",
-                          icon: "doctor",
+                        const SizedBox(height: 100),
+                        SizedBox(
+                          height: 130,
+                          width: double.infinity,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              BmiContainer(
+                                width: screenSize.width * 0.22,
+                                title: "Underweight",
+                                detail: "Below 18.5",
+                                icon: "doctor",
+                              ),
+                              BmiContainer(
+                                width: screenSize.width * 0.22,
+                                title: "Normal",
+                                detail: "18.5 - 24.9",
+                                icon: "doctor",
+                              ),
+                              BmiContainer(
+                                width: screenSize.width * 0.22,
+                                title: "Overweight",
+                                detail: "25.0 - 29.9",
+                                icon: "doctor",
+                              ),
+                              BmiContainer(
+                                width: screenSize.width * 0.22,
+                                title: "Obese",
+                                detail: "30.0 above",
+                                icon: "doctor",
+                              ),
+                            ],
+                          ),
                         ),
-                        BmiContainer(
-                          width: screenSize.width * 0.22,
-                          title: "Overweight",
-                          detail: "25.0 - 29.9",
-                          icon: "doctor",
+                        const SizedBox(height: 20),
+                        Text(
+                          "Nutritional Status",
+                          style: appstyle(13, Colors.black, FontWeight.w800),
                         ),
-                        BmiContainer(
-                          width: screenSize.width * 0.22,
-                          title: "Obese",
-                          detail: "30.0 above",
-                          icon: "doctor",
+                        const SizedBox(height: 5),
+                        CircularContainer(
+                          height: 50,
+                          weight: 250,
+                          title: patientNutrition.status.toUpperCase(),
+                          fontSize: 25,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "Your BMI",
+                          style: appstyle(13, Colors.black, FontWeight.w800),
+                        ),
+                        const SizedBox(height: 5),
+                        CircularContainer(
+                          height: 50,
+                          weight: 250,
+                          title: patientNutrition.bmi.toString(),
+                          fontSize: 25,
+                        ),
+                        const SizedBox(height: 30),
+                        Text(
+                          basis[1],
+                          style: appstyle(13, Colors.black, FontWeight.w800),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 30),
+                        Text(
+                          "Your mini Nutritional Assessment",
+                          style: appstyle(12, Colors.black, FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 10),
+                        CircularContainer(
+                          height: 50,
+                          weight: 250,
+                          title:
+                              "${patientNutrition.points.toInt()} points - ${patientNutrition.result}",
+                          fontSize: 15,
+                        ),
+                        const SizedBox(height: 30),
+                        SizedBox(
+                          height: 50,
+                          width: 250,
+                          child: UserCredentialPrimaryButton(
+                            onPress: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      Root(auth: widget.auth),
+                                ),
+                              );
+                            },
+                            label: "Continue",
+                            labelSize: 15,
+                          ),
                         ),
                       ],
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    "Nutritional Status",
-                    style: appstyle(13, Colors.black, FontWeight.w800),
-                  ),
-                  const SizedBox(height: 5),
-                  const CircularContainer(
-                    height: 50,
-                    weight: 250,
-                    title: "obese",
-                    fontSize: 25,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "Your BMI",
-                    style: appstyle(13, Colors.black, FontWeight.w800),
-                  ),
-                  const SizedBox(height: 5),
-                  const CircularContainer(
-                    height: 50,
-                    weight: 250,
-                    title: "23.3",
-                    fontSize: 25,
-                  ),
-                  const SizedBox(height: 30),
-                  Text(
-                    basis[1],
-                    style: appstyle(13, Colors.black, FontWeight.w800),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 30),
-                  Text(
-                    "Your mini Nutritional Assessment",
-                    style: appstyle(12, Colors.black, FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 10),
-                  const CircularContainer(
-                    height: 50,
-                    weight: 250,
-                    title: "7 points - Malnourished",
-                    fontSize: 15,
-                  ),
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    height: 50,
-                    width: 250,
-                    child: UserCredentialPrimaryButton(
-                      onPress: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                Root(auth: widget.auth),
-                          ),
-                        );
-                      },
-                      label: "Continue",
-                      labelSize: 15,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
+                    )
+                  ],
+                ),
         ),
       ),
     );

@@ -41,9 +41,9 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
   final TextEditingController _question6 = TextEditingController();
   final TextEditingController _question7 = TextEditingController();
 
+  // ignore: prefer_typing_uninitialized_variables
   var patient;
   bool hasData = false;
-  bool isSuccessful = false;
   String assessmentId = "";
 
   void checkUserAssessment() async {
@@ -111,13 +111,25 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
   }
 
   void submitNutritionalProfile() {
-    isSuccessful = false;
     if (_formKey.currentState!.validate()) {
-      saveNutritionalProfile();
+      saveNutritionalProfile().then((value) {
+        if (value) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => AssessmentResultScreen(
+                auth: widget.auth,
+                assessmentId: assessmentId,
+              ),
+            ),
+          );
+        }
+      });
     }
   }
 
-  Future<void> saveNutritionalProfile() async {
+  Future<bool> saveNutritionalProfile() async {
+    bool isDone = false;
     String uid = await widget.auth.currentUser();
     final docNutrition = FirebaseFirestore.instance
         .collection('patient_nutritional_profile')
@@ -139,10 +151,10 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
 
     final json = user.toJson();
     await docNutrition.set(json).then((value) {
-      setState(() {
-        isSuccessful = true;
-      });
+      isDone = true;
     });
+
+    return isDone;
   }
 
   @override
@@ -528,19 +540,7 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
                       width: screenSize.width * 0.18,
                       child: UserCredentialPrimaryButton(
                         onPress: () {
-                          // submitNutritionalProfile();
-                          // if (isSuccessful) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  AssessmentResultScreen(
-                                auth: widget.auth,
-                                assessmentId: assessmentId,
-                              ),
-                            ),
-                          );
-                          // }
+                          submitNutritionalProfile();
                         },
                         label: "Submit",
                         labelSize: 10,
