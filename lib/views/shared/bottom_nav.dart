@@ -57,13 +57,6 @@ class BottomNav extends StatelessWidget {
                   mainScreenNotifier.pageIndex = 3;
                 },
                 selectedIndex: mainScreenNotifier.pageIndex == 3,
-                assetIcon: 'healthy.png',
-              ),
-              BottomNavWidget(
-                onTap: () {
-                  mainScreenNotifier.pageIndex = 4;
-                },
-                selectedIndex: mainScreenNotifier.pageIndex == 4,
                 icon: Ionicons.calculator_outline,
               ),
             ],

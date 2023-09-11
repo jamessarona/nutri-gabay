@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutri_gabay/models/patient_controller.dart';
+import 'package:nutri_gabay/root_page.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 
 import '../shared/app_style.dart';
@@ -36,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
     if (_formKey.currentState!.validate()) {
       String userUID = await FireBaseAuth()
-          .registerWithEmailPasswordAdmin(_email.text, _password.text);
+          .signUpWithEmailAndPassword(_email.text, _password.text);
       if (userUID != '') {
         createUser(userUID);
       }
@@ -203,17 +204,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 _password.clear();
                                 _confirmPassword.clear();
                                 setState(() {});
-                                final snackBar = SnackBar(
-                                  content: const Text(
-                                      'Your account has been created.'),
-                                  action: SnackBarAction(
-                                    label: 'Close',
-                                    onPressed: () {},
+                                // ignore: use_build_context_synchronously
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) => Root(
+                                      auth: FireBaseAuth(),
+                                    ),
                                   ),
                                 );
-                                // ignore: use_build_context_synchronously
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
                               }
                             },
                             label: "Create Account",

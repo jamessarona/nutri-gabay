@@ -46,7 +46,7 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
   bool hasData = false;
   String assessmentId = "";
 
-  void checkUserAssessment() async {
+  void getPatientInfo() async {
     String uid = await widget.auth.currentUser();
     final ref =
         FirebaseFirestore.instance.collection("patient").doc(uid).withConverter(
@@ -159,7 +159,7 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
 
   @override
   void initState() {
-    checkUserAssessment();
+    getPatientInfo();
     super.initState();
   }
 
