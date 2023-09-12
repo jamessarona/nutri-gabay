@@ -43,6 +43,8 @@ dependencies:
   flutter_phoenix: ^1.1.1
   flutter_octicons: ^0.41.0
   cached_network_image: ^3.2.3
+  image_picker: ^1.0.4
+  permission_handler: ^11.0.0
 
   #firebase
   firebase_core: ^2.15.1

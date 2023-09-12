@@ -5,6 +5,7 @@ import 'package:nutri_gabay/models/patient_controller.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/home_page_container.dart';
+import 'package:nutri_gabay/views/ui/profile_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -90,9 +91,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
-                                image: const DecorationImage(
+                                image: DecorationImage(
                                     image: CachedNetworkImageProvider(
-                                      "https://static.wikia.nocookie.net/half-life/images/6/62/Gaben.jpg/revision/latest?cb=20200126040848&path-prefix=en",
+                                      patient.image,
                                     ),
                                     fit: BoxFit.fill),
                               ),
@@ -114,11 +115,20 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             ),
                           ),
                           HomePageContainer(
-                              screenSize: screenSize,
-                              colorIndex: 50,
-                              image: "account.png",
-                              title: "My Profile",
-                              onTap: () {}),
+                            screenSize: screenSize,
+                            colorIndex: 50,
+                            image: "account.png",
+                            title: "My Profile",
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ProfileScreen(),
+                                ),
+                              );
+                              getPatientInfo();
+                            },
+                          ),
                           const SizedBox(height: 10),
                           HomePageContainer(
                               screenSize: screenSize,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:nutri_gabay/views/shared/drawer_tile.dart';
 import 'package:nutri_gabay/views/ui/home_page.dart';
+import 'package:nutri_gabay/views/ui/profile_screen.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/mainscreen_provider.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
@@ -81,7 +82,14 @@ class MainScreen extends StatelessWidget {
                   DrawerTile(
                     icon: "account.png",
                     title: "My Account",
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfileScreen(),
+                        ),
+                      );
+                    },
                   ),
                   Expanded(
                     child: Container(),

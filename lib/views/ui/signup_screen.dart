@@ -17,6 +17,9 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  String defaultProfile =
+      "https://firebasestorage.googleapis.com/v0/b/nutri-gabay.appspot.com/o/images%2Fprofiles%2Fdefault.png?alt=media&token=61cf1904-d5e6-4f74-a74f-5bda2cfff508";
+
   late Size screenSize;
   final TextEditingController _firstname = TextEditingController();
   final TextEditingController _lastname = TextEditingController();
@@ -55,6 +58,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       firstname: _firstname.text,
       lastname: _lastname.text,
       email: _email.text,
+      image: defaultProfile,
+      phone: "",
     );
 
     final json = user.toJson();
