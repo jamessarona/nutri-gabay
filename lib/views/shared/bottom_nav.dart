@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/mainscreen_provider.dart';
 import 'bottom_nav_widget.dart';
@@ -57,7 +56,7 @@ class BottomNav extends StatelessWidget {
                   mainScreenNotifier.pageIndex = 3;
                 },
                 selectedIndex: mainScreenNotifier.pageIndex == 3,
-                icon: Ionicons.calculator_outline,
+                assetIcon: 'calculator.png',
               ),
             ],
           ),

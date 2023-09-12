@@ -29,7 +29,7 @@ class BmiContainer extends StatelessWidget {
           ),
           Expanded(
             child: Image.asset(
-              'assets/icons/$icon.png',
+              'assets/icons/$icon',
               fit: BoxFit.fitWidth,
             ),
           ),

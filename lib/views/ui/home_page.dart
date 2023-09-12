@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:nutri_gabay/models/patient_controller.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
@@ -131,14 +130,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           HomePageContainer(
                               screenSize: screenSize,
                               colorIndex: 0,
-                              icon: Ionicons.calculator_outline,
+                              image: "calculator.png",
                               title: "Calculator",
                               onTap: () {}),
                           const SizedBox(height: 10),
                           HomePageContainer(
                               screenSize: screenSize,
                               colorIndex: 0,
-                              icon: Ionicons.calculator_outline,
+                              image: "reassessment.png",
                               title: "Reassessment",
                               onTap: () {}),
                         ],
