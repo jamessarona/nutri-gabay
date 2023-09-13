@@ -5,6 +5,7 @@ import 'package:nutri_gabay/models/patient_controller.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/home_page_container.dart';
+import 'package:nutri_gabay/views/ui/assessment_nutritional_profile_screen.dart';
 import 'package:nutri_gabay/views/ui/profile_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -145,11 +146,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               onTap: () {}),
                           const SizedBox(height: 10),
                           HomePageContainer(
-                              screenSize: screenSize,
-                              colorIndex: 0,
-                              image: "reassessment.png",
-                              title: "Reassessment",
-                              onTap: () {}),
+                            screenSize: screenSize,
+                            colorIndex: 0,
+                            image: "reassessment.png",
+                            title: "Reassessment",
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      AssessmentNutritionalProfileScreen(
+                                    auth: FireBaseAuth(),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ],
                       ),
                     ),

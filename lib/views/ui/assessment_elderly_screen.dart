@@ -42,11 +42,11 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
   final TextEditingController _question7 = TextEditingController();
 
   // ignore: prefer_typing_uninitialized_variables
-  var patient;
+  var patient, nutritionProfile;
   bool hasData = false;
   String assessmentId = "";
 
-  void getPatientInfo() async {
+  getPatientInfo() async {
     String uid = await widget.auth.currentUser();
     final ref =
         FirebaseFirestore.instance.collection("patient").doc(uid).withConverter(
@@ -57,6 +57,28 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
     patient = docSnap.data();
     hasData = patient != null;
     setState(() {});
+  }
+
+  getPatientNutritionInfo() async {
+    String uid = await FireBaseAuth().currentUser();
+    final collection = FirebaseFirestore.instance
+        .collection('patient_nutritional_profile')
+        .where("uid", isEqualTo: uid)
+        .withConverter(
+          fromFirestore: PatientNutrition.fromFirestore,
+          toFirestore: (PatientNutrition city, _) => city.toFirestore(),
+        );
+
+    collection.get().then(
+      (querySnapshot) {
+        for (var docSnapshot in querySnapshot.docs) {
+          if (uid == docSnapshot.data().uid) {
+            nutritionProfile = docSnapshot.data();
+            break;
+          }
+        }
+      },
+    );
   }
 
   double calculateBmi() {
@@ -131,9 +153,18 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
   Future<bool> saveNutritionalProfile() async {
     bool isDone = false;
     String uid = await widget.auth.currentUser();
-    final docNutrition = FirebaseFirestore.instance
-        .collection('patient_nutritional_profile')
-        .doc();
+
+    DocumentReference docNutrition;
+    if (nutritionProfile == null) {
+      docNutrition = FirebaseFirestore.instance
+          .collection('patient_nutritional_profile')
+          .doc();
+    } else {
+      docNutrition = FirebaseFirestore.instance
+          .collection('patient_nutritional_profile')
+          .doc(nutritionProfile.id);
+    }
+
     assessmentId = docNutrition.id;
     PatientNutrition user = PatientNutrition(
       id: docNutrition.id,
@@ -150,9 +181,15 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
     );
 
     final json = user.toJson();
-    await docNutrition.set(json).then((value) {
-      isDone = true;
-    });
+    if (nutritionProfile == null) {
+      await docNutrition.set(json).then((value) {
+        isDone = true;
+      });
+    } else {
+      await docNutrition.update(json).then((value) {
+        isDone = true;
+      });
+    }
 
     return isDone;
   }
@@ -160,6 +197,7 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
   @override
   void initState() {
     getPatientInfo();
+    getPatientNutritionInfo();
     super.initState();
   }
 
