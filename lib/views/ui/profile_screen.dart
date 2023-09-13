@@ -25,6 +25,19 @@ class ProfileScreenState extends State<ProfileScreen> {
   bool hasData = false;
   File? image;
   bool isLoading = false;
+  bool isEditing = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _firstname = TextEditingController();
+  final TextEditingController _lastname = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _height = TextEditingController();
+  final TextEditingController _weight = TextEditingController();
+  final TextEditingController _bmi = TextEditingController();
+  final TextEditingController _status = TextEditingController();
+  final TextEditingController _points = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
+  final TextEditingController _sex = TextEditingController();
+  final TextEditingController _age = TextEditingController();
 
   void getPatientInfo() async {
     String uid = await FireBaseAuth().currentUser();
@@ -100,6 +113,72 @@ class ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
+  saveProfile() async {
+    final patientDoc =
+        FirebaseFirestore.instance.collection('patient').doc(patient.uid);
+    final nutritionDoc = FirebaseFirestore.instance
+        .collection('patient_nutritional_profile')
+        .doc(nutritionProfile.id);
+
+    Patient updatedPatient = Patient(
+      uid: patient.uid,
+      firstname: _firstname.text,
+      lastname: _lastname.text,
+      email: _email.text,
+      image: patient.image,
+      phone: _phone.text,
+    );
+
+    PatientNutrition updatedNutrition = PatientNutrition(
+      id: nutritionProfile.id,
+      uid: nutritionProfile.uid,
+      height: nutritionProfile.height,
+      weight: nutritionProfile.weight,
+      age: int.parse(_age.text),
+      sex: _sex.text,
+      bmi: nutritionProfile.bmi,
+      category: nutritionProfile.category,
+      status: nutritionProfile.status,
+      points: nutritionProfile.points,
+      result: nutritionProfile.result,
+    );
+
+    final patientJson = updatedPatient.toJson();
+    await patientDoc.update(patientJson);
+
+    final nutritionJson = updatedNutrition.toJson();
+    await nutritionDoc.update(nutritionJson);
+
+    setState(() {
+      image = null;
+      getPatientInfo();
+      getPatientNutritionInfo();
+    });
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (!isEditing) {
+      if (patient != null) {
+        _firstname.text = patient.firstname;
+        _lastname.text = patient.lastname;
+        _email.text = patient.email;
+        _phone.text = patient.phone;
+      }
+      if (nutritionProfile != null) {
+        _height.text = "${nutritionProfile.height.toStringAsFixed(2)}";
+        _weight.text = "${nutritionProfile.weight.toStringAsFixed(2)}";
+        _age.text = nutritionProfile.age.toString();
+        _sex.text = nutritionProfile.sex;
+        _bmi.text = nutritionProfile.bmi.toStringAsFixed(0);
+        _status.text = nutritionProfile.status;
+        _points.text =
+            "${nutritionProfile.points} (${nutritionProfile.result})";
+      }
+    }
+    super.setState(fn);
+  }
+
   @override
   void initState() {
     getPatientInfo();
@@ -141,14 +220,22 @@ class ProfileScreenState extends State<ProfileScreen> {
             IconButton(
               icon: Icon(
                 Icons.save_as_outlined,
-                color: image != null ? Colors.black : Colors.transparent,
+                color: image != null || isEditing
+                    ? Colors.black
+                    : Colors.transparent,
               ),
-              onPressed: image != null || !isLoading
+              onPressed: image != null || !isLoading || isEditing
                   ? () {
                       setState(() {
                         isLoading = true;
                       });
                       if (image != null) uploadImage();
+                      if (isEditing) {
+                        setState(() {
+                          isEditing = false;
+                        });
+                        saveProfile();
+                      }
                       setState(() {
                         isLoading = false;
                       });
@@ -166,166 +253,280 @@ class ProfileScreenState extends State<ProfileScreen> {
                     color: Colors.grey,
                   ),
                 )
-              : ListView(
-                  children: [
-                    Container(
-                      height: screenSize.height * 0.3,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: [
-                            customColor,
-                            Colors.white,
+              : Form(
+                  key: _formKey,
+                  child: ListView(
+                    children: [
+                      Container(
+                        height: screenSize.height * 0.3,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              customColor,
+                              Colors.white,
+                            ],
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 15),
+                            Container(
+                              width: 95,
+                              height: 95,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: customColor,
+                              ),
+                              padding: const EdgeInsets.all(2),
+                              child: Stack(
+                                children: [
+                                  ClipOval(
+                                    child: image != null
+                                        ? Image.file(
+                                            image!,
+                                            width: 95,
+                                            height: 95,
+                                            fit: BoxFit.fill,
+                                          )
+                                        : Image.network(
+                                            patient.image,
+                                            width: 95,
+                                            height: 95,
+                                            fit: BoxFit.cover,
+                                          ),
+                                  ),
+                                  Positioned(
+                                    right: 0,
+                                    bottom: 4,
+                                    child: Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.withOpacity(0.9),
+                                        borderRadius:
+                                            BorderRadius.circular(100),
+                                      ),
+                                      child: IconButton(
+                                        icon: const Icon(
+                                          Icons.camera_alt,
+                                          color: Colors.black,
+                                          size: 15,
+                                        ),
+                                        onPressed: () {
+                                          pickImage();
+                                        },
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  top: 20, left: 50, right: 50),
+                              width: double.maxFinite,
+                              child: Column(
+                                children: [
+                                  !isEditing
+                                      ? Text(
+                                          patient.firstname,
+                                          style: appstyle(26, Colors.black,
+                                              FontWeight.w800),
+                                          maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                        )
+                                      : Container(
+                                          margin: const EdgeInsets.only(top: 8),
+                                          height: 25,
+                                          child: TextFormField(
+                                            controller: _firstname,
+                                            textAlign: TextAlign.center,
+                                            style: appstyle(26, Colors.black,
+                                                FontWeight.w800),
+                                            cursorColor: customColor,
+                                            decoration: const InputDecoration(
+                                              enabledBorder: InputBorder.none,
+                                              focusedBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: customColor),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                  !isEditing
+                                      ? Text(
+                                          patient.lastname,
+                                          style: appstyle(26, Colors.black,
+                                              FontWeight.w800),
+                                          maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                        )
+                                      : Container(
+                                          margin:
+                                              const EdgeInsets.only(top: 15),
+                                          height: 25,
+                                          child: TextFormField(
+                                            controller: _lastname,
+                                            textAlign: TextAlign.center,
+                                            style: appstyle(26, Colors.black,
+                                                FontWeight.w800),
+                                            cursorColor: customColor,
+                                            decoration: const InputDecoration(
+                                              enabledBorder: InputBorder.none,
+                                              focusedBorder:
+                                                  UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: customColor),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                ],
+                              ),
+                            ),
+                            !isEditing
+                                ? Container(
+                                    margin: const EdgeInsets.only(top: 10),
+                                    height: 28,
+                                    width: 95,
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.3),
+                                            spreadRadius: 3,
+                                            blurRadius: 20,
+                                            offset: const Offset(-1, 2)),
+                                      ],
+                                    ),
+                                    child: UserCredentialSecondaryButton(
+                                        onPress: () {
+                                          setState(() {
+                                            isEditing = true;
+                                          });
+                                        },
+                                        label: "Edit Profile",
+                                        labelSize: 10),
+                                  )
+                                : Container(),
                           ],
                         ),
                       ),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 15),
-                          Container(
-                            width: 95,
-                            height: 95,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: customColor,
-                            ),
-                            padding: const EdgeInsets.all(2),
-                            child: Stack(
-                              children: [
-                                ClipOval(
-                                  child: image != null
-                                      ? Image.file(
-                                          image!,
-                                          width: 95,
-                                          height: 95,
-                                          fit: BoxFit.fill,
-                                        )
-                                      : Image.network(
-                                          patient.image,
-                                          width: 95,
-                                          height: 95,
-                                          fit: BoxFit.cover,
-                                        ),
-                                ),
-                                Positioned(
-                                  right: 0,
-                                  bottom: 4,
-                                  child: Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.withOpacity(0.9),
-                                      borderRadius: BorderRadius.circular(100),
-                                    ),
-                                    child: IconButton(
-                                      icon: const Icon(
-                                        Icons.camera_alt,
-                                        color: Colors.black,
-                                        size: 15,
-                                      ),
-                                      onPressed: () {
-                                        pickImage();
-                                      },
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(
-                                top: 20, left: 60, right: 60),
-                            width: double.maxFinite,
-                            child: Text(
-                              "${patient.firstname} ${patient.lastname}",
-                              style:
-                                  appstyle(26, Colors.black, FontWeight.w800),
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            height: 28,
-                            width: 95,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    spreadRadius: 3,
-                                    blurRadius: 20,
-                                    offset: const Offset(-1, 2)),
-                              ],
-                            ),
-                            child: UserCredentialSecondaryButton(
-                                onPress: () {},
-                                label: "Edit Profile",
-                                labelSize: 10),
-                          ),
-                        ],
+                      const SizedBox(height: 15),
+                      ProfileCard(
+                        leading: "Email:",
+                        screenSize: screenSize,
+                        fontSize: 18,
+                        isOverFlow: false,
+                        isEditing: false,
+                        isGender: false,
+                        isDigit: false,
+                        unit: "",
+                        controller: _email,
+                        keyboardType: TextInputType.emailAddress,
                       ),
-                    ),
-                    const SizedBox(height: 15),
-                    ProfileCard(
-                      leading: "Gender:",
-                      title: nutritionProfile.sex,
-                      screenSize: screenSize,
-                      fontSize: 18,
-                      isOverFlow: false,
-                    ),
-                    ProfileCard(
-                      leading: "Age:",
-                      title: nutritionProfile.age.toString(),
-                      screenSize: screenSize,
-                      fontSize: 18,
-                      isOverFlow: false,
-                    ),
-                    ProfileCard(
-                      leading: "Height:",
-                      title: "${nutritionProfile.height.toStringAsFixed(2)} cm",
-                      screenSize: screenSize,
-                      fontSize: 18,
-                      isOverFlow: false,
-                    ),
-                    ProfileCard(
-                      leading: "Weight:",
-                      title: "${nutritionProfile.weight.toStringAsFixed(2)} kg",
-                      screenSize: screenSize,
-                      fontSize: 18,
-                      isOverFlow: false,
-                    ),
-                    ProfileCard(
-                      leading: "BMI:",
-                      title: "${nutritionProfile.bmi.toStringAsFixed(2)}",
-                      screenSize: screenSize,
-                      fontSize: 18,
-                      isOverFlow: false,
-                    ),
-                    ProfileCard(
-                      leading: "Nutritional Status:",
-                      title: nutritionProfile.status,
-                      screenSize: screenSize,
-                      fontSize: 18,
-                      isOverFlow: true,
-                    ),
-                    ProfileCard(
-                      leading: "Nutritional Assessment score:",
-                      title:
-                          "${nutritionProfile.points.toStringAsFixed(0)} (${nutritionProfile.result})",
-                      screenSize: screenSize,
-                      fontSize: 18,
-                      isOverFlow: true,
-                    ),
-                    ProfileCard(
-                      leading: "Phone Number:",
-                      title: patient.phone,
-                      screenSize: screenSize,
-                      fontSize: 18,
-                      isOverFlow: false,
-                    ),
-                    const SizedBox(height: 10),
-                  ],
+                      ProfileCard(
+                        leading: "Phone Number:",
+                        screenSize: screenSize,
+                        fontSize: 18,
+                        isOverFlow: false,
+                        isEditing: isEditing,
+                        isGender: false,
+                        isDigit: true,
+                        unit: "",
+                        controller: _phone,
+                        keyboardType: TextInputType.phone,
+                      ),
+                      ProfileCard(
+                        leading: "Age:",
+                        screenSize: screenSize,
+                        fontSize: 18,
+                        isOverFlow: false,
+                        isEditing: isEditing,
+                        isGender: false,
+                        isDigit: true,
+                        unit: "",
+                        controller: _age,
+                        keyboardType: TextInputType.number,
+                      ),
+                      ProfileCard(
+                        leading: "Sex:",
+                        screenSize: screenSize,
+                        fontSize: 18,
+                        isOverFlow: false,
+                        isEditing: isEditing,
+                        isGender: true,
+                        isDigit: false,
+                        unit: "",
+                        controller: _sex,
+                        keyboardType: TextInputType.none,
+                      ),
+                      ProfileCard(
+                        leading: "Height:",
+                        screenSize: screenSize,
+                        fontSize: 18,
+                        isOverFlow: false,
+                        isEditing: false,
+                        isGender: false,
+                        isDigit: false,
+                        unit: "cm",
+                        controller: _height,
+                        keyboardType: TextInputType.number,
+                      ),
+                      ProfileCard(
+                        leading: "Weight:",
+                        screenSize: screenSize,
+                        fontSize: 18,
+                        isOverFlow: false,
+                        isEditing: false,
+                        isGender: false,
+                        isDigit: false,
+                        unit: "kg",
+                        controller: _weight,
+                        keyboardType: TextInputType.number,
+                      ),
+                      ProfileCard(
+                        leading: "BMI:",
+                        screenSize: screenSize,
+                        fontSize: 18,
+                        isOverFlow: false,
+                        isEditing: false,
+                        isGender: false,
+                        isDigit: false,
+                        unit: "",
+                        controller: _bmi,
+                        keyboardType: TextInputType.number,
+                      ),
+                      ProfileCard(
+                        leading: "Nutritional Status:",
+                        screenSize: screenSize,
+                        fontSize: 18,
+                        isOverFlow: true,
+                        isEditing: false,
+                        isGender: false,
+                        isDigit: false,
+                        unit: "",
+                        controller: _status,
+                        keyboardType: TextInputType.text,
+                      ),
+                      ProfileCard(
+                        leading: "Nutritional Assessment score:",
+                        screenSize: screenSize,
+                        fontSize: 18,
+                        isOverFlow: true,
+                        isEditing: false,
+                        isGender: false,
+                        isDigit: false,
+                        unit: "",
+                        controller: _points,
+                        keyboardType: TextInputType.text,
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  ),
                 ),
         ),
       ),
