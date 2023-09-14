@@ -41,7 +41,8 @@ class UserCredentialTextField extends StatelessWidget {
           ),
           filled: true,
           hintStyle: appstyle(13, Colors.black, FontWeight.w500),
-          hintText: label,
+          labelText: label,
+          labelStyle: appstyle(13, Colors.black, FontWeight.w500),
           fillColor: Colors.white70,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 0, horizontal: 20.0),

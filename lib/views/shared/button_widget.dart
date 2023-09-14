@@ -34,11 +34,13 @@ class UserCredentialSecondaryButton extends StatelessWidget {
   final void Function() onPress;
   final String label;
   final double labelSize;
+  final Color? color;
   const UserCredentialSecondaryButton(
       {super.key,
       required this.onPress,
       required this.label,
-      required this.labelSize});
+      required this.labelSize,
+      this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class UserCredentialSecondaryButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
-        backgroundColor: customColor[10],
+        backgroundColor: color ?? customColor[10],
         foregroundColor: Colors.white,
       ),
       child: Text(

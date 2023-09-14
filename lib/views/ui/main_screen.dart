@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:nutri_gabay/views/shared/drawer_tile.dart';
+import 'package:nutri_gabay/views/ui/calculator_screen.dart';
 import 'package:nutri_gabay/views/ui/home_page.dart';
 import 'package:nutri_gabay/views/ui/profile_screen.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ class MainScreen extends StatelessWidget {
     HomePage(),
     HomePage(),
     HomePage(),
-    HomePage()
+    CalculatorScreen()
   ];
 
   @override
@@ -33,35 +34,37 @@ class MainScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           key: _scaffoldKey,
-          appBar: AppBar(
-            toolbarHeight: 50,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: GestureDetector(
-              onTap: () {
-                _scaffoldKey.currentState?.openDrawer();
-              },
-              child: const Icon(
-                Icons.menu,
-                color: Colors.black,
-                size: 25,
-              ),
-            ),
-            actions: [
-              Container(
-                margin: const EdgeInsets.only(right: 15),
-                padding: const EdgeInsets.fromLTRB(16, 45, 0, 0),
-                height: 40,
-                width: 150,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/logo-name.png"),
-                    fit: BoxFit.fitWidth,
+          appBar: mainScreenNotifier.pageIndex != 3
+              ? AppBar(
+                  toolbarHeight: 50,
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  leading: GestureDetector(
+                    onTap: () {
+                      _scaffoldKey.currentState?.openDrawer();
+                    },
+                    child: const Icon(
+                      Icons.menu,
+                      color: Colors.black,
+                      size: 25,
+                    ),
                   ),
-                ),
-              ),
-            ],
-          ),
+                  actions: [
+                    Container(
+                      margin: const EdgeInsets.only(right: 15),
+                      padding: const EdgeInsets.fromLTRB(16, 45, 0, 0),
+                      height: 40,
+                      width: 150,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("assets/images/logo-name.png"),
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : null,
           drawer: Drawer(
             width: screenSize.width * 0.6,
             child: SizedBox(

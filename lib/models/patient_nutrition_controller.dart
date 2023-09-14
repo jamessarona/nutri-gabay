@@ -13,6 +13,8 @@ class PatientNutrition {
   final String uid;
   final double height;
   final double weight;
+  final String birthdate;
+  final String date;
   final int age;
   final String sex;
   final double bmi;
@@ -26,6 +28,8 @@ class PatientNutrition {
     required this.uid,
     required this.height,
     required this.weight,
+    required this.date,
+    required this.birthdate,
     required this.age,
     required this.sex,
     required this.bmi,
@@ -41,6 +45,8 @@ class PatientNutrition {
         uid: json["uid"],
         height: json["height"],
         weight: json["weight"],
+        date: json["date"],
+        birthdate: json["birthdate"],
         age: json["age"],
         sex: json["sex"],
         bmi: json["bmi"],
@@ -55,6 +61,8 @@ class PatientNutrition {
         "uid": uid,
         "height": height,
         "weight": weight,
+        "date": date,
+        "birthdate": birthdate,
         "age": age,
         "sex": sex,
         "bmi": bmi,
@@ -74,6 +82,8 @@ class PatientNutrition {
       uid: data?["uid"],
       height: data?["height"],
       weight: data?["weight"],
+      date: data?["date"],
+      birthdate: data?["birthdate"],
       age: data?["age"],
       sex: data?["sex"],
       bmi: data?["bmi"],
@@ -90,6 +100,8 @@ class PatientNutrition {
       "uid": uid,
       "height": height,
       "weight": weight,
+      "date": date,
+      "birthdate": birthdate,
       "age": age,
       "sex": sex,
       "bmi": bmi,

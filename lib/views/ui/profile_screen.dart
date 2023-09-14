@@ -67,7 +67,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         for (var docSnapshot in querySnapshot.docs) {
           if (uid == docSnapshot.data().uid) {
             nutritionProfile = docSnapshot.data();
-            hasData = patient != null;
+            hasData = nutritionProfile != null;
             setState(() {});
             break;
           }
@@ -134,6 +134,8 @@ class ProfileScreenState extends State<ProfileScreen> {
       uid: nutritionProfile.uid,
       height: nutritionProfile.height,
       weight: nutritionProfile.weight,
+      date: nutritionProfile.date,
+      birthdate: nutritionProfile.birthdate,
       age: int.parse(_age.text),
       sex: _sex.text,
       bmi: nutritionProfile.bmi,
@@ -173,7 +175,7 @@ class ProfileScreenState extends State<ProfileScreen> {
         _bmi.text = nutritionProfile.bmi.toStringAsFixed(0);
         _status.text = nutritionProfile.status;
         _points.text =
-            "${nutritionProfile.points} (${nutritionProfile.result})";
+            "${nutritionProfile.points.toStringAsFixed(0)} (${nutritionProfile.result})";
       }
     }
     super.setState(fn);

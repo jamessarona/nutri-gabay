@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nutri_gabay/models/patient_controller.dart';
 import 'package:nutri_gabay/models/patient_nutrition_controller.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
@@ -142,6 +143,7 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
               builder: (BuildContext context) => AssessmentResultScreen(
                 auth: widget.auth,
                 assessmentId: assessmentId,
+                isDefaultNotifierIndex: false,
               ),
             ),
           );
@@ -171,6 +173,8 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
       uid: uid,
       height: double.parse(widget.height),
       weight: double.parse(widget.weight),
+      date: DateFormat('MM/dd/yyyy').format(DateTime.now()),
+      birthdate: '',
       age: int.parse(widget.age),
       sex: widget.sex,
       bmi: calculateBmi(),
