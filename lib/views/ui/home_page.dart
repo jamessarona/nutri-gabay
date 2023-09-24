@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
                                     image: DecorationImage(
-                                        image: CachedNetworkImageProvider(
+                                        image: NetworkImage(
                                           patient.image,
                                         ),
                                         fit: BoxFit.fill),

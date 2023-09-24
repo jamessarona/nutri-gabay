@@ -18,7 +18,7 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   String defaultProfile =
-      "https://firebasestorage.googleapis.com/v0/b/nutri-gabay.appspot.com/o/images%2Fprofiles%2Fdefault.png?alt=media&token=61cf1904-d5e6-4f74-a74f-5bda2cfff508";
+      "https://firebasestorage.googleapis.com/v0/b/nutri-gabay.appspot.com/o/images%2Fprofiles%2Fdefault%2Fdefault.png?alt=media&token=fce52102-d785-4883-ae5a-f7d26fa502ce";
 
   late Size screenSize;
   final TextEditingController _firstname = TextEditingController();

@@ -93,7 +93,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     final firebaseStorage = FirebaseStorage.instance;
     var snapshot = await firebaseStorage
         .ref()
-        .child('images/profiles/${patient.uid}')
+        .child('images/patients/${patient.uid}')
         .putFile(File(image!.path));
 
     var downloadUrl = await snapshot.ref.getDownloadURL();

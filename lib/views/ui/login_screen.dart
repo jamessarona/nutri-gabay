@@ -23,11 +23,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _password = TextEditingController();
 
   bool isLoading = false, authIsNotValid = false;
+  bool isEmailExist = false;
   String authMessage = '';
 
   void validation() async {
     String userUID;
-    if (_formKey.currentState!.validate()) {
+    isEmailExist = await hasExistingAccount();
+    if (_formKey.currentState!.validate() && isEmailExist) {
       setState(() {
         isLoading = true;
       });
@@ -60,6 +62,19 @@ class _LoginScreenState extends State<LoginScreen> {
         isLoading = false;
       });
     }
+  }
+
+  Future<bool> hasExistingAccount() async {
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    if (_username.text.isEmpty) {
+      return false;
+    }
+    bool result = true;
+    await firebaseAuth
+        .fetchSignInMethodsForEmail(_username.text)
+        .then((signInMethods) => result = signInMethods.isNotEmpty);
+
+    return result;
   }
 
   @override
