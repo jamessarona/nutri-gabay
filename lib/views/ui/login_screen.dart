@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
@@ -28,53 +29,57 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void validation() async {
     String userUID;
-    isEmailExist = await hasExistingAccount();
-    if (_formKey.currentState!.validate() && isEmailExist) {
+    if (_formKey.currentState!.validate()) {
       setState(() {
         isLoading = true;
       });
-      try {
-        setState(() {
-          authIsNotValid = false;
-        });
+      final collection = FirebaseFirestore.instance.collection('patient');
 
-        userUID = await widget.auth
-            .signInWithEmailAndPassword(_username.text, _password.text);
-        // ignore: unnecessary_null_comparison
-        if (userUID != null) {
-          widget.onSignIn!();
-        }
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'wrong-password') {
-          setState(() {
-            authIsNotValid = true;
+      collection
+          .where('email', isEqualTo: _username.text)
+          .get()
+          .then((querySnapshot) async {
+        if (querySnapshot.size > 0) {
+          try {
+            setState(() {
+              authIsNotValid = false;
+            });
+            userUID = await widget.auth
+                .signInWithEmailAndPassword(_username.text, _password.text);
+            // ignore: unnecessary_null_comparison
+            if (userUID != null) {
+              widget.onSignIn!();
+            }
+          } on FirebaseAuthException catch (e) {
+            if (e.code == 'wrong-password') {
+              setState(() {
+                authIsNotValid = true;
 
-            authMessage = 'Password is incorrect!';
-          });
+                authMessage = 'Password is incorrect!';
+              });
+            } else {
+              setState(() {
+                authIsNotValid = true;
+                authMessage = 'Email does not exist!';
+              });
+            }
+          }
         } else {
-          setState(() {
-            authIsNotValid = true;
-            authMessage = 'Email does not exist!';
-          });
+          authIsNotValid = true;
+          authMessage = 'Email does not exist!';
         }
-      }
+      });
       setState(() {
         isLoading = false;
       });
     }
-  }
-
-  Future<bool> hasExistingAccount() async {
-    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-    if (_username.text.isEmpty) {
-      return false;
+    if (!isEmailExist) {
+      setState(() {
+        authIsNotValid = true;
+        authMessage = 'Email does not exist!';
+        isLoading = false;
+      });
     }
-    bool result = true;
-    await firebaseAuth
-        .fetchSignInMethodsForEmail(_username.text)
-        .then((signInMethods) => result = signInMethods.isNotEmpty);
-
-    return result;
   }
 
   @override
