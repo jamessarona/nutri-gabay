@@ -4,6 +4,7 @@ import 'package:nutri_gabay/views/shared/drawer_tile.dart';
 import 'package:nutri_gabay/views/ui/calculator_screen.dart';
 import 'package:nutri_gabay/views/ui/home_page.dart';
 import 'package:nutri_gabay/views/ui/profile_screen.dart';
+import 'package:nutri_gabay/views/ui/search_screen.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/mainscreen_provider.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
@@ -20,7 +21,7 @@ class MainScreen extends StatelessWidget {
 
   List<Widget> pageList = const [
     HomePage(),
-    HomePage(),
+    SearchScreen(),
     HomePage(),
     CalculatorScreen()
   ];

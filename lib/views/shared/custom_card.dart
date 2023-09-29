@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
+import 'package:nutri_gabay/views/shared/button_widget.dart';
+import 'package:nutri_gabay/views/ui/nutritionist_profile_screen.dart';
 
 class ProfileCard extends StatelessWidget {
   final String leading;
@@ -129,6 +131,154 @@ class ProfileCard extends StatelessWidget {
                     ),
                   ],
                 ),
+        ),
+      ),
+    );
+  }
+}
+
+class NutritionistListTile extends StatelessWidget {
+  final Size screenSize;
+  final String image;
+  final String name;
+  final String specialties;
+  final String nutritionistId;
+  const NutritionistListTile(
+      {super.key,
+      required this.screenSize,
+      required this.image,
+      required this.name,
+      required this.specialties,
+      required this.nutritionistId});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NutritionistProfileScreen(
+              nutritionistId: nutritionistId,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(
+          top: 5,
+          left: screenSize.width * 0.02,
+          right: screenSize.width * 0.02,
+        ),
+        height: 150,
+        width: double.infinity,
+        child: Card(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: Row(
+              children: [
+                Container(
+                  height: double.infinity,
+                  width: 120,
+                  padding: const EdgeInsets.all(3), // Border width
+                  decoration: const BoxDecoration(
+                      color: customColor, shape: BoxShape.circle),
+                  child: ClipOval(
+                    child: SizedBox.fromSize(
+                      size: const Size.fromRadius(48),
+                      child: Image.network(image, fit: BoxFit.fill),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 15),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              name,
+                              style:
+                                  appstyle(15, Colors.black, FontWeight.bold),
+                              maxLines: 2,
+                              overflow: TextOverflow.visible,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: const Icon(
+                                Icons.favorite_border,
+                                color: Colors.blue,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: 60,
+                        width: double.infinity,
+                        child: Text(
+                          specialties,
+                          style:
+                              appstyle(11, Colors.black87, FontWeight.normal),
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            height: 25,
+                            width: 80,
+                            child: UserCredentialSecondaryButton(
+                              onPress: () {
+                                //     Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => AssessmentTypeScreen(
+                                //       nutritionistId
+                                //     ),
+                                //   ),
+                                // );
+                              },
+                              label: "Book",
+                              labelSize: 12,
+                              color: customColor,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.star,
+                                color: Colors.orange,
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                '5.0',
+                                style:
+                                    appstyle(14, Colors.black, FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
