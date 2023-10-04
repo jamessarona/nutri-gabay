@@ -162,11 +162,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               ),
                               const SizedBox(height: 10),
                               HomePageContainer(
-                                  screenSize: screenSize,
-                                  colorIndex: 10,
-                                  image: "doctor.png",
-                                  title: "Find Nutritionist",
-                                  onTap: () {}),
+                                screenSize: screenSize,
+                                colorIndex: 10,
+                                image: "doctor.png",
+                                title: "Find Nutritionist",
+                                onTap: () {
+                                  mainScreenNotifier.pageIndex = 1;
+                                },
+                              ),
                               const SizedBox(height: 10),
                               HomePageContainer(
                                   screenSize: screenSize,

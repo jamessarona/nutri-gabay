@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:nutri_gabay/models/doctor.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/button_widget.dart';
+import 'package:nutri_gabay/views/ui/nutritionist_booking_screen.dart';
 
 class NutritionistProfileScreen extends StatefulWidget {
   final String nutritionistId;
@@ -318,14 +319,14 @@ class _NutritionistProfileScreenState extends State<NutritionistProfileScreen> {
           width: 80,
           child: UserCredentialSecondaryButton(
             onPress: () {
-              //     Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => AssessmentTypeScreen(
-              //       nutritionistId
-              //     ),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NutritionistBookingScreen(
+                    nutritionistId: widget.nutritionistId,
+                  ),
+                ),
+              );
             },
             label: "Book",
             labelSize: 12,

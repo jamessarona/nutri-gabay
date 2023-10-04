@@ -179,3 +179,70 @@ class AssessmentTextField extends StatelessWidget {
     );
   }
 }
+
+class BookingTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final bool isEnable;
+  final bool isMultiLine;
+  final TextInputType keyboardType;
+  final double width;
+  final FormFieldValidator<String>? validation;
+  const BookingTextField(
+      {super.key,
+      required this.controller,
+      required this.label,
+      required this.isEnable,
+      required this.isMultiLine,
+      required this.keyboardType,
+      required this.width,
+      this.validation});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          constraints: isMultiLine ? null : const BoxConstraints(minWidth: 50),
+          child: Text(
+            label,
+            style: appstyle(13, Colors.black, FontWeight.w600),
+          ),
+        ),
+        Expanded(
+          child: Container(
+            height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: TextFormField(
+              controller: controller,
+              keyboardType: keyboardType,
+              validator: validation,
+              inputFormatters: keyboardType == TextInputType.number
+                  ? <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r"[0-9.]")),
+                    ]
+                  : null,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(color: customColor),
+                ),
+                filled: true,
+                hintStyle: appstyle(12, Colors.black, FontWeight.w500),
+                labelStyle: appstyle(12, Colors.black, FontWeight.w500),
+                fillColor: Colors.grey.shade200,
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 20.0),
+              ),
+              enabled: isEnable,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
