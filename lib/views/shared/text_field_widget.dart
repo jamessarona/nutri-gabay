@@ -236,7 +236,7 @@ class BookingTextField extends StatelessWidget {
                 labelStyle: appstyle(12, Colors.black, FontWeight.w500),
                 fillColor: Colors.grey.shade200,
                 contentPadding:
-                    const EdgeInsets.symmetric(vertical: 0, horizontal: 20.0),
+                    const EdgeInsets.symmetric(vertical: 0, horizontal: 5.0),
               ),
               enabled: isEnable,
             ),

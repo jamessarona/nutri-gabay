@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:nutri_gabay/models/appointment_controller.dart';
 import 'package:nutri_gabay/models/doctor.dart';
 import 'package:nutri_gabay/models/patient_controller.dart';
 import 'package:nutri_gabay/models/patient_nutrition_controller.dart';
@@ -9,6 +11,7 @@ import 'package:nutri_gabay/views/shared/button_widget.dart';
 import 'package:nutri_gabay/views/shared/custom_container.dart';
 import 'package:nutri_gabay/views/shared/text_field_widget.dart';
 import 'package:nutri_gabay/views/ui/success_booking_screen.dart';
+import 'package:time_range_picker/time_range_picker.dart';
 
 class NutritionistBookingScreen extends StatefulWidget {
   final String nutritionistId;
@@ -37,6 +40,9 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
   final TextEditingController _height = TextEditingController();
   final TextEditingController _notes = TextEditingController();
 
+  DateTime? bookingDate;
+  TimeRange? bookingTimeRange;
+
   void getDoctorInfo() async {
     final ref = FirebaseFirestore.instance
         .collection("doctor")
@@ -47,6 +53,7 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
         );
     final docSnap = await ref.get();
     doctor = docSnap.data()!;
+
     setState(() {});
   }
 
@@ -59,6 +66,7 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
             );
     final docSnap = await ref.get();
     patient = docSnap.data()!;
+    _name.text = '${patient!.firstname} ${patient!.lastname}';
     setState(() {});
   }
 
@@ -77,12 +85,56 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
         for (var docSnapshot in querySnapshot.docs) {
           if (uid == docSnapshot.data().uid) {
             patientNutrition = docSnapshot.data();
+            _bmi.text = patientNutrition!.bmi.toStringAsFixed(2);
+            _status.text = patientNutrition!.status;
+            _riskLevel.text = patientNutrition!.result;
+            _sex.text = patientNutrition!.sex;
+            _age.text = patientNutrition!.age.toStringAsFixed(0);
+            _height.text = patientNutrition!.height.toStringAsFixed(2);
             setState(() {});
             break;
           }
         }
       },
     );
+  }
+
+  String formatTimeRange() {
+    String result = '';
+    if (bookingTimeRange != null) {
+      if (bookingTimeRange!.startTime.hour > 12) {
+        result =
+            '${bookingTimeRange!.startTime.hour - 12} - ${bookingTimeRange!.endTime.hour - 12} PM';
+      } else if (bookingTimeRange!.endTime.hour < 13) {
+        result =
+            '${bookingTimeRange!.startTime.hour} - ${bookingTimeRange!.endTime.hour} AM';
+      } else {
+        result =
+            '${bookingTimeRange!.startTime.hour} AM - ${bookingTimeRange!.endTime.hour} PM';
+      }
+    }
+    return result;
+  }
+
+  Future<void> saveBooking() async {
+    final appointmentDoc =
+        FirebaseFirestore.instance.collection('appointment').doc();
+
+    Appointment appointment = Appointment(
+      id: appointmentDoc.id,
+      dateRecorded: DateFormat('MM/dd/yyyy HH:mm:ss').format(DateTime.now()),
+      dateSchedule: DateFormat('MM/dd/yyyy').format(bookingDate!),
+      hourStart: bookingTimeRange!.startTime.hour,
+      hourEnd: bookingTimeRange!.endTime.hour,
+      patientId: patient!.uid,
+      patientNutritionalId: patientNutrition!.id,
+      doctorId: doctor!.uid,
+      notes: _notes.text,
+      status: 'Pending',
+    );
+
+    final json = appointment.toJson();
+    await appointmentDoc.set(json);
   }
 
   @override
@@ -216,7 +268,7 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       SizedBox(
-                                        width: 120,
+                                        width: 110,
                                         child: BookingTextField(
                                           controller: _sex,
                                           label: 'Sex',
@@ -238,7 +290,7 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 110,
+                                        width: 130,
                                         child: BookingTextField(
                                           controller: _height,
                                           label: 'Height',
@@ -316,9 +368,38 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
                                   ),
                                   const SizedBox(height: 5),
                                   BookingContainerButton(
-                                    label: 'Select date',
+                                    label: bookingDate == null
+                                        ? 'Select date'
+                                        : DateFormat('MM/dd/yyyy')
+                                            .format(bookingDate!),
                                     icon: Icons.calendar_month_outlined,
-                                    onTap: () {},
+                                    onTap: () async {
+                                      DateTime? pickedDate =
+                                          await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime.now(),
+                                        lastDate: DateTime(2100),
+                                        builder: (context, child) {
+                                          return Theme(
+                                            data: Theme.of(context).copyWith(
+                                              colorScheme:
+                                                  const ColorScheme.light(
+                                                primary: customColor,
+                                                onPrimary: Colors.white,
+                                                onSurface: Colors.black,
+                                              ),
+                                            ),
+                                            child: child!,
+                                          );
+                                        },
+                                      );
+
+                                      if (pickedDate != null) {
+                                        bookingDate = pickedDate;
+                                        setState(() {});
+                                      }
+                                    },
                                   ),
                                 ],
                               ),
@@ -335,9 +416,61 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
                                   ),
                                   const SizedBox(height: 5),
                                   BookingContainerButton(
-                                    label: 'Select time',
+                                    label: bookingTimeRange == null
+                                        ? 'Select time'
+                                        : formatTimeRange(),
                                     icon: Icons.av_timer_outlined,
-                                    onTap: () {},
+                                    onTap: () async {
+                                      TimeRange? selectedTimeRange =
+                                          await showTimeRangePicker(
+                                              context: context,
+                                              start: TimeOfDay(
+                                                  hour: DateTime.now().hour,
+                                                  minute: 0),
+                                              end: TimeOfDay(
+                                                  hour: DateTime.now().hour + 1,
+                                                  minute: 0),
+                                              disabledTime: TimeRange(
+                                                  startTime: const TimeOfDay(
+                                                      hour: 0, minute: 0),
+                                                  endTime: TimeOfDay(
+                                                      hour: DateTime.now().hour,
+                                                      minute: 0)),
+                                              disabledColor:
+                                                  Colors.red.withOpacity(0.5),
+                                              interval:
+                                                  const Duration(hours: 1),
+                                              minDuration:
+                                                  const Duration(hours: 1),
+                                              use24HourFormat: false,
+                                              strokeWidth: 4,
+                                              ticks: 24,
+                                              ticksOffset: -7,
+                                              ticksLength: 15,
+                                              ticksColor: Colors.grey,
+                                              labels: [
+                                                "12 am",
+                                                "3 am",
+                                                "6 am",
+                                                "9 am",
+                                                "12 pm",
+                                                "3 pm",
+                                                "6 pm",
+                                                "9 pm"
+                                              ].asMap().entries.map((e) {
+                                                return ClockLabel.fromIndex(
+                                                    idx: e.key,
+                                                    length: 8,
+                                                    text: e.value);
+                                              }).toList(),
+                                              labelOffset: 35,
+                                              rotateLabels: false,
+                                              padding: 60);
+                                      if (selectedTimeRange != null) {
+                                        bookingTimeRange = selectedTimeRange;
+                                        setState(() {});
+                                      }
+                                    },
                                   ),
                                 ],
                               )
@@ -349,12 +482,35 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
                               width: 140,
                               child: UserCredentialPrimaryButton(
                                   onPress: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              const SuccessBookingScreen()),
-                                    );
+                                    // Validate Booking
+                                    if (bookingDate != null &&
+                                        bookingTimeRange != null) {
+                                      saveBooking().then((value) {
+                                        //redirect to pending screen
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  const SuccessBookingScreen()),
+                                        );
+                                      });
+                                    } else {
+                                      //show error through snackbar
+                                      final snackBar = SnackBar(
+                                        content: Text(
+                                          'Please select your schedule',
+                                          style: appstyle(13, Colors.white,
+                                              FontWeight.normal),
+                                        ),
+                                        action: SnackBarAction(
+                                          label: 'Close',
+                                          onPressed: () {},
+                                        ),
+                                      );
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
                                   },
                                   label: 'Book',
                                   labelSize: 18),

@@ -49,6 +49,7 @@ dependencies:
   intl: ^0.18.1
   age_calculator: ^1.0.0
   font_awesome_flutter: ^10.5.0
+  time_range_picker: ^2.2.0
 
   #firebase
   firebase_core: ^2.15.1

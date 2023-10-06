@@ -43,6 +43,7 @@ class _SuccessBookingScreenState extends State<SuccessBookingScreen> {
                   width: 150,
                   child: UserCredentialPrimaryButton(
                       onPress: () {
+                        //restart app and return to homepage
                         mainScreenNotifier.pageIndex = 0;
                         Phoenix.rebirth(context);
                       },
