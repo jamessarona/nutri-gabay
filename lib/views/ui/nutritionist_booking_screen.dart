@@ -5,7 +5,10 @@ import 'package:nutri_gabay/models/patient_controller.dart';
 import 'package:nutri_gabay/models/patient_nutrition_controller.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
+import 'package:nutri_gabay/views/shared/button_widget.dart';
+import 'package:nutri_gabay/views/shared/custom_container.dart';
 import 'package:nutri_gabay/views/shared/text_field_widget.dart';
+import 'package:nutri_gabay/views/ui/success_booking_screen.dart';
 
 class NutritionistBookingScreen extends StatefulWidget {
   final String nutritionistId;
@@ -18,6 +21,8 @@ class NutritionistBookingScreen extends StatefulWidget {
 
 class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
   late Size screenSize;
+  static int maxNotes = 400;
+
   Doctor? doctor;
   Patient? patient;
   PatientNutrition? patientNutrition;
@@ -30,6 +35,7 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
   final TextEditingController _sex = TextEditingController();
   final TextEditingController _age = TextEditingController();
   final TextEditingController _height = TextEditingController();
+  final TextEditingController _notes = TextEditingController();
 
   void getDoctorInfo() async {
     final ref = FirebaseFirestore.instance
@@ -274,6 +280,86 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
                                 appstyle(12, Colors.black, FontWeight.normal),
                           ),
                           const Divider(thickness: 1),
+                          BookingLongTextField(
+                              controller: _notes,
+                              label: '',
+                              isObscure: false,
+                              keyboardType: TextInputType.text,
+                              maxLines: 10,
+                              isEditable: true,
+                              onChanged: (value) {
+                                if (value.length > 400) {
+                                  _notes.text = value.substring(0, maxNotes);
+                                }
+                                setState(() {});
+                              }),
+                          const SizedBox(height: 5),
+                          Text(
+                            '${maxNotes - _notes.text.length} character${maxNotes - _notes.text.length > 1 ? 's' : ''} left',
+                            style:
+                                appstyle(11, Colors.black45, FontWeight.normal)
+                                    .copyWith(fontStyle: FontStyle.italic),
+                          ),
+                          const SizedBox(height: 30),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    'Set Date',
+                                    style: appstyle(
+                                      15,
+                                      Colors.black,
+                                      FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  BookingContainerButton(
+                                    label: 'Select date',
+                                    icon: Icons.calendar_month_outlined,
+                                    onTap: () {},
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 20),
+                              Column(
+                                children: [
+                                  Text(
+                                    'Set Time',
+                                    style: appstyle(
+                                      15,
+                                      Colors.black,
+                                      FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  BookingContainerButton(
+                                    label: 'Select time',
+                                    icon: Icons.av_timer_outlined,
+                                    onTap: () {},
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                          const SizedBox(height: 20),
+                          Center(
+                            child: SizedBox(
+                              width: 140,
+                              child: UserCredentialPrimaryButton(
+                                  onPress: () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              const SuccessBookingScreen()),
+                                    );
+                                  },
+                                  label: 'Book',
+                                  labelSize: 18),
+                            ),
+                          )
                         ],
                       ),
                     ),

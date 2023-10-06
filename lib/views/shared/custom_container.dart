@@ -42,3 +42,37 @@ class ContainerWithLabel extends StatelessWidget {
     );
   }
 }
+
+class BookingContainerButton extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final void Function()? onTap;
+  const BookingContainerButton(
+      {super.key, required this.label, required this.icon, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 40,
+        width: 140,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(width: 2),
+        ),
+        child: Row(
+          children: [
+            const SizedBox(width: 10),
+            Icon(icon),
+            const SizedBox(width: 10),
+            Text(
+              label,
+              style: appstyle(13, Colors.black, FontWeight.normal),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
