@@ -77,7 +77,7 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
         .where("uid", isEqualTo: uid)
         .withConverter(
           fromFirestore: PatientNutrition.fromFirestore,
-          toFirestore: (PatientNutrition city, _) => city.toFirestore(),
+          toFirestore: (PatientNutrition pn, _) => pn.toFirestore(),
         );
 
     await collection.get().then(
@@ -114,6 +114,61 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
       }
     }
     return result;
+  }
+
+  void validateBooking() async {
+    final collection = FirebaseFirestore.instance
+        .collection('appointment')
+        .where("doctorId", isEqualTo: doctor!.uid)
+        .withConverter(
+          fromFirestore: Appointment.fromFirestore,
+          toFirestore: (Appointment apmt, _) => apmt.toFirestore(),
+        );
+
+    await collection.get().then(
+      (querySnapshot) {
+        bool isValid = true;
+        for (var docSnapshot in querySnapshot.docs) {
+          Appointment appointment = docSnapshot.data();
+          DateTime bookingDate =
+              DateFormat('MM/dd/yyyy').parse(appointment.dateSchedule);
+
+          if (bookingDate == this.bookingDate) {
+            // check if conflict selected schedule to all schedules
+            isValid = !((bookingTimeRange!.startTime.hour >=
+                        appointment.hourStart &&
+                    bookingTimeRange!.startTime.hour <= appointment.hourEnd) ||
+                (bookingTimeRange!.endTime.hour >= appointment.hourStart &&
+                    bookingTimeRange!.endTime.hour <= appointment.hourEnd));
+          }
+          if (!isValid) break;
+        }
+        if (isValid) {
+          saveBooking().then((value) {
+            //redirect to pending screen
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      const SuccessBookingScreen()),
+            );
+          });
+        } else {
+          final snackBar = SnackBar(
+            content: Text(
+              'Selected schedule was already book by someone else',
+              style: appstyle(12, Colors.white, FontWeight.normal),
+            ),
+            action: SnackBarAction(
+              label: 'Close',
+              onPressed: () {},
+            ),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      },
+    );
   }
 
   Future<void> saveBooking() async {
@@ -482,18 +537,10 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
                               width: 140,
                               child: UserCredentialPrimaryButton(
                                   onPress: () {
-                                    // Validate Booking
                                     if (bookingDate != null &&
                                         bookingTimeRange != null) {
-                                      saveBooking().then((value) {
-                                        //redirect to pending screen
-                                        Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (BuildContext context) =>
-                                                  const SuccessBookingScreen()),
-                                        );
-                                      });
+                                      // check if there is no conflict schedule
+                                      validateBooking();
                                     } else {
                                       //show error through snackbar
                                       final snackBar = SnackBar(
