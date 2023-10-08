@@ -12,8 +12,10 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   late Size screenSize;
-  final Stream<QuerySnapshot> _doctorStream =
-      FirebaseFirestore.instance.collection('doctor').snapshots();
+  final Stream<QuerySnapshot> _doctorStream = FirebaseFirestore.instance
+      .collection('doctor')
+      .where("status", isNotEqualTo: "Pending")
+      .snapshots();
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;

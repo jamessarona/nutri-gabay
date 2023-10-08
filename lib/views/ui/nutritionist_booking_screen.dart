@@ -485,12 +485,19 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
                                               end: TimeOfDay(
                                                   hour: DateTime.now().hour + 1,
                                                   minute: 0),
-                                              disabledTime: TimeRange(
-                                                  startTime: const TimeOfDay(
-                                                      hour: 0, minute: 0),
-                                                  endTime: TimeOfDay(
-                                                      hour: DateTime.now().hour,
-                                                      minute: 0)),
+                                              disabledTime: DateUtils.isSameDay(
+                                                      bookingDate,
+                                                      DateTime.now())
+                                                  ? TimeRange(
+                                                      startTime:
+                                                          const TimeOfDay(
+                                                              hour: 0,
+                                                              minute: 0),
+                                                      endTime: TimeOfDay(
+                                                          hour: DateTime.now()
+                                                              .hour,
+                                                          minute: 0))
+                                                  : null,
                                               disabledColor:
                                                   Colors.red.withOpacity(0.5),
                                               interval:
