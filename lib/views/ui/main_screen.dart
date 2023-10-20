@@ -3,6 +3,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:nutri_gabay/views/shared/drawer_tile.dart';
 import 'package:nutri_gabay/views/ui/calculator_screen.dart';
 import 'package:nutri_gabay/views/ui/home_page.dart';
+import 'package:nutri_gabay/views/ui/nutristionist_list_page.dart';
 import 'package:nutri_gabay/views/ui/profile_screen.dart';
 import 'package:nutri_gabay/views/ui/search_screen.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,7 @@ class MainScreen extends StatelessWidget {
   List<Widget> pageList = const [
     HomePage(),
     SearchScreen(),
-    HomePage(),
+    MyNutritionistListPage(),
     CalculatorScreen()
   ];
 

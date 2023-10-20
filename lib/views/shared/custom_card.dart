@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/button_widget.dart';
+import 'package:nutri_gabay/views/ui/nutritionist_booking_screen.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_profile_screen.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -243,14 +244,14 @@ class NutritionistListTile extends StatelessWidget {
                             width: 80,
                             child: UserCredentialSecondaryButton(
                               onPress: () {
-                                //     Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => AssessmentTypeScreen(
-                                //       nutritionistId
-                                //     ),
-                                //   ),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NutritionistBookingScreen(
+                                            nutritionistId: nutritionistId),
+                                  ),
+                                );
                               },
                               label: "Book",
                               labelSize: 12,
