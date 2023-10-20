@@ -5,6 +5,7 @@ import 'package:nutri_gabay/models/appointment_controller.dart';
 import 'package:nutri_gabay/models/doctor.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/custom_card.dart';
+import 'package:nutri_gabay/views/ui/nutritionist_intervention_screen.dart';
 
 class NutritionistMonitoringScreen extends StatefulWidget {
   final String appointmentId;
@@ -227,26 +228,38 @@ class _NutritionistMonitoringScreenState
                             ),
                           ),
                           Expanded(
-                            child: SizedBox(
-                              height: 120,
-                              child: Card(
-                                color: customColor,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      FontAwesomeIcons.fileCircleExclamation,
-                                      size: 40,
-                                      color: Colors.white,
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      'Nutrition\nIntervention',
-                                      style: appstyle(
-                                          15, Colors.white, FontWeight.bold),
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NutritionistInterventionScreen(
+                                            appointmentId: appointment!.id),
+                                  ),
+                                );
+                              },
+                              child: SizedBox(
+                                height: 120,
+                                child: Card(
+                                  color: customColor,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(
+                                        FontAwesomeIcons.fileCircleExclamation,
+                                        size: 40,
+                                        color: Colors.white,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Text(
+                                        'Nutrition\nIntervention',
+                                        style: appstyle(
+                                            15, Colors.white, FontWeight.bold),
+                                        textAlign: TextAlign.center,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
