@@ -146,11 +146,16 @@ class _MyNutritionistListPageState extends State<MyNutritionistListPage> {
 
                                       return MyNutritionistListTile(
                                         screenSize: screenSize,
+                                        appointmentId: data['id'],
                                         image: getNutritionistInfoByField(
                                             data['doctorId'], 'image'),
                                         name: getNutritionistInfoByField(
                                             data['doctorId'], 'name'),
                                         nutritionistId: data['doctorId'],
+                                        date: data['dateSchedule'],
+                                        hourStart: data['hourStart'],
+                                        hourEnd: data['hourEnd'],
+                                        isDisplayOnly: false,
                                       );
                                     })
                                     .toList()

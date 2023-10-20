@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/button_widget.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_booking_screen.dart';
+import 'package:nutri_gabay/views/ui/nutritionist_monitoring_screen.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_profile_screen.dart';
 
 class ProfileCard extends StatelessWidget {
@@ -288,29 +289,56 @@ class NutritionistListTile extends StatelessWidget {
 
 class MyNutritionistListTile extends StatelessWidget {
   final Size screenSize;
+  final String appointmentId;
   final String image;
   final String name;
   final String nutritionistId;
-  const MyNutritionistListTile(
-      {super.key,
-      required this.screenSize,
-      required this.image,
-      required this.name,
-      required this.nutritionistId});
+  final String date;
+  final int hourStart;
+  final int hourEnd;
+  final bool isDisplayOnly;
+  const MyNutritionistListTile({
+    super.key,
+    required this.appointmentId,
+    required this.screenSize,
+    required this.image,
+    required this.name,
+    required this.nutritionistId,
+    required this.date,
+    required this.hourStart,
+    required this.hourEnd,
+    required this.isDisplayOnly,
+  });
+  String formatTimeRange() {
+    String result = '';
+
+    if (hourStart > 12) {
+      result = '${hourStart - 12} - ${hourEnd - 12} PM';
+    } else if (hourEnd < 13) {
+      result = '$hourStart - $hourEnd AM';
+    } else {
+      result = '$hourStart AM - $hourEnd PM';
+    }
+
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => NutritionistProfileScreen(
-        //       nutritionistId: nutritionistId,
-        //     ),
-        //   ),
-        // );
-      },
+      onTap: isDisplayOnly
+          ? null
+          : () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NutritionistMonitoringScreen(
+                    appointmentId: appointmentId,
+                    nutritionistId: nutritionistId,
+                  ),
+                ),
+              );
+            },
       child: Container(
         margin: EdgeInsets.only(
           top: 5,
@@ -340,6 +368,19 @@ class MyNutritionistListTile extends StatelessWidget {
                       Text(
                         name,
                         style: appstyle(15, Colors.black, FontWeight.bold),
+                        maxLines: 2,
+                        overflow: TextOverflow.visible,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        date,
+                        style: appstyle(13, Colors.black, FontWeight.normal),
+                        maxLines: 2,
+                        overflow: TextOverflow.visible,
+                      ),
+                      Text(
+                        formatTimeRange(),
+                        style: appstyle(13, Colors.black, FontWeight.normal),
                         maxLines: 2,
                         overflow: TextOverflow.visible,
                       ),
