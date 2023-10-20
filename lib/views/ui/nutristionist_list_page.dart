@@ -5,6 +5,7 @@ import 'package:nutri_gabay/models/doctor.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/button_widget.dart';
+import 'package:nutri_gabay/views/shared/custom_card.dart';
 import 'package:provider/provider.dart';
 
 class MyNutritionistListPage extends StatefulWidget {
@@ -79,7 +80,7 @@ class _MyNutritionistListPageState extends State<MyNutritionistListPage> {
             body: SizedBox(
               height: double.infinity,
               width: double.infinity,
-              child: uid == null
+              child: uid == null || doctors == null
                   ? Container()
                   : StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
@@ -143,10 +144,13 @@ class _MyNutritionistListPageState extends State<MyNutritionistListPage> {
                                       Map<String, dynamic> data = document
                                           .data()! as Map<String, dynamic>;
 
-                                      return Container(
-                                        width: 10,
-                                        height: 10,
-                                        color: Colors.red,
+                                      return MyNutritionistListTile(
+                                        screenSize: screenSize,
+                                        image: getNutritionistInfoByField(
+                                            data['doctorId'], 'image'),
+                                        name: getNutritionistInfoByField(
+                                            data['doctorId'], 'name'),
+                                        nutritionistId: data['doctorId'],
                                       );
                                     })
                                     .toList()

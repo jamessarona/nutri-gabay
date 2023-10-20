@@ -285,3 +285,86 @@ class NutritionistListTile extends StatelessWidget {
     );
   }
 }
+
+class MyNutritionistListTile extends StatelessWidget {
+  final Size screenSize;
+  final String image;
+  final String name;
+  final String nutritionistId;
+  const MyNutritionistListTile(
+      {super.key,
+      required this.screenSize,
+      required this.image,
+      required this.name,
+      required this.nutritionistId});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => NutritionistProfileScreen(
+        //       nutritionistId: nutritionistId,
+        //     ),
+        //   ),
+        // );
+      },
+      child: Container(
+        margin: EdgeInsets.only(
+          top: 5,
+          left: screenSize.width * 0.02,
+          right: screenSize.width * 0.02,
+        ),
+        height: 150,
+        width: double.infinity,
+        child: Card(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Your Nutritionist',
+                        style: appstyle(15, Colors.grey, FontWeight.bold),
+                        maxLines: 2,
+                        overflow: TextOverflow.visible,
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        name,
+                        style: appstyle(15, Colors.black, FontWeight.bold),
+                        maxLines: 2,
+                        overflow: TextOverflow.visible,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 15),
+                Container(
+                  height: double.infinity,
+                  width: 120,
+                  padding: const EdgeInsets.all(3), // Border width
+                  decoration: const BoxDecoration(
+                      color: customColor, shape: BoxShape.circle),
+                  child: ClipOval(
+                    child: SizedBox.fromSize(
+                      size: const Size.fromRadius(48),
+                      child: Image.network(image, fit: BoxFit.fill),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
