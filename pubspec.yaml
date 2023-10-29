@@ -50,6 +50,8 @@ dependencies:
   age_calculator: ^1.0.0
   font_awesome_flutter: ^10.5.0
   time_range_picker: ^2.2.0
+  syncfusion_flutter_pdfviewer: ^23.1.42
+  dio: ^5.3.3
 
   #firebase
   firebase_core: ^2.15.1
