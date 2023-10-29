@@ -127,6 +127,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       email: _email.text,
       image: patient.image,
       phone: _phone.text,
+      isOnline: patient.isOnline,
     );
 
     PatientNutrition updatedNutrition = PatientNutrition(

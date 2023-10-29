@@ -5,6 +5,7 @@ import 'package:nutri_gabay/models/appointment_controller.dart';
 import 'package:nutri_gabay/models/doctor.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/custom_card.dart';
+import 'package:nutri_gabay/views/ui/chat_screen.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_intervention_screen.dart';
 
 class NutritionistMonitoringScreen extends StatefulWidget {
@@ -165,33 +166,47 @@ class _NutritionistMonitoringScreenState
                       isDisplayOnly: true,
                     ),
                     const SizedBox(height: 10),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: 5,
-                        left: screenSize.width * 0.05,
-                        right: screenSize.width * 0.05,
-                      ),
-                      height: 120,
-                      width: double.infinity,
-                      child: Card(
-                        color: customColor[50],
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 20),
-                            const Icon(
-                              FontAwesomeIcons.phone,
-                              size: 60,
-                              color: Colors.white,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatScreen(
+                              doctorId: appointment!.doctorId,
+                              patientId: appointment!.patientId,
+                              appointmentId: appointment!.id,
                             ),
-                            Expanded(
-                              child: Text(
-                                'Chat and Video\nConferencing',
-                                style:
-                                    appstyle(25, Colors.white, FontWeight.bold),
-                                textAlign: TextAlign.center,
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          top: 5,
+                          left: screenSize.width * 0.05,
+                          right: screenSize.width * 0.05,
+                        ),
+                        height: 120,
+                        width: double.infinity,
+                        child: Card(
+                          color: customColor[50],
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 20),
+                              const Icon(
+                                FontAwesomeIcons.phone,
+                                size: 60,
+                                color: Colors.white,
                               ),
-                            ),
-                          ],
+                              Expanded(
+                                child: Text(
+                                  'Chat and Video\nConferencing',
+                                  style: appstyle(
+                                      25, Colors.white, FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
