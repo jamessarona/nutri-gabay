@@ -30,7 +30,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   Doctor? doctor;
   Patient? patient;
-  Appointment? appointment;
+  Appointments? appointment;
 
   TextEditingController textController = TextEditingController();
 
@@ -39,8 +39,8 @@ class _ChatScreenState extends State<ChatScreen> {
         .collection("appointment")
         .doc(widget.appointmentId)
         .withConverter(
-          fromFirestore: Appointment.fromFirestore,
-          toFirestore: (Appointment appointment, _) =>
+          fromFirestore: Appointments.fromFirestore,
+          toFirestore: (Appointments appointment, _) =>
               appointment.toFirestore(),
         );
     final docSnap = await ref.get();

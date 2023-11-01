@@ -27,7 +27,7 @@ class _NutritionistMonitoringScreenState
   late Size screenSize;
 
   Doctor? doctor;
-  Appointment? appointment;
+  Appointments? appointment;
   Future<void> getNutritionist() async {
     final ref = FirebaseFirestore.instance
         .collection("doctor")
@@ -46,8 +46,8 @@ class _NutritionistMonitoringScreenState
         .collection("appointment")
         .doc(widget.appointmentId)
         .withConverter(
-          fromFirestore: Appointment.fromFirestore,
-          toFirestore: (Appointment apt, _) => apt.toFirestore(),
+          fromFirestore: Appointments.fromFirestore,
+          toFirestore: (Appointments apt, _) => apt.toFirestore(),
         );
     final docSnap = await ref.get();
     appointment = docSnap.data()!;

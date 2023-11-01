@@ -121,15 +121,15 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
         .collection('appointment')
         .where("doctorId", isEqualTo: doctor!.uid)
         .withConverter(
-          fromFirestore: Appointment.fromFirestore,
-          toFirestore: (Appointment apmt, _) => apmt.toFirestore(),
+          fromFirestore: Appointments.fromFirestore,
+          toFirestore: (Appointments apmt, _) => apmt.toFirestore(),
         );
 
     await collection.get().then(
       (querySnapshot) {
         bool isValid = true;
         for (var docSnapshot in querySnapshot.docs) {
-          Appointment appointment = docSnapshot.data();
+          Appointments appointment = docSnapshot.data();
           DateTime bookingDate =
               DateFormat('MM/dd/yyyy').parse(appointment.dateSchedule);
 
@@ -175,7 +175,7 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
     final appointmentDoc =
         FirebaseFirestore.instance.collection('appointment').doc();
 
-    Appointment appointment = Appointment(
+    Appointments appointment = Appointments(
       id: appointmentDoc.id,
       dateRecorded: DateFormat('MM/dd/yyyy HH:mm:ss').format(DateTime.now()),
       dateSchedule: DateFormat('MM/dd/yyyy').format(bookingDate!),

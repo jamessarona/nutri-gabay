@@ -53,6 +53,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^23.1.42
   dio: ^5.3.3
   timeago: ^3.6.0
+  syncfusion_flutter_calendar: ^23.1.43
 
   #firebase
   firebase_core: ^2.15.1

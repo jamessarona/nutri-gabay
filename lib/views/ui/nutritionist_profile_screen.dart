@@ -2,10 +2,12 @@ import 'package:age_calculator/age_calculator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nutri_gabay/models/appointment_controller.dart';
 import 'package:nutri_gabay/models/doctor.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/button_widget.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_booking_screen.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class NutritionistProfileScreen extends StatefulWidget {
   final String nutritionistId;
@@ -18,8 +20,11 @@ class NutritionistProfileScreen extends StatefulWidget {
 
 class _NutritionistProfileScreenState extends State<NutritionistProfileScreen> {
   late Size screenSize;
-
+  int tabIndex = 0;
   Doctor? doctor;
+  final CalendarController _calendarController = CalendarController();
+  List<QueryDocumentSnapshot<Appointments>>? appointments;
+
   void getDoctorInfo() async {
     final ref = FirebaseFirestore.instance
         .collection("doctor")
@@ -38,95 +43,48 @@ class _NutritionistProfileScreenState extends State<NutritionistProfileScreen> {
     return (AgeCalculator.age(date).years + 1).toString();
   }
 
-  Widget _buildSchedule() {
-    return Table(
-      children: [
-        TableRow(
-          children: [
-            Text(
-              'MON',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-            Text(
-              '00:00 PM - 00:00PM',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text(
-              'TUE',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-            Text(
-              '00:00 PM - 00:00PM',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text(
-              'WED',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-            Text(
-              '00:00 PM - 00:00PM',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text(
-              'THU',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-            Text(
-              '00:00 PM - 00:00PM',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text(
-              'FRI',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-            Text(
-              '00:00 PM - 00:00PM',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text(
-              'SAT',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-            Text(
-              '00:00 PM - 00:00PM',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-          ],
-        ),
-        TableRow(
-          children: [
-            Text(
-              'SUN',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-            Text(
-              '00:00 PM - 00:00PM',
-              style: appstyle(13, Colors.black, FontWeight.w500),
-            ),
-          ],
-        ),
-      ],
-    );
+  List<Appointment> getAppointments() {
+    getPendingAppointments();
+    List<Appointment> meetings = <Appointment>[];
+
+    if (appointments != null) {
+      for (var appointment in appointments!) {
+        final DateTime bookingStart = DateFormat("MM/dd/yyyy hh").parse(
+            "${appointment.data().dateSchedule} ${appointment.data().hourStart.toStringAsFixed(2)}");
+        final DateTime bookingEnd = DateFormat("MM/dd/yyyy hh").parse(
+            "${appointment.data().dateSchedule} ${appointment.data().hourEnd.toStringAsFixed(2)}");
+        meetings.add(
+          Appointment(
+              startTime: bookingStart,
+              endTime: bookingEnd,
+              subject: 'Taken',
+              color: customColor),
+        );
+      }
+    }
+    return meetings;
+  }
+
+  Future<void> getPendingAppointments() async {
+    if (widget.nutritionistId != '') {
+      final docRef = FirebaseFirestore.instance
+          .collection("appointment")
+          .where(
+            "doctorId",
+            isEqualTo: widget.nutritionistId,
+          )
+          .withConverter(
+            fromFirestore: Appointments.fromFirestore,
+            toFirestore: (Appointments ptn, _) => ptn.toFirestore(),
+          );
+      await docRef.get().then(
+        (querySnapshot) {
+          if (querySnapshot.docs.isNotEmpty) {
+            appointments = querySnapshot.docs;
+          }
+        },
+      );
+    }
   }
 
   @override
@@ -290,23 +248,122 @@ class _NutritionistProfileScreenState extends State<NutritionistProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Time Schedule',
-                            style: appstyle(15, Colors.black, FontWeight.w600),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      tabIndex = 0;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 25,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: tabIndex == 0
+                                              ? customColor
+                                              : Colors.grey,
+                                          width: tabIndex == 0 ? 1 : 0.5,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'About',
+                                      style: appstyle(
+                                          15, Colors.black, FontWeight.w600),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      tabIndex = 1;
+                                    });
+                                  },
+                                  child: Container(
+                                    height: 25,
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: tabIndex != 0
+                                              ? customColor
+                                              : Colors.grey,
+                                          width: tabIndex != 0 ? 1 : 0.5,
+                                        ),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      'Schedules',
+                                      style: appstyle(
+                                          15, Colors.black, FontWeight.w600),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          const Divider(thickness: 1),
-                          _buildSchedule(),
                           const SizedBox(height: 20),
-                          Text(
-                            'About Me',
-                            style: appstyle(15, Colors.black, FontWeight.w600),
-                          ),
-                          const Divider(thickness: 1),
-                          Text(
-                            doctor!.about,
-                            style: appstyle(13, Colors.black, FontWeight.w500),
-                            maxLines: 10,
-                            overflow: TextOverflow.visible,
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: tabIndex == 0
+                                ? [
+                                    Text(
+                                      'About Me',
+                                      style: appstyle(
+                                          15, Colors.black, FontWeight.w600),
+                                    ),
+                                    Text(
+                                      doctor!.about,
+                                      style: appstyle(
+                                          13, Colors.black, FontWeight.w500),
+                                      maxLines: 10,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                    const Divider(thickness: 1),
+                                    Text(
+                                      'Specialization',
+                                      style: appstyle(
+                                          15, Colors.black, FontWeight.w600),
+                                    ),
+                                    Text(
+                                      doctor!.specialties,
+                                      style: appstyle(
+                                          13, Colors.black, FontWeight.w500),
+                                      maxLines: 10,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  ]
+                                : [
+                                    SizedBox(
+                                      height: 400,
+                                      width: double.infinity,
+                                      child: SfCalendar(
+                                        controller: _calendarController,
+                                        headerStyle: const CalendarHeaderStyle(
+                                            textAlign: TextAlign.left),
+                                        view: CalendarView.month,
+                                        dataSource: AppointmentSchedules(
+                                            getAppointments()),
+                                        monthViewSettings:
+                                            const MonthViewSettings(
+                                          appointmentDisplayMode:
+                                              MonthAppointmentDisplayMode
+                                                  .indicator,
+                                          showAgenda: true,
+                                          appointmentDisplayCount: 5,
+                                        ),
+                                        initialSelectedDate: DateTime.now(),
+                                      ),
+                                    ),
+                                  ],
                           ),
                         ],
                       ),
@@ -335,5 +392,11 @@ class _NutritionistProfileScreenState extends State<NutritionistProfileScreen> {
         ),
       ),
     );
+  }
+}
+
+class AppointmentSchedules extends CalendarDataSource {
+  AppointmentSchedules(List<Appointment> source) {
+    appointments = source;
   }
 }
