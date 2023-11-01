@@ -54,13 +54,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         FirebaseFirestore.instance.collection('patient').doc(userUID);
 
     Patient user = Patient(
-        uid: docUser.id,
-        firstname: _firstname.text,
-        lastname: _lastname.text,
-        email: _email.text,
-        image: defaultProfile,
-        phone: "",
-        isOnline: false);
+      uid: docUser.id,
+      firstname: _firstname.text,
+      lastname: _lastname.text,
+      email: _email.text,
+      image: defaultProfile,
+      phone: "",
+      isOnline: false,
+      lastActive: DateTime.now(),
+    );
 
     final json = user.toJson();
     await docUser.set(json);

@@ -128,6 +128,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       image: patient.image,
       phone: _phone.text,
       isOnline: patient.isOnline,
+      lastActive: DateTime.now(),
     );
 
     PatientNutrition updatedNutrition = PatientNutrition(

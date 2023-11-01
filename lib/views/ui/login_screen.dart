@@ -48,6 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 .signInWithEmailAndPassword(_username.text, _password.text);
             // ignore: unnecessary_null_comparison
             if (userUID != null) {
+              updateUserStatus(userUID);
               widget.onSignIn!();
             }
           } on FirebaseAuthException catch (e) {
@@ -80,6 +81,13 @@ class _LoginScreenState extends State<LoginScreen> {
         isLoading = false;
       });
     }
+  }
+
+  Future<void> updateUserStatus(String userUID) async {
+    await FirebaseFirestore.instance.collection('patient').doc(userUID).update({
+      "isOnline": true,
+      "lastActive": DateTime.now(),
+    });
   }
 
   @override

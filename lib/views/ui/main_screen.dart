@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:nutri_gabay/views/shared/drawer_tile.dart';
@@ -11,12 +12,16 @@ import '../../controllers/mainscreen_provider.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import '../shared/bottom_nav.dart';
 
-// ignore: must_be_immutable
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   final BaseAuth auth;
   final VoidCallback onSignOut;
-  MainScreen({super.key, required this.auth, required this.onSignOut});
+  const MainScreen({super.key, required this.auth, required this.onSignOut});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   late Size screenSize;
 
@@ -26,6 +31,44 @@ class MainScreen extends StatelessWidget {
     MyNutritionistListPage(),
     CalculatorScreen()
   ];
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    super.didChangeAppLifecycleState(state);
+    String uid = await widget.auth.currentUser();
+    switch (state) {
+      case AppLifecycleState.resumed:
+        await FirebaseFirestore.instance.collection('patient').doc(uid).update(
+          {
+            "isOnline": true,
+            "lastActive": DateTime.now(),
+          },
+        );
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.detached:
+        await FirebaseFirestore.instance.collection('patient').doc(uid).update(
+          {
+            "isOnline": false,
+          },
+        );
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
