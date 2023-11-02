@@ -50,24 +50,22 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     String uid = await widget.auth.currentUser();
     switch (state) {
       case AppLifecycleState.resumed:
-        await FirebaseFirestore.instance.collection('patient').doc(uid).update(
-          {
-            "isOnline": true,
-            "lastActive": DateTime.now(),
-          },
-        );
+        updateUserStatus(uid, true);
         break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
       case AppLifecycleState.hidden:
       case AppLifecycleState.detached:
-        await FirebaseFirestore.instance.collection('patient').doc(uid).update(
-          {
-            "isOnline": false,
-          },
-        );
+        updateUserStatus(uid, false);
         break;
     }
+  }
+
+  Future<void> updateUserStatus(String userUID, bool isOnline) async {
+    await FirebaseFirestore.instance.collection('doctor').doc(userUID).update({
+      "isOnline": isOnline,
+      "lastActive": DateTime.now(),
+    });
   }
 
   @override
@@ -151,7 +149,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   DrawerTile(
                     icon: "logout.png",
                     title: "Logout",
-                    onTap: () {
+                    onTap: () async {
+                      String uid = await widget.auth.currentUser();
+                      updateUserStatus(uid, false);
                       FireBaseAuth()
                           .signOut()
                           .then((value) async => Phoenix.rebirth(context));
