@@ -559,7 +559,77 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
                                 maximum: 3,
                                 isRequired: false,
                               ),
-                              const SizedBox(height: 100)
+                              const SizedBox(height: 50),
+                              SizedBox(
+                                  width: double.infinity,
+                                  child: Text.rich(
+                                    TextSpan(
+                                      style: appstyle(
+                                          12, Colors.black, FontWeight.normal),
+                                      children: [
+                                        const TextSpan(
+                                            text:
+                                                'Ref. Vellas B, Villars H, Abellan G, et al. Overview of the MNA® - Its History and Challenges. '
+                                                'J Nutr Health Aging 2006;10:456-465. Rubenstein LZ, Harker JO, Salva A, Guigoz Y, Vellas B.'),
+                                        TextSpan(
+                                          text:
+                                              ' Screening for Undernutrition in Geriatric Practice: Developing the Short-Form Mini Nutritional Assessment (MNA-SF).',
+                                          style: appstyle(12, Colors.black,
+                                                  FontWeight.normal)
+                                              .copyWith(
+                                                  fontStyle: FontStyle.italic),
+                                        ),
+                                        const TextSpan(
+                                            text:
+                                                ' J. Geront 2001;56A: M366-377.\n'),
+                                        const TextSpan(text: 'Guigoz Y.'),
+                                        TextSpan(
+                                          text:
+                                              ' The Mini-Nutritional Assessment (MNA®) Review of the Literature - What does it tell us?',
+                                          style: appstyle(12, Colors.black,
+                                                  FontWeight.normal)
+                                              .copyWith(
+                                                  fontStyle: FontStyle.italic),
+                                        ),
+                                        const TextSpan(
+                                            text:
+                                                ' J Nutr Health Aging 2006; 10:466-487. Kaiser MJ, Bauer JM, Ramsch C, et al.'),
+                                        TextSpan(
+                                          text:
+                                              ' Validation of the Mini Nutritional Assessment Short-Form (MNA®-SF): A practical tool for identification of nutritional status.',
+                                          style: appstyle(12, Colors.black,
+                                                  FontWeight.normal)
+                                              .copyWith(
+                                                  fontStyle: FontStyle.italic),
+                                        ),
+                                        const TextSpan(
+                                            text:
+                                                ' J Nutr Health Aging 2009; 13:782-788.\n'),
+                                        const TextSpan(
+                                            text:
+                                                '® Société des Produits Nestlé SA, Trademark Owners.\n'),
+                                        const TextSpan(
+                                            text:
+                                                '© Société des Produits Nestlé SA 1994, Revision 2009.\n'),
+                                        TextSpan(
+                                            text: 'For more information:',
+                                            style: appstyle(12, Colors.black,
+                                                FontWeight.bold)),
+                                        TextSpan(
+                                            text: ' www.mna-elderly.com',
+                                            style: appstyle(
+                                                    12,
+                                                    const Color.fromARGB(
+                                                        255, 4, 65, 114),
+                                                    FontWeight.bold)
+                                                .copyWith(
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            )),
+                                      ],
+                                    ),
+                                  )),
+                              const SizedBox(height: 50)
                             ],
                           ),
                         ),

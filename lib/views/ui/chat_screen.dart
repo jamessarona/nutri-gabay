@@ -242,16 +242,6 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ],
                 ),
-                actions: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      FontAwesomeIcons.phone,
-                      size: 20,
-                      color: customColor,
-                    ),
-                  ),
-                ],
               ),
               body: SizedBox(
                 height: double.infinity,
@@ -369,6 +359,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         },
                       ),
                     ),
+                    const SizedBox(height: 10),
                     Container(
                       height: 50,
                       width: double.infinity,

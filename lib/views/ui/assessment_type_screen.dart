@@ -31,6 +31,9 @@ class _AssessmentTypeScreenState extends State<AssessmentTypeScreen> {
   int selectedType = 0;
   Stream<List<AssessmentType>> readPatientType() => FirebaseFirestore.instance
       .collection('assessment_type')
+      .where(
+        Filter.or(Filter("id", isEqualTo: "2"), Filter("id", isEqualTo: "3")),
+      )
       .snapshots()
       .map((snapshot) => snapshot.docs
           .map((doc) => AssessmentType.fromJson(doc.data()))
@@ -106,9 +109,7 @@ class _AssessmentTypeScreenState extends State<AssessmentTypeScreen> {
                                   : null,
                               color: int.parse(document.id) < 3
                                   ? customColor[20]
-                                  : int.parse(document.id) > 3
-                                      ? customColor[40]
-                                      : customColor[30],
+                                  : customColor[30],
                             ),
                             height: 100,
                             width: screenSize.width,

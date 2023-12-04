@@ -192,17 +192,59 @@ class _NutritionistMonitoringScreenState
                           child: Row(
                             children: [
                               const SizedBox(width: 20),
-                              const Icon(
-                                FontAwesomeIcons.phone,
-                                size: 60,
-                                color: Colors.white,
+                              SizedBox(
+                                height: 80,
+                                child: Image.asset('assets/icons/chat.png'),
                               ),
+                              const SizedBox(width: 20),
                               Expanded(
                                 child: Text(
-                                  'Chat and Video\nConferencing',
+                                  'Chat',
                                   style: appstyle(
                                       25, Colors.white, FontWeight.bold),
-                                  textAlign: TextAlign.center,
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                NutritionistInterventionScreen(
+                                    appointmentId: appointment!.id),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          left: screenSize.width * 0.05,
+                          right: screenSize.width * 0.05,
+                        ),
+                        height: 120,
+                        width: double.infinity,
+                        child: Card(
+                          color: customColor,
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                height: 80,
+                                child: Image.asset(
+                                    'assets/icons/nutri-intervention.png'),
+                              ),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: Text(
+                                  'Nutrition\nIntervention',
+                                  style: appstyle(
+                                      25, Colors.white, FontWeight.bold),
+                                  textAlign: TextAlign.start,
                                 ),
                               ),
                             ],
@@ -215,96 +257,25 @@ class _NutritionistMonitoringScreenState
                         left: screenSize.width * 0.05,
                         right: screenSize.width * 0.05,
                       ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: SizedBox(
-                              height: 120,
-                              child: Card(
-                                color: customColor[10],
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      FontAwesomeIcons.fileCircleExclamation,
-                                      size: 40,
-                                      color: Colors.white,
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text(
-                                      'Diagnosis\nUpdate',
-                                      style: appstyle(
-                                          15, Colors.white, FontWeight.bold),
-                                      textAlign: TextAlign.center,
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        NutritionistInterventionScreen(
-                                            appointmentId: appointment!.id),
-                                  ),
-                                );
-                              },
-                              child: SizedBox(
-                                height: 120,
-                                child: Card(
-                                  color: customColor,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(
-                                        FontAwesomeIcons.fileCircleExclamation,
-                                        size: 40,
-                                        color: Colors.white,
-                                      ),
-                                      const SizedBox(height: 10),
-                                      Text(
-                                        'Nutrition\nIntervention',
-                                        style: appstyle(
-                                            15, Colors.white, FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        left: screenSize.width * 0.05,
-                        right: screenSize.width * 0.05,
-                      ),
                       height: 120,
                       width: double.infinity,
                       child: Card(
-                        color: customColor[50],
+                        color: customColor[10],
                         child: Row(
                           children: [
                             const SizedBox(width: 20),
-                            const Icon(
-                              FontAwesomeIcons.fileCircleExclamation,
-                              size: 60,
-                              color: Colors.white,
+                            SizedBox(
+                              height: 80,
+                              child: Image.asset(
+                                  'assets/icons/monitoring-evaluation.png'),
                             ),
+                            const SizedBox(width: 20),
                             Expanded(
                               child: Text(
                                 'Monitoring and\nEvaluation',
                                 style:
                                     appstyle(25, Colors.white, FontWeight.bold),
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.start,
                               ),
                             ),
                           ],
