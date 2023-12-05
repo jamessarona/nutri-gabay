@@ -4,6 +4,7 @@ import 'package:nutri_gabay/models/assessment_type_controller.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/button_widget.dart';
+import 'package:nutri_gabay/views/ui/assessment_adult_screen.dart';
 import 'package:nutri_gabay/views/ui/assessment_elderly_screen.dart';
 
 class AssessmentTypeScreen extends StatefulWidget {
@@ -181,6 +182,19 @@ class _AssessmentTypeScreenState extends State<AssessmentTypeScreen> {
                               ),
                             );
                           } else if (selectedType == 3) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AssessmentAdultScreen(
+                                  auth: widget.auth,
+                                  height: widget.height,
+                                  weight: widget.weight,
+                                  age: widget.age,
+                                  sex: widget.sex,
+                                  category: selectedType,
+                                ),
+                              ),
+                            );
                           } else if (selectedType == 4) {
                           } else if (selectedType == 5) {
                           } else if (selectedType == 6) {}

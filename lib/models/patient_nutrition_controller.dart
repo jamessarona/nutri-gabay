@@ -22,6 +22,8 @@ class PatientNutrition {
   final String status;
   final double points;
   final String result;
+  final double idealPoints;
+  final String idealResult;
 
   PatientNutrition({
     required this.id,
@@ -37,6 +39,8 @@ class PatientNutrition {
     required this.status,
     required this.points,
     required this.result,
+    required this.idealPoints,
+    required this.idealResult,
   });
 
   factory PatientNutrition.fromJson(Map<String, dynamic> json) =>
@@ -54,6 +58,8 @@ class PatientNutrition {
         status: json["status"],
         points: json["points"],
         result: json["result"],
+        idealPoints: json["idealPoints"],
+        idealResult: json["idealResult"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -70,6 +76,8 @@ class PatientNutrition {
         "status": status,
         "points": points,
         "result": result,
+        "idealPoints": idealPoints,
+        "idealResult": idealResult,
       };
 
   factory PatientNutrition.fromFirestore(
@@ -91,6 +99,8 @@ class PatientNutrition {
       status: data?["status"],
       points: data?["points"],
       result: data?["result"],
+      idealPoints: data?["idealPoints"],
+      idealResult: data?["idealResult"],
     );
   }
 
@@ -109,6 +119,8 @@ class PatientNutrition {
       "status": status,
       "points": points,
       "result": result,
+      "idealPoints": idealPoints,
+      "idealResult": idealResult,
     };
   }
 }

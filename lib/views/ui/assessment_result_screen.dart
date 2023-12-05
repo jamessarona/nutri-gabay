@@ -148,26 +148,62 @@ class _AssessmentResultScreenState extends State<AssessmentResultScreen> {
                                 fontSize: 25,
                               ),
                               const SizedBox(height: 30),
-                              Text(
-                                basis[1],
-                                style:
-                                    appstyle(13, Colors.black, FontWeight.w800),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 30),
-                              Text(
-                                "Your mini Nutritional Assessment",
-                                style:
-                                    appstyle(12, Colors.black, FontWeight.bold),
-                                textAlign: TextAlign.center,
-                              ),
-                              const SizedBox(height: 10),
-                              CircularContainer(
-                                height: 50,
-                                weight: 250,
-                                title:
-                                    "${patientNutrition.points.toInt()} points - ${patientNutrition.result}",
-                                fontSize: 15,
+                              Column(
+                                children: patientNutrition.category == 1
+                                    ? [
+                                        Text(
+                                          basis[1],
+                                          style: appstyle(13, Colors.black,
+                                              FontWeight.w800),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(height: 30),
+                                        Text(
+                                          "Your mini Nutritional Assessment",
+                                          style: appstyle(12, Colors.black,
+                                              FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(height: 10),
+                                        CircularContainer(
+                                          height: 50,
+                                          weight: 250,
+                                          title:
+                                              "${patientNutrition.points.toInt()} points - ${patientNutrition.result}",
+                                          fontSize: 15,
+                                        ),
+                                      ]
+                                    : [
+                                        Text(
+                                          "Body Weight and Nutritional Risk - IBW",
+                                          style: appstyle(12, Colors.black,
+                                              FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(height: 10),
+                                        CircularContainer(
+                                          height: 50,
+                                          weight: 250,
+                                          title:
+                                              "${patientNutrition.points.toStringAsFixed(2)}%: ${patientNutrition.result != "" ? " ${patientNutrition.result}" : "N/A"}",
+                                          fontSize: 15,
+                                        ),
+                                        const SizedBox(height: 10),
+                                        Text(
+                                          "Body Weight and Nutritional Risk - UBW",
+                                          style: appstyle(12, Colors.black,
+                                              FontWeight.bold),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        const SizedBox(height: 10),
+                                        CircularContainer(
+                                          height: 50,
+                                          weight: 250,
+                                          title:
+                                              "${patientNutrition.idealPoints.toStringAsFixed(2)}%: ${patientNutrition.idealResult != "" ? "${patientNutrition.idealResult}" : "N/A"}",
+                                          fontSize: 15,
+                                        ),
+                                      ],
                               ),
                               const SizedBox(height: 60),
                               SizedBox(
@@ -190,6 +226,7 @@ class _AssessmentResultScreenState extends State<AssessmentResultScreen> {
                                   labelSize: 15,
                                 ),
                               ),
+                              const SizedBox(height: 10),
                             ],
                           )
                         ],

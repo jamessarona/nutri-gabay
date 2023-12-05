@@ -169,20 +169,21 @@ class _AssessmentElderlyScreenState extends State<AssessmentElderlyScreen> {
 
     assessmentId = docNutrition.id;
     PatientNutrition user = PatientNutrition(
-      id: docNutrition.id,
-      uid: uid,
-      height: double.parse(widget.height),
-      weight: double.parse(widget.weight),
-      date: DateFormat('MM/dd/yyyy').format(DateTime.now()),
-      birthdate: '',
-      age: int.parse(widget.age),
-      sex: widget.sex,
-      bmi: calculateBmi(),
-      category: widget.category,
-      status: getBmiStatus(),
-      points: calculateAssessment(),
-      result: getAssessmentResult(),
-    );
+        id: docNutrition.id,
+        uid: uid,
+        height: double.parse(widget.height),
+        weight: double.parse(widget.weight),
+        date: DateFormat('MM/dd/yyyy').format(DateTime.now()),
+        birthdate: '',
+        age: int.parse(widget.age),
+        sex: widget.sex,
+        bmi: calculateBmi(),
+        category: widget.category,
+        status: getBmiStatus(),
+        points: calculateAssessment(),
+        result: getAssessmentResult(),
+        idealPoints: 0.0,
+        idealResult: "");
 
     final json = user.toJson();
     if (nutritionProfile == null) {

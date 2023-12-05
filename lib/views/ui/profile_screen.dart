@@ -145,6 +145,8 @@ class ProfileScreenState extends State<ProfileScreen> {
       status: nutritionProfile.status,
       points: nutritionProfile.points,
       result: nutritionProfile.result,
+      idealPoints: nutritionProfile.idealPoints,
+      idealResult: nutritionProfile.idealResult,
     );
 
     final patientJson = updatedPatient.toJson();

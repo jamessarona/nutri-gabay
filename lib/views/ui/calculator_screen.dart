@@ -130,6 +130,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       status: getBmiStatus(),
       points: nutritionProfile.points,
       result: nutritionProfile.result,
+      idealPoints: nutritionProfile.idealPoints,
+      idealResult: nutritionProfile.idealResult,
     );
 
     final json = nutrition.toJson();
