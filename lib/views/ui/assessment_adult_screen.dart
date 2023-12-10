@@ -100,7 +100,7 @@ class _AssessmentAdultScreenState extends State<AssessmentAdultScreen> {
     String percent =
         ((double.parse(_actual.text) / double.parse(_usual.text)) * 100)
             .toStringAsFixed(2);
-    return double.parse(percent);
+    return double.parse(percent) < 100 ? double.parse(percent) : 100;
   }
 
   String getUsualBodyWeightResult() {
@@ -113,6 +113,8 @@ class _AssessmentAdultScreenState extends State<AssessmentAdultScreen> {
       result = "Risk of moderate malnutrition";
     } else if (percent <= 95) {
       result = "Risk of mild malnutrition";
+    } else {
+      result = 'No risk of malnutrition';
     }
     return result;
   }
@@ -121,7 +123,7 @@ class _AssessmentAdultScreenState extends State<AssessmentAdultScreen> {
     String percent =
         ((double.parse(_actual.text) / double.parse(_ideal.text)) * 100)
             .toStringAsFixed(2);
-    return double.parse(percent);
+    return double.parse(percent) < 100 ? double.parse(percent) : 100;
   }
 
   String getIdealBodyWeightResult() {
@@ -134,6 +136,8 @@ class _AssessmentAdultScreenState extends State<AssessmentAdultScreen> {
       result = "Risk of moderate malnutrition";
     } else if (percent <= 90) {
       result = "Risk of mild malnutrition";
+    } else {
+      result = 'No risk of malnutrition';
     }
     return result;
   }
