@@ -149,6 +149,8 @@ class _NutritionistInterventionScreenState
                                         data['name'],
                                         style: appstyle(
                                             14, Colors.black, FontWeight.bold),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
                                       ),
                                       Text(
                                         'Informative',

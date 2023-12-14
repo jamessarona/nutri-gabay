@@ -5,6 +5,7 @@ import 'package:nutri_gabay/models/doctor.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/custom_card.dart';
 import 'package:nutri_gabay/views/ui/chat_screen.dart';
+import 'package:nutri_gabay/views/ui/monitoring_evaluation_screen.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_intervention_screen.dart';
 
 class NutritionistMonitoringScreen extends StatefulWidget {
@@ -251,33 +252,44 @@ class _NutritionistMonitoringScreenState
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        left: screenSize.width * 0.05,
-                        right: screenSize.width * 0.05,
-                      ),
-                      height: 120,
-                      width: double.infinity,
-                      child: Card(
-                        color: customColor[10],
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 20),
-                            SizedBox(
-                              height: 80,
-                              child: Image.asset(
-                                  'assets/icons/monitoring-evaluation.png'),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              child: Text(
-                                'Monitoring and\nEvaluation',
-                                style:
-                                    appstyle(25, Colors.white, FontWeight.bold),
-                                textAlign: TextAlign.start,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MonitoringEvaluationScreen(
+                                appointmentId: appointment!.id),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          left: screenSize.width * 0.05,
+                          right: screenSize.width * 0.05,
+                        ),
+                        height: 120,
+                        width: double.infinity,
+                        child: Card(
+                          color: customColor[10],
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                height: 80,
+                                child: Image.asset(
+                                    'assets/icons/monitoring-evaluation.png'),
                               ),
-                            ),
-                          ],
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: Text(
+                                  'Monitoring and\nEvaluation',
+                                  style: appstyle(
+                                      25, Colors.white, FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
