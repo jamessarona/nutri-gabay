@@ -76,7 +76,8 @@ class _AssessmentAdultScreenState extends State<AssessmentAdultScreen> {
   }
 
   double calculateBmi() {
-    double height = (double.parse(widget.height) / 100) * 2;
+    double height = (double.parse(widget.height) / 100);
+    height = height * height;
     double weight = double.parse(widget.weight);
     return double.parse((weight / height).toStringAsFixed(2));
   }

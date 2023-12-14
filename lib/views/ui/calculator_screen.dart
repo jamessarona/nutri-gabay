@@ -87,7 +87,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   }
 
   double calculateBmi() {
-    double height = (double.parse(_height.text) / 100) * 2;
+    double height = (double.parse(_height.text) / 100);
+    height = height * height;
     double weight = double.parse(_weight.text) / (unit ? 2.2 : 1);
     return double.parse((weight / height).toStringAsFixed(2));
   }
