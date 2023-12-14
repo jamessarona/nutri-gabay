@@ -56,7 +56,7 @@ class BookingContainerButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 40,
-        width: 140,
+        width: 150,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(width: 2),

@@ -541,7 +541,7 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
                           const SizedBox(height: 20),
                           Center(
                             child: SizedBox(
-                              width: 140,
+                              width: 150,
                               child: UserCredentialPrimaryButton(
                                   onPress: () {
                                     if (bookingDate != null &&

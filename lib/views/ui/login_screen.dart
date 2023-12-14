@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(
                           height: 50,
-                          width: screenSize.width * 0.6,
+                          width: 250,
                           child: UserCredentialPrimaryButton(
                             onPress: () {
                               validation();
@@ -198,7 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(
                           height: 40,
-                          width: screenSize.width * 0.5,
+                          width: 220,
                           child: UserCredentialSecondaryButton(
                             onPress: () {
                               Navigator.of(context).push(

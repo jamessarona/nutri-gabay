@@ -199,7 +199,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const SizedBox(height: 30),
                         SizedBox(
                           height: 50,
-                          width: screenSize.width * 0.6,
+                          width: 250,
                           child: UserCredentialPrimaryButton(
                             onPress: () async {
                               isEmailExist = false;

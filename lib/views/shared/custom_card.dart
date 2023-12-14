@@ -242,7 +242,7 @@ class NutritionistListTile extends StatelessWidget {
                         children: [
                           SizedBox(
                             height: 25,
-                            width: 80,
+                            width: 95,
                             child: UserCredentialSecondaryButton(
                               onPress: () {
                                 Navigator.push(

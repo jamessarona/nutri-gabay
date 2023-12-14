@@ -264,7 +264,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                   child: ListView(
                     children: [
                       Container(
-                        height: screenSize.height * 0.3,
+                        height: 250,
                         decoration: const BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.bottomCenter,
@@ -397,7 +397,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 ? Container(
                                     margin: const EdgeInsets.only(top: 10),
                                     height: 28,
-                                    width: 95,
+                                    width: 110,
                                     decoration: BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(

@@ -373,7 +373,7 @@ class _NutritionistProfileScreenState extends State<NutritionistProfileScreen> {
         ),
         floatingActionButton: SizedBox(
           height: 35,
-          width: 80,
+          width: 95,
           child: UserCredentialSecondaryButton(
             onPress: () {
               Navigator.push(
