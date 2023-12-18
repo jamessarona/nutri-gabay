@@ -172,7 +172,7 @@ class NutritionistListTile extends StatelessWidget {
           left: screenSize.width * 0.02,
           right: screenSize.width * 0.02,
         ),
-        height: 150,
+        height: 160,
         width: double.infinity,
         child: Card(
           color: Colors.white,
@@ -188,8 +188,8 @@ class NutritionistListTile extends StatelessWidget {
                       color: customColor, shape: BoxShape.circle),
                   child: ClipOval(
                     child: SizedBox.fromSize(
-                      size: const Size.fromRadius(48),
-                      child: Image.network(image, fit: BoxFit.fill),
+                      size: const Size.fromRadius(1),
+                      child: Image.network(image, fit: BoxFit.cover),
                     ),
                   ),
                 ),

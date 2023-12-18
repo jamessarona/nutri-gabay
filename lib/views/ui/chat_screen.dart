@@ -191,9 +191,11 @@ class _ChatScreenState extends State<ChatScreen> {
                                 30,
                               ),
                             ),
-                            child: Image.network(
-                              doctor!.image,
-                              fit: BoxFit.fill,
+                            child: ClipOval(
+                              child: Image.network(
+                                doctor!.image,
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                           Positioned(
