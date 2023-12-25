@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nutri_gabay/models/diagnosis.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_diagnosis_detail_screen.dart';
 
