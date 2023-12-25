@@ -184,7 +184,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                 screenSize: screenSize,
                                 colorIndex: 0,
                                 image: "reassessment.png",
-                                title: "Reassessment",
+                                title: "Rescreen",
                                 onTap: () {
                                   Navigator.push(
                                     context,

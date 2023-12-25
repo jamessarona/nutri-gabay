@@ -6,6 +6,8 @@ import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/custom_card.dart';
 import 'package:nutri_gabay/views/ui/chat_screen.dart';
 import 'package:nutri_gabay/views/ui/monitoring_evaluation_screen.dart';
+import 'package:nutri_gabay/views/ui/nutritionist_assessment_screen.dart';
+import 'package:nutri_gabay/views/ui/nutritionist_diagnosis_screen.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_intervention_screen.dart';
 
 class NutritionistMonitoringScreen extends StatefulWidget {
@@ -200,6 +202,90 @@ class _NutritionistMonitoringScreenState
                               Expanded(
                                 child: Text(
                                   'Chat',
+                                  style: appstyle(
+                                      25, Colors.white, FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NutritionAssessmentScreen(
+                              appointmentId: appointment!.id,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          left: screenSize.width * 0.05,
+                          right: screenSize.width * 0.05,
+                        ),
+                        height: 120,
+                        width: double.infinity,
+                        child: Card(
+                          color: customColor,
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                height: 80,
+                                child: Image.asset(
+                                    'assets/icons/nutrition-assessment.png'),
+                              ),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: Text(
+                                  'Nutrition\nAssessment',
+                                  style: appstyle(
+                                      25, Colors.white, FontWeight.bold),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NutritionistDiagnosisScreen(
+                              appointmentId: appointment!.id,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          left: screenSize.width * 0.05,
+                          right: screenSize.width * 0.05,
+                        ),
+                        height: 120,
+                        width: double.infinity,
+                        child: Card(
+                          color: customColor[10],
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 20),
+                              SizedBox(
+                                height: 80,
+                                child:
+                                    Image.asset('assets/icons/diagnosis.png'),
+                              ),
+                              const SizedBox(width: 20),
+                              Expanded(
+                                child: Text(
+                                  'Nutrition\nDiagnosis',
                                   style: appstyle(
                                       25, Colors.white, FontWeight.bold),
                                   textAlign: TextAlign.start,

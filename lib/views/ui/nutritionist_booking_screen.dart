@@ -382,7 +382,7 @@ class _NutritionistBookingScreenState extends State<NutritionistBookingScreen> {
                           ),
                           const SizedBox(height: 10),
                           Text(
-                            'Is there anything else you would like us to know?',
+                            'Reason for your consultation?',
                             style:
                                 appstyle(12, Colors.black, FontWeight.normal),
                           ),
