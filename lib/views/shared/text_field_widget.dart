@@ -308,3 +308,68 @@ class BookingLongTextField extends StatelessWidget {
     );
   }
 }
+
+class AssessmentLabeledTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final TextInputType keyboardType;
+  final bool isEditable;
+  final FormFieldValidator<String>? validation;
+  final void Function()? onTap;
+  final void Function(String)? onChanged;
+  const AssessmentLabeledTextField({
+    super.key,
+    required this.controller,
+    required this.label,
+    required this.keyboardType,
+    required this.isEditable,
+    this.validation,
+    this.onTap,
+    this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(
+          height: 30,
+          width: 50,
+          child: TextFormField(
+            controller: controller,
+            keyboardType: keyboardType,
+            validator: validation,
+            enabled: isEditable,
+            onChanged: onChanged,
+            inputFormatters: keyboardType == TextInputType.number
+                ? <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r"[0-9]")),
+                  ]
+                : null,
+            style: appstyle(12, Colors.black, FontWeight.normal),
+            decoration: InputDecoration(
+              errorStyle: appstyle(0, Colors.black, FontWeight.bold),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: const BorderSide(color: customColor),
+              ),
+              filled: true,
+              focusColor: customColor,
+              fillColor: Colors.white70,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Text(
+          label,
+          style: appstyle(13, Colors.black, FontWeight.normal),
+        ),
+      ],
+    );
+  }
+}

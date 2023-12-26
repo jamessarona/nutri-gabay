@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/button_widget.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_create_assessment_screen.dart';
+import 'package:nutri_gabay/views/ui/nutritionist_view_assessment_screen.dart';
 
 class NutritionAssessmentScreen extends StatefulWidget {
   final String appointmentId;
@@ -98,7 +99,7 @@ class _NutritionAssessmentScreenState extends State<NutritionAssessmentScreen> {
                     }
 
                     int assessmentCount = 0;
-                    return ListView(
+                    return Column(
                       children: snapshot.data!.docs
                           .map((DocumentSnapshot document) {
                             Map<String, dynamic> data =
@@ -106,18 +107,16 @@ class _NutritionAssessmentScreenState extends State<NutritionAssessmentScreen> {
                             assessmentCount++;
                             return GestureDetector(
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) =>
-                                //         UnansweredQuestionScreen(
-                                //       appointmentId: widget.appointmentId,
-                                //       formId: data['uid'],
-                                //       name: data['name'],
-                                //       date: data['date'].toDate(),
-                                //     ),
-                                //   ),
-                                // );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NutritionistViewAssessmentScreen(
+                                      appointmentId: widget.appointmentId,
+                                      assessmentId: data['id'],
+                                    ),
+                                  ),
+                                );
                               },
                               child: Container(
                                 decoration: BoxDecoration(
