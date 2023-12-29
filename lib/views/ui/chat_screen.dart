@@ -83,12 +83,14 @@ class _ChatScreenState extends State<ChatScreen> {
           .doc();
 
       Message message = Message(
-          id: messageDoc.id,
-          senderId: widget.patientId,
-          receiverId: widget.doctorId,
-          content: textController.text,
-          sentTime: DateTime.now(),
-          messageType: MessageType.text);
+        id: messageDoc.id,
+        senderId: widget.patientId,
+        receiverId: widget.doctorId,
+        content: textController.text,
+        sentTime: DateTime.now(),
+        messageType: MessageType.text,
+        isSeen: false,
+      );
       final json = message.toJson();
 
       await messageDoc.set(json);
@@ -111,12 +113,14 @@ class _ChatScreenState extends State<ChatScreen> {
           .doc();
 
       Message message = Message(
-          id: messageDoc.id,
-          senderId: widget.patientId,
-          receiverId: widget.doctorId,
-          content: '',
-          sentTime: DateTime.now(),
-          messageType: MessageType.image);
+        id: messageDoc.id,
+        senderId: widget.patientId,
+        receiverId: widget.doctorId,
+        content: '',
+        sentTime: DateTime.now(),
+        messageType: MessageType.image,
+        isSeen: false,
+      );
       final json = message.toJson();
 
       await messageDoc.set(json);
