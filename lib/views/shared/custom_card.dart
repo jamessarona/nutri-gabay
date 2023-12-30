@@ -293,6 +293,7 @@ class MyNutritionistListTile extends StatelessWidget {
   final String image;
   final String name;
   final String nutritionistId;
+  final String patientId;
   final String date;
   final int hourStart;
   final int hourEnd;
@@ -304,6 +305,7 @@ class MyNutritionistListTile extends StatelessWidget {
     required this.image,
     required this.name,
     required this.nutritionistId,
+    required this.patientId,
     required this.date,
     required this.hourStart,
     required this.hourEnd,
@@ -335,6 +337,7 @@ class MyNutritionistListTile extends StatelessWidget {
                   builder: (context) => NutritionistMonitoringScreen(
                     appointmentId: appointmentId,
                     nutritionistId: nutritionistId,
+                    patientId: patientId,
                   ),
                 ),
               );

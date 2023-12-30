@@ -152,6 +152,7 @@ class _MyNutritionistListPageState extends State<MyNutritionistListPage> {
                                         name: getNutritionistInfoByField(
                                             data['doctorId'], 'name'),
                                         nutritionistId: data['doctorId'],
+                                        patientId: data['patientId'],
                                         date: data['dateSchedule'],
                                         hourStart: data['hourStart'],
                                         hourEnd: data['hourEnd'],

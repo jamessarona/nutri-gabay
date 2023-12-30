@@ -133,99 +133,95 @@ class _AnsweredQuestionScreenState extends State<AnsweredQuestionScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Expanded(
-                  child: Container(
-                    color: customColor[60],
-                    margin: const EdgeInsets.symmetric(horizontal: 15),
-                    child: questions.isNotEmpty
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: List.generate(questions.length, (index) {
-                              return Container(
-                                height: 170,
-                                width: 1000,
-                                margin: const EdgeInsets.symmetric(
-                                    vertical: 7.5, horizontal: 5),
-                                child: Card(
-                                  color: Colors.white,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10, right: 10, top: 10),
-                                        child: RichText(
-                                          maxLines: 3,
-                                          overflow: TextOverflow.visible,
-                                          text: TextSpan(
-                                            text:
-                                                '${questions[index].number.toString()}. ${questions[index].question}',
-                                            style: appstyle(15, Colors.black,
-                                                FontWeight.normal),
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                text: questions[index].required
-                                                    ? ' *'
-                                                    : '',
-                                                style: appstyle(15, Colors.red,
-                                                    FontWeight.normal),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(child: Container()),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                        ),
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.text,
-                                          style: appstyle(14, Colors.black,
+                Container(
+                  color: customColor[60],
+                  height: 185 * questions.length.toDouble(),
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  child: questions.isNotEmpty
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: List.generate(questions.length, (index) {
+                            return Container(
+                              height: 170,
+                              width: 1000,
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 7.5, horizontal: 5),
+                              child: Card(
+                                color: Colors.white,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10, top: 10),
+                                      child: RichText(
+                                        maxLines: 3,
+                                        overflow: TextOverflow.visible,
+                                        text: TextSpan(
+                                          text:
+                                              '${questions[index].number.toString()}. ${questions[index].question}',
+                                          style: appstyle(15, Colors.black,
                                               FontWeight.normal),
-                                          validator: (value) {
-                                            if (value == '' &&
-                                                questions[index].required) {
-                                              return 'Please answer the question';
-                                            }
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                            border: const UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.black),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text: questions[index].required
+                                                  ? ' *'
+                                                  : '',
+                                              style: appstyle(15, Colors.red,
+                                                  FontWeight.normal),
                                             ),
-                                            focusedBorder:
-                                                const UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.black),
-                                            ),
-                                            filled: false,
-                                            hintText: 'Your answer',
-                                            hintStyle: appstyle(
-                                                13,
-                                                Colors.black,
-                                                FontWeight.normal),
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 0, horizontal: 5),
-                                          ),
-                                          initialValue: questions[index].answer,
-                                          enabled: false,
+                                          ],
                                         ),
                                       ),
-                                      const SizedBox(height: 20),
-                                    ],
-                                  ),
+                                    ),
+                                    Expanded(child: Container()),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                      ),
+                                      child: TextFormField(
+                                        keyboardType: TextInputType.text,
+                                        style: appstyle(14, Colors.black,
+                                            FontWeight.normal),
+                                        validator: (value) {
+                                          if (value == '' &&
+                                              questions[index].required) {
+                                            return 'Please answer the question';
+                                          }
+                                          return null;
+                                        },
+                                        decoration: InputDecoration(
+                                          border: const UnderlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.black),
+                                          ),
+                                          focusedBorder:
+                                              const UnderlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.black),
+                                          ),
+                                          filled: false,
+                                          hintText: 'Your answer',
+                                          hintStyle: appstyle(13, Colors.black,
+                                              FontWeight.normal),
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 0, horizontal: 5),
+                                        ),
+                                        initialValue: questions[index].answer,
+                                        enabled: false,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                  ],
                                 ),
-                              );
-                            }),
-                          )
-                        : Container(),
-                  ),
+                              ),
+                            );
+                          }),
+                        )
+                      : Container(),
                 ),
                 const SizedBox(height: 20),
               ],

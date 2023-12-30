@@ -2,13 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
-import 'package:nutri_gabay/views/ui/nutritionist_file_screen.dart';
+import 'package:nutri_gabay/views/ui/nutritionist_file_detail_screen.dart';
 
 class NutritionistInterventionScreen extends StatefulWidget {
   final String appointmentId;
+  final String doctorId;
+  final String patientId;
   const NutritionistInterventionScreen({
     super.key,
     required this.appointmentId,
+    required this.doctorId,
+    required this.patientId,
   });
 
   @override
@@ -101,7 +105,12 @@ class _NutritionistInterventionScreenState
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (ctx) => NutritionistFileScreen(
+                                  builder: (ctx) =>
+                                      NutritionistFileDetailScreen(
+                                        appointmentId: widget.appointmentId,
+                                        doctorId: widget.doctorId,
+                                        patientId: widget.patientId,
+                                        fileId: data['id'],
                                         fileType: data['type'],
                                         fileUrl: data['url'],
                                         fileName: data['name'],

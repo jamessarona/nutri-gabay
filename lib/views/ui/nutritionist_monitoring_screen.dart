@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nutri_gabay/models/appointment_controller.dart';
+import 'package:nutri_gabay/models/assessment.dart';
+import 'package:nutri_gabay/models/diagnosis.dart';
 import 'package:nutri_gabay/models/doctor.dart';
+import 'package:nutri_gabay/models/form.dart';
 import 'package:nutri_gabay/models/message_controller.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/custom_card.dart';
@@ -15,10 +18,12 @@ import 'package:badges/badges.dart' as badges;
 class NutritionistMonitoringScreen extends StatefulWidget {
   final String appointmentId;
   final String nutritionistId;
+  final String patientId;
   const NutritionistMonitoringScreen({
     super.key,
     required this.appointmentId,
     required this.nutritionistId,
+    required this.patientId,
   });
 
   @override
@@ -44,7 +49,10 @@ class _NutritionistMonitoringScreenState
         .collection('appointment')
         .doc(widget.appointmentId)
         .collection('chat')
-        .where("isSeen", isEqualTo: false)
+        .where(
+          Filter.and(Filter("isSeen", isEqualTo: false),
+              Filter("receiverId", isEqualTo: widget.patientId)),
+        )
         .withConverter(
           fromFirestore: Message.fromFirestore,
           toFirestore: (Message msg, _) => msg.toFirestore(),
@@ -53,24 +61,81 @@ class _NutritionistMonitoringScreenState
     await collection.get().then(
       (querySnapshot) {
         chatCount = querySnapshot.docs.length;
-        setState(() {});
       },
     );
   }
 
   Future<void> getNewAssessmentCount() async {
-    setState(() {});
+    final collection = FirebaseFirestore.instance
+        .collection('appointment')
+        .doc(widget.appointmentId)
+        .collection('assessment')
+        .withConverter(
+          fromFirestore: Assessment.fromFirestore,
+          toFirestore: (Assessment assessment, _) => assessment.toFirestore(),
+        );
+
+    await collection.get().then(
+      (querySnapshot) {
+        assessmentCount = querySnapshot.docs.length;
+      },
+    );
   }
 
   Future<void> getNewDiagnosisCount() async {
-    setState(() {});
+    final collection = FirebaseFirestore.instance
+        .collection('appointment')
+        .doc(widget.appointmentId)
+        .collection('diagnosis')
+        .withConverter(
+          fromFirestore: Diagnosis.fromFirestore,
+          toFirestore: (Diagnosis diagnosis, _) => diagnosis.toFirestore(),
+        );
+
+    await collection.get().then(
+      (querySnapshot) {
+        diagnosisCount = querySnapshot.docs.length;
+      },
+    );
   }
 
   Future<void> getNewInterventionCount() async {
-    setState(() {});
+    final collection = FirebaseFirestore.instance
+        .collection('appointment')
+        .doc(widget.appointmentId)
+        .collection('files');
+
+    await collection.get().then(
+      (querySnapshot) {
+        interventionCount = querySnapshot.docs.length;
+      },
+    );
   }
 
   Future<void> getNewMonitoringCount() async {
+    final collection = FirebaseFirestore.instance
+        .collection('appointment')
+        .doc(widget.appointmentId)
+        .collection('form')
+        .where("answered", isEqualTo: false)
+        .withConverter(
+          fromFirestore: FormQuestion.fromFirestore,
+          toFirestore: (FormQuestion fq, _) => fq.toFirestore(),
+        );
+
+    await collection.get().then(
+      (querySnapshot) {
+        monitoringCount = querySnapshot.docs.length;
+      },
+    );
+  }
+
+  Future<void> getUpdates() async {
+    await getNewChatCount();
+    await getNewAssessmentCount();
+    await getNewDiagnosisCount();
+    await getNewInterventionCount();
+    await getNewMonitoringCount();
     setState(() {});
   }
 
@@ -148,11 +213,7 @@ class _NutritionistMonitoringScreenState
   void initState() {
     getNutritionist();
     getAppointment();
-    getNewChatCount();
-    getNewAssessmentCount();
-    getNewDiagnosisCount();
-    getNewInterventionCount();
-    getNewMonitoringCount();
+    getUpdates();
     super.initState();
   }
 
@@ -211,6 +272,7 @@ class _NutritionistMonitoringScreenState
                       image: doctor!.image,
                       name: doctor!.name,
                       nutritionistId: doctor!.uid,
+                      patientId: widget.patientId,
                       date: appointment!.dateSchedule,
                       hourStart: appointment!.hourStart,
                       hourEnd: appointment!.hourEnd,
@@ -244,7 +306,9 @@ class _NutritionistMonitoringScreenState
                                 appointmentId: appointment!.id,
                               ),
                             ),
-                          );
+                          ).whenComplete(() async {
+                            await getUpdates();
+                          });
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -281,11 +345,9 @@ class _NutritionistMonitoringScreenState
                     const SizedBox(height: 5),
                     badges.Badge(
                       badgeContent: Container(
-                        margin: const EdgeInsets.all(5),
+                        margin: const EdgeInsets.all(8),
                         child: Text(
-                          assessmentCount > 9
-                              ? "9+"
-                              : assessmentCount.toString(),
+                          "!",
                           style: appstyle(20, Colors.black, FontWeight.bold),
                         ),
                       ),
@@ -295,8 +357,8 @@ class _NutritionistMonitoringScreenState
                           width: 2,
                         ),
                       ),
-                      showBadge: assessmentCount > 0,
-                      position: badges.BadgePosition.topEnd(top: -5, end: 18),
+                      showBadge: assessmentCount == 0,
+                      position: badges.BadgePosition.topEnd(top: -10, end: 18),
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -306,7 +368,9 @@ class _NutritionistMonitoringScreenState
                                 appointmentId: appointment!.id,
                               ),
                             ),
-                          );
+                          ).whenComplete(() async {
+                            await getUpdates();
+                          });
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -377,7 +441,9 @@ class _NutritionistMonitoringScreenState
                                 appointmentId: appointment!.id,
                               ),
                             ),
-                          );
+                          ).whenComplete(() async {
+                            await getUpdates();
+                          });
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -449,9 +515,14 @@ class _NutritionistMonitoringScreenState
                             MaterialPageRoute(
                               builder: (context) =>
                                   NutritionistInterventionScreen(
-                                      appointmentId: appointment!.id),
+                                appointmentId: appointment!.id,
+                                doctorId: appointment!.doctorId,
+                                patientId: appointment!.patientId,
+                              ),
                             ),
-                          );
+                          ).whenComplete(() async {
+                            await getUpdates();
+                          });
                         },
                         child: Container(
                           margin: EdgeInsets.only(
@@ -524,7 +595,9 @@ class _NutritionistMonitoringScreenState
                               builder: (context) => MonitoringEvaluationScreen(
                                   appointmentId: appointment!.id),
                             ),
-                          );
+                          ).whenComplete(() async {
+                            await getUpdates();
+                          });
                         },
                         child: Container(
                           margin: EdgeInsets.only(
