@@ -9,14 +9,17 @@ class UserCredentialTextField extends StatelessWidget {
   final bool isObscure;
   final TextInputType keyboardType;
   final FormFieldValidator<String>? validation;
-  const UserCredentialTextField(
-      {super.key,
-      required this.controller,
-      required this.screenSize,
-      required this.label,
-      required this.isObscure,
-      required this.keyboardType,
-      this.validation});
+  final IconButton? suffixIcon;
+  const UserCredentialTextField({
+    super.key,
+    required this.controller,
+    required this.screenSize,
+    required this.label,
+    required this.isObscure,
+    required this.keyboardType,
+    this.validation,
+    this.suffixIcon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,7 @@ class UserCredentialTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(30.0),
             borderSide: const BorderSide(color: customColor),
           ),
+          suffixIcon: suffixIcon,
           filled: true,
           hintStyle: appstyle(13, Colors.black, FontWeight.w500),
           labelText: label,

@@ -7,6 +7,7 @@ import 'package:nutri_gabay/views/ui/home_page.dart';
 import 'package:nutri_gabay/views/ui/nutristionist_list_page.dart';
 import 'package:nutri_gabay/views/ui/profile_screen.dart';
 import 'package:nutri_gabay/views/ui/search_screen.dart';
+import 'package:nutri_gabay/views/ui/setting_screen.dart';
 import 'package:provider/provider.dart';
 import '../../controllers/mainscreen_provider.dart';
 import 'package:nutri_gabay/services/baseauth.dart';
@@ -143,7 +144,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                   DrawerTile(
                     icon: "settings.png",
                     title: "Settings",
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SettingScreen(),
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 10),
                   DrawerTile(
