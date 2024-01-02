@@ -106,14 +106,36 @@ class _NutritionistMonitoringScreenState
   }
 
   Future<void> getNewInterventionCount() async {
+    interventionCount = 0;
     final collection = FirebaseFirestore.instance
         .collection('appointment')
         .doc(widget.appointmentId)
         .collection('files');
 
     await collection.get().then(
+      (querySnapshot) async {
+        for (var docSnapshot in querySnapshot.docs) {
+          await getNewInterventionCommentCount(docSnapshot.data()["id"]);
+        }
+      },
+    );
+  }
+
+  Future<void> getNewInterventionCommentCount(String fileId) async {
+    final collection = FirebaseFirestore.instance
+        .collection('appointment')
+        .doc(widget.appointmentId)
+        .collection('files')
+        .doc(fileId)
+        .collection('comments')
+        .where(
+          Filter.and(Filter("isPatient", isEqualTo: false),
+              Filter("isSeen", isEqualTo: false)),
+        );
+
+    await collection.get().then(
       (querySnapshot) {
-        interventionCount = querySnapshot.docs.length;
+        interventionCount += querySnapshot.docs.length;
       },
     );
   }
