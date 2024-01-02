@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nutri_gabay/models/appointment_controller.dart';
@@ -87,6 +89,10 @@ class _NutritionistMonitoringScreenState
         .collection('appointment')
         .doc(widget.appointmentId)
         .collection('diagnosis')
+        .where(
+          "isSeen",
+          isEqualTo: false,
+        )
         .withConverter(
           fromFirestore: Diagnosis.fromFirestore,
           toFirestore: (Diagnosis diagnosis, _) => diagnosis.toFirestore(),
@@ -213,7 +219,9 @@ class _NutritionistMonitoringScreenState
   void initState() {
     getNutritionist();
     getAppointment();
-    getUpdates();
+
+    const oneSec = Duration(seconds: 1);
+    Timer.periodic(oneSec, (Timer t) async => await getUpdates());
     super.initState();
   }
 

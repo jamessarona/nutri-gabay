@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nutri_gabay/models/assessment.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/button_widget.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_create_assessment_screen.dart';
@@ -20,6 +21,31 @@ class NutritionAssessmentScreen extends StatefulWidget {
 
 class _NutritionAssessmentScreenState extends State<NutritionAssessmentScreen> {
   late Size screenSize;
+  bool hasAssessment = false;
+
+  Future<void> getAssessment() async {
+    final collection = FirebaseFirestore.instance
+        .collection('appointment')
+        .doc(widget.appointmentId)
+        .collection('assessment')
+        .withConverter(
+          fromFirestore: Assessment.fromFirestore,
+          toFirestore: (Assessment fq, _) => fq.toFirestore(),
+        );
+
+    await collection.get().then(
+      (querySnapshot) {
+        hasAssessment = querySnapshot.docs.isNotEmpty;
+        setState(() {});
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    getAssessment();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +123,7 @@ class _NutritionAssessmentScreenState extends State<NutritionAssessmentScreen> {
                     if (!snapshot.hasData) {
                       return const Text('No Records');
                     }
-
+                    hasAssessment = snapshot.data!.docs.isNotEmpty;
                     int assessmentCount = 0;
                     return Column(
                       children: snapshot.data!.docs
@@ -176,9 +202,11 @@ class _NutritionAssessmentScreenState extends State<NutritionAssessmentScreen> {
                     appointmentId: widget.appointmentId,
                   ),
                 ),
-              );
+              ).whenComplete(() async {
+                await getAssessment();
+              });
             },
-            label: "Reassessment",
+            label: hasAssessment ? "Reassessment" : "Assessment",
             labelSize: 12,
             color: customColor,
           ),
