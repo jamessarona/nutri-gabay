@@ -152,331 +152,322 @@ class _NutritionistCreateAssessmentScreenState
                 ),
               ),
               const SizedBox(height: 10),
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: formIndex == 0
-                      ? Form(
-                          key: _formKey1,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Client History (CH)',
-                                style:
-                                    appstyle(14, Colors.black, FontWeight.bold)
-                                        .copyWith(fontStyle: FontStyle.italic),
-                              ),
-                              const SizedBox(height: 20),
-                              Text(
-                                  'Patient/client or family nutrition‐oriented medical/health history:',
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: formIndex == 0
+                    ? Form(
+                        key: _formKey1,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Client History (CH)',
+                              style: appstyle(14, Colors.black, FontWeight.bold)
+                                  .copyWith(fontStyle: FontStyle.italic),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                                'Patient/client or family nutrition‐oriented medical/health history:',
+                                style: appstyle(
+                                    13, Colors.black, FontWeight.normal)),
+                            const SizedBox(height: 10),
+                            BookingLongTextField(
+                              controller: _historyController,
+                              label: '',
+                              isObscure: false,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 4,
+                              isEditable: true,
+                              validation: (value) {
+                                if (value == '') {
+                                  return "";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 15),
+                            Text('Living/housing situation:',
+                                style: appstyle(
+                                    13, Colors.black, FontWeight.normal)),
+                            const SizedBox(height: 10),
+                            BookingLongTextField(
+                              controller: _situationController,
+                              label: '',
+                              isObscure: false,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 2,
+                              isEditable: true,
+                              validation: (value) {
+                                if (value == '') {
+                                  return "";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 15),
+                            Text('Occupation:',
+                                style: appstyle(
+                                    13, Colors.black, FontWeight.normal)),
+                            const SizedBox(height: 10),
+                            BookingLongTextField(
+                              controller: _occupationController,
+                              label: '',
+                              isObscure: false,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 1,
+                              isEditable: true,
+                              validation: (value) {
+                                if (value == '') {
+                                  return "";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 15),
+                            Text('Food/ Nutrition‐ Related History (FH)',
+                                style: appstyle(
+                                    13, Colors.black, FontWeight.bold)),
+                            const SizedBox(height: 10),
+                            BookingLongTextField(
+                              controller: _relatedHistoryController,
+                              label: '',
+                              isObscure: false,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 7,
+                              isEditable: true,
+                              validation: (value) {
+                                if (value == '') {
+                                  return "";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                                'Readiness to change nutrition‐related behaviors: Motivation (Scales 1‐10)',
+                                style: appstyle(
+                                    13, Colors.black, FontWeight.normal)),
+                            const SizedBox(height: 10),
+                            AssessmentLabeledTextField(
+                              controller: _changeController,
+                              label: 'I think it is important to make change',
+                              keyboardType: TextInputType.number,
+                              isEditable: true,
+                              validation: (value) {
+                                if (value == '') {
+                                  return "";
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                if (int.parse(value) < 0) {
+                                  _changeController.text = '0';
+                                } else if (int.parse(value) > 10) {
+                                  _changeController.text = '10';
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            AssessmentLabeledTextField(
+                              controller: _successController,
+                              label: 'I am sure that I will success',
+                              keyboardType: TextInputType.number,
+                              isEditable: true,
+                              validation: (value) {
+                                if (value == '') {
+                                  return "";
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                if (int.parse(value) < 0) {
+                                  _successController.text = '0';
+                                } else if (int.parse(value) > 10) {
+                                  _successController.text = '10';
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 10),
+                            AssessmentLabeledTextField(
+                              controller: _startController,
+                              label: 'I am ready to start',
+                              keyboardType: TextInputType.number,
+                              isEditable: true,
+                              validation: (value) {
+                                if (value == '') {
+                                  return "";
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                if (int.parse(value) < 0) {
+                                  _startController.text = '0';
+                                } else if (int.parse(value) > 10) {
+                                  _startController.text = '10';
+                                }
+                              },
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'PAGE | 1',
                                   style: appstyle(
-                                      13, Colors.black, FontWeight.normal)),
-                              const SizedBox(height: 10),
-                              BookingLongTextField(
-                                controller: _historyController,
-                                label: '',
-                                isObscure: false,
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 4,
-                                isEditable: true,
-                                validation: (value) {
-                                  if (value == '') {
-                                    return "";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 15),
-                              Text('Living/housing situation:',
-                                  style: appstyle(
-                                      13, Colors.black, FontWeight.normal)),
-                              const SizedBox(height: 10),
-                              BookingLongTextField(
-                                controller: _situationController,
-                                label: '',
-                                isObscure: false,
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 2,
-                                isEditable: true,
-                                validation: (value) {
-                                  if (value == '') {
-                                    return "";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 15),
-                              Text('Occupation:',
-                                  style: appstyle(
-                                      13, Colors.black, FontWeight.normal)),
-                              const SizedBox(height: 10),
-                              BookingLongTextField(
-                                controller: _occupationController,
-                                label: '',
-                                isObscure: false,
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 1,
-                                isEditable: true,
-                                validation: (value) {
-                                  if (value == '') {
-                                    return "";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 15),
-                              Text('Food/ Nutrition‐ Related History (FH)',
-                                  style: appstyle(
-                                      13, Colors.black, FontWeight.bold)),
-                              const SizedBox(height: 10),
-                              BookingLongTextField(
-                                controller: _relatedHistoryController,
-                                label: '',
-                                isObscure: false,
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 7,
-                                isEditable: true,
-                                validation: (value) {
-                                  if (value == '') {
-                                    return "";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 15),
-                              Text(
-                                  'Readiness to change nutrition‐related behaviors: Motivation (Scales 1‐10)',
-                                  style: appstyle(
-                                      13, Colors.black, FontWeight.normal)),
-                              const SizedBox(height: 10),
-                              AssessmentLabeledTextField(
-                                controller: _changeController,
-                                label: 'I think it is important to make change',
-                                keyboardType: TextInputType.number,
-                                isEditable: true,
-                                validation: (value) {
-                                  if (value == '') {
-                                    return "";
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) {
-                                  if (int.parse(value) < 0) {
-                                    _changeController.text = '0';
-                                  } else if (int.parse(value) > 10) {
-                                    _changeController.text = '10';
-                                  }
-                                },
-                              ),
-                              const SizedBox(height: 10),
-                              AssessmentLabeledTextField(
-                                controller: _successController,
-                                label: 'I am sure that I will success',
-                                keyboardType: TextInputType.number,
-                                isEditable: true,
-                                validation: (value) {
-                                  if (value == '') {
-                                    return "";
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) {
-                                  if (int.parse(value) < 0) {
-                                    _successController.text = '0';
-                                  } else if (int.parse(value) > 10) {
-                                    _successController.text = '10';
-                                  }
-                                },
-                              ),
-                              const SizedBox(height: 10),
-                              AssessmentLabeledTextField(
-                                controller: _startController,
-                                label: 'I am ready to start',
-                                keyboardType: TextInputType.number,
-                                isEditable: true,
-                                validation: (value) {
-                                  if (value == '') {
-                                    return "";
-                                  }
-                                  return null;
-                                },
-                                onChanged: (value) {
-                                  if (int.parse(value) < 0) {
-                                    _startController.text = '0';
-                                  } else if (int.parse(value) > 10) {
-                                    _startController.text = '10';
-                                  }
-                                },
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'PAGE | 1',
-                                    style: appstyle(
-                                        13, Colors.black, FontWeight.normal),
+                                      13, Colors.black, FontWeight.normal),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                  width: 80,
+                                  child: UserCredentialSecondaryButton(
+                                    onPress: () {
+                                      validateFirstForm();
+                                    },
+                                    label: "Next",
+                                    labelSize: 12,
+                                    color: customColor,
                                   ),
-                                  SizedBox(
-                                    height: 30,
-                                    width: 80,
-                                    child: UserCredentialSecondaryButton(
-                                      onPress: () {
-                                        validateFirstForm();
-                                      },
-                                      label: "Next",
-                                      labelSize: 12,
-                                      color: customColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                            ],
-                          ),
-                        )
-                      : Form(
-                          key: _formKey2,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Biochemical Data, Medical Tests and Procedures (BD)',
-                                style:
-                                    appstyle(14, Colors.black, FontWeight.bold)
-                                        .copyWith(fontStyle: FontStyle.italic),
-                              ),
-                              const SizedBox(height: 10),
-                              BookingLongTextField(
-                                controller: _proceduresController,
-                                label: '',
-                                isObscure: false,
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 5,
-                                isEditable: true,
-                                validation: (value) {
-                                  if (value == '') {
-                                    return "";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 15),
-                              Text(
-                                'Anthropometric Measurements (AD)',
-                                style:
-                                    appstyle(14, Colors.black, FontWeight.bold)
-                                        .copyWith(fontStyle: FontStyle.italic),
-                              ),
-                              const SizedBox(height: 10),
-                              BookingLongTextField(
-                                controller: _measurementsController,
-                                label: '',
-                                isObscure: false,
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 4,
-                                isEditable: true,
-                                validation: (value) {
-                                  if (value == '') {
-                                    return "";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 15),
-                              Text(
-                                'Nutrition‐ Focused Physical Findings (PD)',
-                                style:
-                                    appstyle(14, Colors.black, FontWeight.bold)
-                                        .copyWith(fontStyle: FontStyle.italic),
-                              ),
-                              const SizedBox(height: 10),
-                              BookingLongTextField(
-                                controller: _findingsController,
-                                label: '',
-                                isObscure: false,
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 4,
-                                isEditable: true,
-                                validation: (value) {
-                                  if (value == '') {
-                                    return "";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 15),
-                              Text(
-                                'Comparative Standards (CS)',
-                                style:
-                                    appstyle(14, Colors.black, FontWeight.bold)
-                                        .copyWith(fontStyle: FontStyle.italic),
-                              ),
-                              const SizedBox(height: 10),
-                              BookingLongTextField(
-                                controller: _standardController,
-                                label: '',
-                                isObscure: false,
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 4,
-                                isEditable: true,
-                                validation: (value) {
-                                  if (value == '') {
-                                    return "";
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 30),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'PAGE | 2',
-                                    style: appstyle(
-                                        13, Colors.black, FontWeight.normal),
-                                  ),
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        height: 30,
-                                        width: 80,
-                                        child: UserCredentialSecondaryButton(
-                                          onPress: () {
-                                            returnFirstForm();
-                                          },
-                                          label: "Back",
-                                          labelSize: 12,
-                                          color: customColor,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      SizedBox(
-                                        height: 30,
-                                        width: 80,
-                                        child: UserCredentialSecondaryButton(
-                                          onPress: () {
-                                            validateSecondForm();
-                                          },
-                                          label: "Submit",
-                                          labelSize: 12,
-                                          color: customColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                          ],
                         ),
-                ),
+                      )
+                    : Form(
+                        key: _formKey2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Biochemical Data, Medical Tests and Procedures (BD)',
+                              style: appstyle(14, Colors.black, FontWeight.bold)
+                                  .copyWith(fontStyle: FontStyle.italic),
+                            ),
+                            const SizedBox(height: 10),
+                            BookingLongTextField(
+                              controller: _proceduresController,
+                              label: '',
+                              isObscure: false,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 5,
+                              isEditable: true,
+                              validation: (value) {
+                                if (value == '') {
+                                  return "";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                              'Anthropometric Measurements (AD)',
+                              style: appstyle(14, Colors.black, FontWeight.bold)
+                                  .copyWith(fontStyle: FontStyle.italic),
+                            ),
+                            const SizedBox(height: 10),
+                            BookingLongTextField(
+                              controller: _measurementsController,
+                              label: '',
+                              isObscure: false,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 4,
+                              isEditable: true,
+                              validation: (value) {
+                                if (value == '') {
+                                  return "";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                              'Nutrition‐ Focused Physical Findings (PD)',
+                              style: appstyle(14, Colors.black, FontWeight.bold)
+                                  .copyWith(fontStyle: FontStyle.italic),
+                            ),
+                            const SizedBox(height: 10),
+                            BookingLongTextField(
+                              controller: _findingsController,
+                              label: '',
+                              isObscure: false,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 4,
+                              isEditable: true,
+                              validation: (value) {
+                                if (value == '') {
+                                  return "";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 15),
+                            Text(
+                              'Comparative Standards (CS)',
+                              style: appstyle(14, Colors.black, FontWeight.bold)
+                                  .copyWith(fontStyle: FontStyle.italic),
+                            ),
+                            const SizedBox(height: 10),
+                            BookingLongTextField(
+                              controller: _standardController,
+                              label: '',
+                              isObscure: false,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 4,
+                              isEditable: true,
+                              validation: (value) {
+                                if (value == '') {
+                                  return "";
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 30),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'PAGE | 2',
+                                  style: appstyle(
+                                      13, Colors.black, FontWeight.normal),
+                                ),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      height: 30,
+                                      width: 80,
+                                      child: UserCredentialSecondaryButton(
+                                        onPress: () {
+                                          returnFirstForm();
+                                        },
+                                        label: "Back",
+                                        labelSize: 12,
+                                        color: customColor,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    SizedBox(
+                                      height: 30,
+                                      width: 80,
+                                      child: UserCredentialSecondaryButton(
+                                        onPress: () {
+                                          validateSecondForm();
+                                        },
+                                        label: "Submit",
+                                        labelSize: 12,
+                                        color: customColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                          ],
+                        ),
+                      ),
               ),
             ],
           ),
