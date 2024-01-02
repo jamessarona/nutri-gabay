@@ -242,8 +242,10 @@ class _NutritionistMonitoringScreenState
     getNutritionist();
     getAppointment();
 
-    const oneSec = Duration(seconds: 1);
-    Timer.periodic(oneSec, (Timer t) async => await getUpdates());
+    // const oneSec = Duration(seconds: 1);
+    // Timer.periodic(oneSec, (Timer t) async => await
+    getUpdates();
+    // );
     super.initState();
   }
 
