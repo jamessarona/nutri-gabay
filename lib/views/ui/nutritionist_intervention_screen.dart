@@ -24,6 +24,42 @@ class _NutritionistInterventionScreenState
     extends State<NutritionistInterventionScreen> {
   late Size screenSize;
 
+  Future<void> getNewIntervention() async {
+    final collection = FirebaseFirestore.instance
+        .collection('appointment')
+        .doc(widget.appointmentId)
+        .collection('files')
+        .where(
+          "isSeen",
+          isEqualTo: false,
+        );
+
+    await collection.get().then(
+      (querySnapshot) async {
+        for (var docSnapshot in querySnapshot.docs) {
+          await updateSeenInterventions(docSnapshot.data()["id"]);
+        }
+      },
+    );
+  }
+
+  Future<void> updateSeenInterventions(String interventionId) async {
+    await FirebaseFirestore.instance
+        .collection('appointment')
+        .doc(widget.appointmentId)
+        .collection('files')
+        .doc(interventionId)
+        .update(
+      {'isSeen': true},
+    );
+  }
+
+  @override
+  void initState() {
+    getNewIntervention();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;

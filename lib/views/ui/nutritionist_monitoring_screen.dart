@@ -115,6 +115,9 @@ class _NutritionistMonitoringScreenState
     await collection.get().then(
       (querySnapshot) async {
         for (var docSnapshot in querySnapshot.docs) {
+          if (docSnapshot.data()["isSeen"] == false) {
+            interventionCount++;
+          }
           await getNewInterventionCommentCount(docSnapshot.data()["id"]);
         }
       },

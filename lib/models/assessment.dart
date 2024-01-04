@@ -15,6 +15,7 @@ class Assessment {
   final int change;
   final int success;
   final int start;
+  final bool isSeen;
 
   final String procedures;
   final String measurements;
@@ -35,6 +36,7 @@ class Assessment {
     required this.findings,
     required this.standards,
     required this.date,
+    required this.isSeen,
   });
 
   factory Assessment.fromJson(Map<String, dynamic> json) => Assessment(
@@ -51,6 +53,7 @@ class Assessment {
         findings: json["findings"],
         standards: json["standards"],
         date: json["date"].toDate(),
+        isSeen: json["isSeen"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,6 +70,7 @@ class Assessment {
         "findings": findings,
         "standards": standards,
         "date": date,
+        "isSeen": isSeen,
       };
 
   factory Assessment.fromFirestore(
@@ -88,6 +92,7 @@ class Assessment {
       findings: data?["findings"],
       standards: data?["standards"],
       date: data?["date"].toDate(),
+      isSeen: data?["isSeen"],
     );
   }
 
@@ -106,6 +111,7 @@ class Assessment {
       "findings": findings,
       "standards": standards,
       "date": date,
+      "isSeen": isSeen,
     };
   }
 }

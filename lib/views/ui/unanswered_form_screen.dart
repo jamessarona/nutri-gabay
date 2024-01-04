@@ -109,7 +109,7 @@ class _UnansweredFormScreenState extends State<UnansweredFormScreen> {
                                         builder: (context) =>
                                             UnansweredQuestionScreen(
                                           appointmentId: widget.appointmentId,
-                                          formId: data['uid'],
+                                          formId: data['id'],
                                           name: data['name'],
                                           date: data['date'].toDate(),
                                         ),

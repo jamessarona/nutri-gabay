@@ -113,7 +113,7 @@ class _AnsweredFormScreenState extends State<AnsweredFormScreen> {
                                         builder: (context) =>
                                             AnsweredQuestionScreen(
                                           appointmentId: widget.appointmentId,
-                                          formId: data['uid'],
+                                          formId: data['id'],
                                           name: data['name'],
                                           date: data['date'].toDate(),
                                         ),

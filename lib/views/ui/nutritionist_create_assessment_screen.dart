@@ -79,20 +79,20 @@ class _NutritionistCreateAssessmentScreenState
         .doc();
 
     Assessment formQuestion = Assessment(
-      id: docDiagnosis.id,
-      history: _historyController.text,
-      situation: _situationController.text,
-      occupation: _occupationController.text,
-      relatedHistory: _relatedHistoryController.text,
-      change: int.parse(_changeController.text),
-      success: int.parse(_successController.text),
-      start: int.parse(_startController.text),
-      procedures: _proceduresController.text,
-      measurements: _measurementsController.text,
-      findings: _findingsController.text,
-      standards: _standardController.text,
-      date: DateTime.now(),
-    );
+        id: docDiagnosis.id,
+        history: _historyController.text,
+        situation: _situationController.text,
+        occupation: _occupationController.text,
+        relatedHistory: _relatedHistoryController.text,
+        change: int.parse(_changeController.text),
+        success: int.parse(_successController.text),
+        start: int.parse(_startController.text),
+        procedures: _proceduresController.text,
+        measurements: _measurementsController.text,
+        findings: _findingsController.text,
+        standards: _standardController.text,
+        date: DateTime.now(),
+        isSeen: false);
 
     final formJson = formQuestion.toJson();
     await docDiagnosis.set(formJson);
