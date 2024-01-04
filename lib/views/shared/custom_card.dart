@@ -211,18 +211,18 @@ class NutritionistListTile extends StatelessWidget {
                               overflow: TextOverflow.visible,
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          Align(
-                            alignment: Alignment.topRight,
-                            child: GestureDetector(
-                              onTap: () {},
-                              child: const Icon(
-                                Icons.favorite_border,
-                                color: Colors.blue,
-                                size: 20,
-                              ),
-                            ),
-                          ),
+                          // const SizedBox(width: 10),
+                          // Align(
+                          //   alignment: Alignment.topRight,
+                          //   child: GestureDetector(
+                          //     onTap: () {},
+                          //     child: const Icon(
+                          //       Icons.favorite_border,
+                          //       color: Colors.blue,
+                          //       size: 20,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                       const SizedBox(height: 10),
@@ -259,20 +259,20 @@ class NutritionistListTile extends StatelessWidget {
                               color: customColor,
                             ),
                           ),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.star,
-                                color: Colors.orange,
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                '5.0',
-                                style:
-                                    appstyle(14, Colors.black, FontWeight.bold),
-                              )
-                            ],
-                          ),
+                          // Row(
+                          //   children: [
+                          //     const Icon(
+                          //       Icons.star,
+                          //       color: Colors.orange,
+                          //     ),
+                          //     const SizedBox(width: 5),
+                          //     Text(
+                          //       '5.0',
+                          //       style:
+                          //           appstyle(14, Colors.black, FontWeight.bold),
+                          //     )
+                          //   ],
+                          // ),
                         ],
                       )
                     ],

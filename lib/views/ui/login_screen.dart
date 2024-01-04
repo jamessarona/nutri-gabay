@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         UserCredentialTextField(
                             controller: _username,
                             screenSize: screenSize,
-                            label: "Username",
+                            label: "Email",
                             isObscure: false,
                             keyboardType: TextInputType.emailAddress),
                         const SizedBox(
