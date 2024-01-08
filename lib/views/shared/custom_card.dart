@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
 import 'package:nutri_gabay/views/shared/button_widget.dart';
+import 'package:nutri_gabay/views/ui/nutritionist_booking_list.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_booking_screen.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_monitoring_screen.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_profile_screen.dart';
@@ -298,6 +299,7 @@ class MyNutritionistListTile extends StatelessWidget {
   final int hourStart;
   final int hourEnd;
   final bool isDisplayOnly;
+  final int displayType;
   const MyNutritionistListTile({
     super.key,
     required this.appointmentId,
@@ -310,6 +312,7 @@ class MyNutritionistListTile extends StatelessWidget {
     required this.hourStart,
     required this.hourEnd,
     required this.isDisplayOnly,
+    required this.displayType,
   });
   String formatTimeRange() {
     String result = '';
@@ -334,11 +337,19 @@ class MyNutritionistListTile extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => NutritionistMonitoringScreen(
-                    appointmentId: appointmentId,
-                    nutritionistId: nutritionistId,
-                    patientId: patientId,
-                  ),
+                  builder: (context) => displayType == 0
+                      ? NutritionistBookingListScreen(
+                          appointmentId: appointmentId,
+                          nutritionistId: nutritionistId,
+                          nutritionistName: name,
+                          patientId: patientId,
+                        )
+                      : NutritionistMonitoringScreen(
+                          appointmentId: appointmentId,
+                          nutritionistId: nutritionistId,
+                          nutritionistName: name,
+                          patientId: patientId,
+                        ),
                 ),
               );
             },
@@ -361,32 +372,48 @@ class MyNutritionistListTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      displayType != 2
+                          ? Text(
+                              'Your Nutritionist',
+                              style: appstyle(15, Colors.grey, FontWeight.bold),
+                              maxLines: 2,
+                              overflow: TextOverflow.visible,
+                            )
+                          : Container(),
+                      SizedBox(height: displayType != 2 ? 20 : 0),
                       Text(
-                        'Your Nutritionist',
-                        style: appstyle(15, Colors.grey, FontWeight.bold),
-                        maxLines: 2,
-                        overflow: TextOverflow.visible,
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        name,
+                        displayType != 2 ? name : 'Date',
                         style: appstyle(15, Colors.black, FontWeight.bold),
                         maxLines: 2,
                         overflow: TextOverflow.visible,
                       ),
                       const SizedBox(height: 10),
-                      Text(
-                        date,
-                        style: appstyle(13, Colors.black, FontWeight.normal),
-                        maxLines: 2,
-                        overflow: TextOverflow.visible,
-                      ),
-                      Text(
-                        formatTimeRange(),
-                        style: appstyle(13, Colors.black, FontWeight.normal),
-                        maxLines: 2,
-                        overflow: TextOverflow.visible,
-                      ),
+                      displayType == 0
+                          ? Container()
+                          : Text(
+                              date,
+                              style: appstyle(
+                                  13,
+                                  Colors.black,
+                                  displayType == 0
+                                      ? FontWeight.normal
+                                      : FontWeight.bold),
+                              maxLines: 2,
+                              overflow: TextOverflow.visible,
+                            ),
+                      displayType == 0
+                          ? Container()
+                          : Text(
+                              formatTimeRange(),
+                              style: appstyle(
+                                  13,
+                                  Colors.black,
+                                  displayType == 0
+                                      ? FontWeight.normal
+                                      : FontWeight.bold),
+                              maxLines: 2,
+                              overflow: TextOverflow.visible,
+                            ),
                     ],
                   ),
                 ),

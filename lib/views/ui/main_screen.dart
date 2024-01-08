@@ -4,7 +4,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:nutri_gabay/views/shared/drawer_tile.dart';
 import 'package:nutri_gabay/views/ui/calculator_screen.dart';
 import 'package:nutri_gabay/views/ui/home_page.dart';
-import 'package:nutri_gabay/views/ui/nutristionist_list_page.dart';
+import 'package:nutri_gabay/views/ui/nutritionist_list_page.dart';
 import 'package:nutri_gabay/views/ui/profile_screen.dart';
 import 'package:nutri_gabay/views/ui/search_screen.dart';
 import 'package:nutri_gabay/views/ui/setting_screen.dart';

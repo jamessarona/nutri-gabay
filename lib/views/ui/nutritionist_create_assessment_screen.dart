@@ -391,15 +391,13 @@ class _NutritionistCreateAssessmentScreenState
                             const SizedBox(height: 10),
                             BookingLongTextField(
                               controller: _findingsController,
-                              label: '',
+                              label:
+                                  'Nutritionists will be responsible for entering information into this text field.',
                               isObscure: false,
                               keyboardType: TextInputType.multiline,
                               maxLines: 4,
-                              isEditable: true,
+                              isEditable: false,
                               validation: (value) {
-                                if (value == '') {
-                                  return "";
-                                }
                                 return null;
                               },
                             ),
@@ -412,15 +410,13 @@ class _NutritionistCreateAssessmentScreenState
                             const SizedBox(height: 10),
                             BookingLongTextField(
                               controller: _standardController,
-                              label: '',
+                              label:
+                                  'Nutritionists will be responsible for entering information into this text field.',
                               isObscure: false,
                               keyboardType: TextInputType.multiline,
                               maxLines: 4,
-                              isEditable: true,
+                              isEditable: false,
                               validation: (value) {
-                                if (value == '') {
-                                  return "";
-                                }
                                 return null;
                               },
                             ),

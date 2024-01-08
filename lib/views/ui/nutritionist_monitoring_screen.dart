@@ -20,11 +20,13 @@ import 'package:badges/badges.dart' as badges;
 class NutritionistMonitoringScreen extends StatefulWidget {
   final String appointmentId;
   final String nutritionistId;
+  final String nutritionistName;
   final String patientId;
   const NutritionistMonitoringScreen({
     super.key,
     required this.appointmentId,
     required this.nutritionistId,
+    required this.nutritionistName,
     required this.patientId,
   });
 
@@ -312,6 +314,7 @@ class _NutritionistMonitoringScreenState
                       hourStart: appointment!.hourStart,
                       hourEnd: appointment!.hourEnd,
                       isDisplayOnly: true,
+                      displayType: 3,
                     ),
                     const SizedBox(height: 10),
                     badges.Badge(

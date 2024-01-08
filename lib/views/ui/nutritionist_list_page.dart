@@ -19,6 +19,7 @@ class _MyNutritionistListPageState extends State<MyNutritionistListPage> {
   String? uid;
   late Size screenSize;
   List<QueryDocumentSnapshot<Doctor>>? doctors;
+  List<String> nutritionistId = [];
 
   Future<void> getPatientId() async {
     uid = await FireBaseAuth().currentUser();
@@ -58,6 +59,17 @@ class _MyNutritionistListPageState extends State<MyNutritionistListPage> {
           break;
         }
       }
+    }
+    return result;
+  }
+
+  bool isDuplicateNutritionist(String id) {
+    bool result = false;
+    for (int i = 0; i < nutritionistId.length; i++) {
+      result = nutritionistId[i] == id;
+    }
+    if (!result) {
+      nutritionistId.add(id);
     }
     return result;
   }
@@ -106,6 +118,7 @@ class _MyNutritionistListPageState extends State<MyNutritionistListPage> {
                         if (!snapshot.hasData) {
                           return const Text('No Records');
                         }
+                        nutritionistId.clear();
                         return snapshot.data!.docs.isEmpty
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -143,21 +156,25 @@ class _MyNutritionistListPageState extends State<MyNutritionistListPage> {
                                     .map((DocumentSnapshot document) {
                                       Map<String, dynamic> data = document
                                           .data()! as Map<String, dynamic>;
-
-                                      return MyNutritionistListTile(
-                                        screenSize: screenSize,
-                                        appointmentId: data['id'],
-                                        image: getNutritionistInfoByField(
-                                            data['doctorId'], 'image'),
-                                        name: getNutritionistInfoByField(
-                                            data['doctorId'], 'name'),
-                                        nutritionistId: data['doctorId'],
-                                        patientId: data['patientId'],
-                                        date: data['dateSchedule'],
-                                        hourStart: data['hourStart'],
-                                        hourEnd: data['hourEnd'],
-                                        isDisplayOnly: false,
-                                      );
+                                      bool isDisplay = !isDuplicateNutritionist(
+                                          data['doctorId']);
+                                      return isDisplay
+                                          ? MyNutritionistListTile(
+                                              screenSize: screenSize,
+                                              appointmentId: data['id'],
+                                              image: getNutritionistInfoByField(
+                                                  data['doctorId'], 'image'),
+                                              name: getNutritionistInfoByField(
+                                                  data['doctorId'], 'name'),
+                                              nutritionistId: data['doctorId'],
+                                              patientId: data['patientId'],
+                                              date: data['dateSchedule'],
+                                              hourStart: data['hourStart'],
+                                              hourEnd: data['hourEnd'],
+                                              isDisplayOnly: false,
+                                              displayType: 0,
+                                            )
+                                          : Container();
                                     })
                                     .toList()
                                     .cast(),
