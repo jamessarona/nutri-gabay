@@ -17,6 +17,39 @@ class UnansweredFormScreen extends StatefulWidget {
 
 class _UnansweredFormScreenState extends State<UnansweredFormScreen> {
   late Size screenSize;
+  Future<void> getNewEvaluation() async {
+    final collection = FirebaseFirestore.instance
+        .collection('appointment')
+        .doc(widget.appointmentId)
+        .collection('form')
+        .where("answered", isEqualTo: false);
+
+    await collection.get().then(
+      (querySnapshot) async {
+        for (var docSnapshot in querySnapshot.docs) {
+          await updateSeenEvaluation(docSnapshot.data()["id"]);
+        }
+      },
+    );
+  }
+
+  Future<void> updateSeenEvaluation(String evaluationId) async {
+    await FirebaseFirestore.instance
+        .collection('appointment')
+        .doc(widget.appointmentId)
+        .collection('form')
+        .doc(evaluationId)
+        .update(
+      {'answered': true},
+    );
+  }
+
+  @override
+  void initState() {
+    getNewEvaluation();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size;
@@ -61,7 +94,7 @@ class _UnansweredFormScreenState extends State<UnansweredFormScreen> {
               children: [
                 const SizedBox(height: 10),
                 Text(
-                  'Unanswered Forms',
+                  'Monitoring and Evaluation',
                   style: appstyle(
                     14,
                     Colors.black,
@@ -75,9 +108,9 @@ class _UnansweredFormScreenState extends State<UnansweredFormScreen> {
                           .collection('appointment')
                           .doc(widget.appointmentId)
                           .collection('form')
-                          .where(
-                            "answered",
-                            isEqualTo: false,
+                          .orderBy(
+                            "date",
+                            descending: true,
                           )
                           .snapshots(),
                       builder: (BuildContext context,

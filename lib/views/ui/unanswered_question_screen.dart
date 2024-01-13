@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nutri_gabay/models/question.dart';
 import 'package:nutri_gabay/views/shared/app_style.dart';
-import 'package:nutri_gabay/views/shared/button_widget.dart';
 
 class UnansweredQuestionScreen extends StatefulWidget {
   final String appointmentId;
@@ -193,7 +192,7 @@ class _UnansweredQuestionScreenState extends State<UnansweredQuestionScreen> {
                   const SizedBox(height: 20),
                   Container(
                     color: customColor[60],
-                    height: 185 * questions.length.toDouble(),
+                    height: 255 * questions.length.toDouble(),
                     margin: const EdgeInsets.symmetric(horizontal: 15),
                     child: questions.isNotEmpty
                         ? Column(
@@ -201,7 +200,7 @@ class _UnansweredQuestionScreenState extends State<UnansweredQuestionScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: List.generate(questions.length, (index) {
                               return Container(
-                                height: 170,
+                                height: 235,
                                 width: 1000,
                                 margin: const EdgeInsets.symmetric(
                                     vertical: 7.5, horizontal: 5),
@@ -215,66 +214,78 @@ class _UnansweredQuestionScreenState extends State<UnansweredQuestionScreen> {
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             left: 10, right: 10, top: 10),
-                                        child: RichText(
-                                          maxLines: 3,
-                                          overflow: TextOverflow.visible,
-                                          text: TextSpan(
-                                            text:
-                                                '${questions[index].number.toString()}. ${questions[index].question}',
-                                            style: appstyle(15, Colors.black,
-                                                FontWeight.normal),
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                text: questions[index].required
-                                                    ? ' *'
-                                                    : '',
-                                                style: appstyle(15, Colors.red,
-                                                    FontWeight.normal),
-                                              ),
-                                            ],
-                                          ),
+                                        child: Text(
+                                          'Indicator ${index + 1}',
+                                          style: appstyle(13, Colors.black,
+                                              FontWeight.bold),
                                         ),
                                       ),
-                                      Expanded(child: Container()),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 10,
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, top: 3),
+                                        child: Text(
+                                          questions[index].indicator,
+                                          style: appstyle(13, Colors.black,
+                                              FontWeight.normal),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.visible,
                                         ),
-                                        child: TextFormField(
-                                          controller: _answerController[index],
-                                          keyboardType: TextInputType.text,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, top: 10),
+                                        child: Text(
+                                          'Criteria ${index + 1}',
+                                          style: appstyle(13, Colors.black,
+                                              FontWeight.bold),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, top: 3),
+                                        child: Text(
+                                          questions[index].criteria,
+                                          style: appstyle(13, Colors.black,
+                                              FontWeight.normal),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.visible,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, top: 10),
+                                        child: Text(
+                                          'Progress Notes',
+                                          style: appstyle(13, Colors.black,
+                                              FontWeight.bold),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 10, right: 10, top: 3),
+                                        child: Text(
+                                          questions[index].progress,
+                                          style: appstyle(13, Colors.black,
+                                              FontWeight.normal),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.visible,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      CheckboxListTile(
+                                        title: Text(
+                                          "Resolved",
                                           style: appstyle(14, Colors.black,
                                               FontWeight.normal),
-                                          validator: (value) {
-                                            if (value == '' &&
-                                                questions[index].required) {
-                                              return 'Please answer the question';
-                                            }
-                                            return null;
-                                          },
-                                          decoration: InputDecoration(
-                                            border: const UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.black),
-                                            ),
-                                            focusedBorder:
-                                                const UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.black),
-                                            ),
-                                            filled: false,
-                                            hintText: 'Your answer',
-                                            hintStyle: appstyle(
-                                                13,
-                                                Colors.black,
-                                                FontWeight.normal),
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 0, horizontal: 5),
-                                          ),
                                         ),
+                                        value: questions[index].resolved,
+                                        onChanged: (newValue) {},
+                                        controlAffinity: ListTileControlAffinity
+                                            .leading, //  <-- leading Checkbox
                                       ),
-                                      const SizedBox(height: 20),
+                                      const SizedBox(height: 10),
                                     ],
                                   ),
                                 ),
@@ -284,20 +295,20 @@ class _UnansweredQuestionScreenState extends State<UnansweredQuestionScreen> {
                         : Container(),
                   ),
                   const SizedBox(height: 20),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 100),
-                    height: 35,
-                    width: 95,
-                    child: UserCredentialSecondaryButton(
-                      onPress: () async {
-                        await submitAnswers();
-                      },
-                      label: "Submit",
-                      labelSize: 12,
-                      color: customColor,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
+                  // Container(
+                  //   margin: const EdgeInsets.symmetric(horizontal: 100),
+                  //   height: 35,
+                  //   width: 95,
+                  //   child: UserCredentialSecondaryButton(
+                  //     onPress: () async {
+                  //       await submitAnswers();
+                  //     },
+                  //     label: "Submit",
+                  //     labelSize: 12,
+                  //     color: customColor,
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 20),
                 ],
               ),
             ),

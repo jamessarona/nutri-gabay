@@ -42,6 +42,42 @@ class _NutritionistViewAssessmentScreenState
 
   Assessment? assessment;
 
+  Future<void> saveAssessment() async {
+    await FirebaseFirestore.instance
+        .collection("appointment")
+        .doc(widget.appointmentId)
+        .collection('assessment')
+        .doc(widget.assessmentId)
+        .update({
+      "history": _historyController.text,
+      "situation": _situationController.text,
+      "occupation": _occupationController.text,
+      "relatedHistory": _relatedHistoryController.text,
+      "change": int.parse(_changeController.text),
+      "success": int.parse(_successController.text),
+      "start": int.parse(_startController.text),
+      "procedures": _proceduresController.text,
+      "measurements": _measurementsController.text,
+      'findings': _findingsController.text,
+      "standards": _standardController.text,
+    });
+
+    await getAssessment().whenComplete(() {
+      final snackBar = SnackBar(
+        content: Text(
+          'Assessment has been saved',
+          style: appstyle(12, Colors.white, FontWeight.normal),
+        ),
+        action: SnackBarAction(
+          label: 'Close',
+          onPressed: () {},
+        ),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    });
+  }
+
   void validateFirstForm() {
     if (_formKey1.currentState!.validate()) {
       formIndex = 1;
@@ -314,17 +350,49 @@ class _NutritionistViewAssessmentScreenState
                                         style: appstyle(13, Colors.black,
                                             FontWeight.normal),
                                       ),
-                                      SizedBox(
-                                        height: 30,
-                                        width: 80,
-                                        child: UserCredentialSecondaryButton(
-                                          onPress: () {
-                                            validateFirstForm();
-                                          },
-                                          label: "Next",
-                                          labelSize: 12,
-                                          color: customColor,
-                                        ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            height: 30,
+                                            width: 80,
+                                            child:
+                                                UserCredentialSecondaryButton(
+                                              onPress: () async {
+                                                if (isEditable) {
+                                                  await saveAssessment()
+                                                      .whenComplete(() {
+                                                    setState(() {
+                                                      isEditable = false;
+                                                    });
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    isEditable = true;
+                                                  });
+                                                }
+                                              },
+                                              label: isEditable
+                                                  ? "Submit"
+                                                  : "Edit",
+                                              labelSize: 12,
+                                              color: customColor,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 5),
+                                          SizedBox(
+                                            height: 30,
+                                            width: 80,
+                                            child:
+                                                UserCredentialSecondaryButton(
+                                              onPress: () {
+                                                validateFirstForm();
+                                              },
+                                              label: "Next",
+                                              labelSize: 12,
+                                              color: customColor,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -342,6 +410,12 @@ class _NutritionistViewAssessmentScreenState
                                     'Biochemical Data, Medical Tests and Procedures (BD)',
                                     style: appstyle(
                                             14, Colors.black, FontWeight.bold)
+                                        .copyWith(fontStyle: FontStyle.italic),
+                                  ),
+                                  Text(
+                                    "If unsure, simply input 'N/A' in the text field for the nutritionists to fill in.",
+                                    style: appstyle(
+                                            12, Colors.black, FontWeight.normal)
                                         .copyWith(fontStyle: FontStyle.italic),
                                   ),
                                   const SizedBox(height: 10),
@@ -364,6 +438,12 @@ class _NutritionistViewAssessmentScreenState
                                     'Anthropometric Measurements (AD)',
                                     style: appstyle(
                                             14, Colors.black, FontWeight.bold)
+                                        .copyWith(fontStyle: FontStyle.italic),
+                                  ),
+                                  Text(
+                                    "If unsure, simply input 'N/A' in the text field for the nutritionists to fill in.",
+                                    style: appstyle(
+                                            12, Colors.black, FontWeight.normal)
                                         .copyWith(fontStyle: FontStyle.italic),
                                   ),
                                   const SizedBox(height: 10),
@@ -395,7 +475,7 @@ class _NutritionistViewAssessmentScreenState
                                     isObscure: false,
                                     keyboardType: TextInputType.multiline,
                                     maxLines: 4,
-                                    isEditable: isEditable,
+                                    isEditable: false,
                                     validation: (value) {
                                       if (value == '') {
                                         return "";
@@ -417,7 +497,7 @@ class _NutritionistViewAssessmentScreenState
                                     isObscure: false,
                                     keyboardType: TextInputType.multiline,
                                     maxLines: 4,
-                                    isEditable: isEditable,
+                                    isEditable: false,
                                     validation: (value) {
                                       if (value == '') {
                                         return "";
@@ -435,17 +515,49 @@ class _NutritionistViewAssessmentScreenState
                                         style: appstyle(13, Colors.black,
                                             FontWeight.normal),
                                       ),
-                                      SizedBox(
-                                        height: 30,
-                                        width: 80,
-                                        child: UserCredentialSecondaryButton(
-                                          onPress: () {
-                                            returnFirstForm();
-                                          },
-                                          label: "Back",
-                                          labelSize: 12,
-                                          color: customColor,
-                                        ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            height: 30,
+                                            width: 80,
+                                            child:
+                                                UserCredentialSecondaryButton(
+                                              onPress: () async {
+                                                if (isEditable) {
+                                                  await saveAssessment()
+                                                      .whenComplete(() {
+                                                    setState(() {
+                                                      isEditable = false;
+                                                    });
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    isEditable = true;
+                                                  });
+                                                }
+                                              },
+                                              label: isEditable
+                                                  ? "Submit"
+                                                  : "Edit",
+                                              labelSize: 12,
+                                              color: customColor,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 5),
+                                          SizedBox(
+                                            height: 30,
+                                            width: 80,
+                                            child:
+                                                UserCredentialSecondaryButton(
+                                              onPress: () {
+                                                returnFirstForm();
+                                              },
+                                              label: "Back",
+                                              labelSize: 12,
+                                              color: customColor,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),

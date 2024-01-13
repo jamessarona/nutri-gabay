@@ -150,6 +150,10 @@ class _NutritionistInterventionScreenState
                                         fileType: data['type'],
                                         fileUrl: data['url'],
                                         fileName: data['name'],
+                                        domain1: data['domain1'],
+                                        domain2: data['domain2'],
+                                        domain3: data['domain3'],
+                                        domain4: data['domain4'],
                                       )),
                             );
                           },

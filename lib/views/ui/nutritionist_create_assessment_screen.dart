@@ -346,6 +346,12 @@ class _NutritionistCreateAssessmentScreenState
                               style: appstyle(14, Colors.black, FontWeight.bold)
                                   .copyWith(fontStyle: FontStyle.italic),
                             ),
+                            Text(
+                              "If unsure, simply input 'N/A' in the text field for the nutritionists to fill in.",
+                              style:
+                                  appstyle(12, Colors.black, FontWeight.normal)
+                                      .copyWith(fontStyle: FontStyle.italic),
+                            ),
                             const SizedBox(height: 10),
                             BookingLongTextField(
                               controller: _proceduresController,
@@ -366,6 +372,12 @@ class _NutritionistCreateAssessmentScreenState
                               'Anthropometric Measurements (AD)',
                               style: appstyle(14, Colors.black, FontWeight.bold)
                                   .copyWith(fontStyle: FontStyle.italic),
+                            ),
+                            Text(
+                              "If unsure, simply input 'N/A' in the text field for the nutritionists to fill in.",
+                              style:
+                                  appstyle(12, Colors.black, FontWeight.normal)
+                                      .copyWith(fontStyle: FontStyle.italic),
                             ),
                             const SizedBox(height: 10),
                             BookingLongTextField(

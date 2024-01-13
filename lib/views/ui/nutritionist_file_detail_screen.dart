@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nutri_gabay/models/comment.dart';
 import 'package:nutri_gabay/models/doctor.dart';
 import 'package:nutri_gabay/models/patient_controller.dart';
+import 'package:nutri_gabay/views/shared/custom_container.dart';
 import 'package:nutri_gabay/views/ui/nutritionist_file_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:nutri_gabay/views/shared/app_style.dart';
@@ -16,6 +17,10 @@ class NutritionistFileDetailScreen extends StatefulWidget {
   final String fileType;
   final String fileUrl;
   final String fileName;
+  final String domain1;
+  final String domain2;
+  final String domain3;
+  final String domain4;
   const NutritionistFileDetailScreen({
     super.key,
     required this.appointmentId,
@@ -25,6 +30,10 @@ class NutritionistFileDetailScreen extends StatefulWidget {
     required this.fileType,
     required this.fileUrl,
     required this.fileName,
+    required this.domain1,
+    required this.domain2,
+    required this.domain3,
+    required this.domain4,
   });
 
   @override
@@ -36,6 +45,10 @@ class _NutritionistFileDetailScreenState
     extends State<NutritionistFileDetailScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _commentController = TextEditingController();
+  final TextEditingController _domain1Controller = TextEditingController();
+  final TextEditingController _domain2Controller = TextEditingController();
+  final TextEditingController _domain3Controller = TextEditingController();
+  final TextEditingController _domain4Controller = TextEditingController();
   late Size screenSize;
   Patient? patient;
   Doctor? doctor;
@@ -135,9 +148,14 @@ class _NutritionistFileDetailScreenState
 
   @override
   void initState() {
+    _domain1Controller.text = widget.domain1;
+    _domain2Controller.text = widget.domain2;
+    _domain3Controller.text = widget.domain3;
+    _domain4Controller.text = widget.domain4;
     getNewComments();
     getDoctorInfo();
     getPatientInfo();
+
     super.initState();
   }
 
@@ -270,12 +288,78 @@ class _NutritionistFileDetailScreenState
                             ),
                           ),
                           const SizedBox(height: 20),
+                          SizedBox(
+                            width: double.infinity,
+                            child: Text(
+                              'DOMAIN',
+                              style: appstyle(15, Colors.black, FontWeight.bold)
+                                  .copyWith(fontStyle: FontStyle.italic),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Container(
+                            height: 100,
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            width: double.infinity,
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                _domain1Controller.text == ''
+                                    ? Container()
+                                    : DiagnosisDomainContainer(
+                                        controller: _domain1Controller,
+                                        validation: (value) {
+                                          return null;
+                                        },
+                                        isEdit: false,
+                                      ),
+                                _domain2Controller.text == ''
+                                    ? Container()
+                                    : const SizedBox(width: 15),
+                                _domain2Controller.text == ''
+                                    ? Container()
+                                    : DiagnosisDomainContainer(
+                                        controller: _domain2Controller,
+                                        validation: (value) {
+                                          return null;
+                                        },
+                                        isEdit: false,
+                                      ),
+                                _domain3Controller.text == ''
+                                    ? Container()
+                                    : const SizedBox(width: 15),
+                                _domain3Controller.text == ''
+                                    ? Container()
+                                    : DiagnosisDomainContainer(
+                                        controller: _domain3Controller,
+                                        validation: (value) {
+                                          return null;
+                                        },
+                                        isEdit: false,
+                                      ),
+                                _domain4Controller.text == ''
+                                    ? Container()
+                                    : const SizedBox(width: 15),
+                                _domain4Controller.text == ''
+                                    ? Container()
+                                    : DiagnosisDomainContainer(
+                                        controller: _domain4Controller,
+                                        validation: (value) {
+                                          return null;
+                                        },
+                                        isEdit: false,
+                                      ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 20),
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
-                              'Comments',
+                              'Nutrition Intervention Plan and Nutrition Prescriptions:',
                               style:
-                                  appstyle(13, Colors.black, FontWeight.normal),
+                                  appstyle(12, Colors.black, FontWeight.normal),
                             ),
                           ),
                           const SizedBox(height: 5),
