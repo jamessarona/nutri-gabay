@@ -93,32 +93,35 @@ class DiagnosisDomainContainer extends StatelessWidget {
     return Container(
       height: 100,
       width: 100,
-      padding: const EdgeInsets.only(top: 15),
       color: Colors.grey.shade300,
-      child: TextFormField(
-        controller: controller,
-        enabled: isEdit,
-        keyboardType: TextInputType.multiline,
-        textAlign: TextAlign.center,
-        validator: validation,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          filled: false,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-          hintText: isEdit ? 'Input a Domain here' : '',
-          hintStyle: appstyle(
-            15,
-            Colors.black,
-            FontWeight.normal,
+      child: ListView(
+        children: [
+          TextFormField(
+            controller: controller,
+            enabled: isEdit,
+            keyboardType: TextInputType.multiline,
+            textAlign: TextAlign.center,
+            validator: validation,
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              filled: false,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+              hintText: isEdit ? 'Input a Domain here' : '',
+              hintStyle: appstyle(
+                15,
+                Colors.black,
+                FontWeight.normal,
+              ),
+            ),
+            style: appstyle(
+              15,
+              Colors.black,
+              FontWeight.normal,
+            ),
+            maxLines: 5,
           ),
-        ),
-        style: appstyle(
-          15,
-          Colors.black,
-          FontWeight.normal,
-        ),
-        maxLines: 5,
+        ],
       ),
     );
   }
